@@ -26,10 +26,12 @@
 <meta property="og:site_name" content="bxhhf">
 <meta property="og:description" content="基础">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bxhhf.github.io/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png">
 <meta property="article:published_time" content="2025-03-20T06:38:29.000Z">
-<meta property="article:modified_time" content="2025-03-22T07:23:57.322Z">
+<meta property="article:modified_time" content="2025-03-22T16:24:36.907Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bxhhf.github.io/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png">
   
   
   
@@ -230,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4k 字
+          5.4k 字
         
       </span>
     
@@ -241,7 +243,7 @@
         
         
         
-          34 分钟
+          45 分钟
         
       </span>
     
@@ -500,7 +502,7 @@
 <li>重载规则：</li>
 <li>方法名称必须相同</li>
 <li>参数列表必须不同（个数或类型不同或参数排列顺序不同）</li>
-<li>方法返回类型可以相同也可以不同</li>
+<li>方法返回类型可以相同也可以不同（重点在于参数那块不同）</li>
 <li>仅仅返回类型不同不足以成为方法重载</li>
 </ul>
 <h3 id="命令行传参"><a href="#命令行传参" class="headerlink" title="命令行传参"></a>命令行传参</h3><ul>
@@ -624,7 +626,106 @@
 <p><strong>使用new关键字创建对象：</strong><br>使用new关键字创建对象时，除了分配内存空间，还会给创建好的对象进行默认的初始化以及类中的构造器的调用</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome02;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> &#123;<br><br>    <span class="hljs-comment">//属性： 字段</span><br>    String name;<br>    <span class="hljs-type">int</span> age;<br><br>    <span class="hljs-comment">//方法</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">study</span><span class="hljs-params">()</span>&#123;    <span class="hljs-comment">//this代表当前这个类，this.当前类的属性</span><br>        System.out.println(<span class="hljs-built_in">this</span>.name+<span class="hljs-string">&quot;在学习&quot;</span>);<br>    &#125;<br>&#125;<br><br><br><br><br><br><br><br><span class="hljs-keyword">package</span> com.oop.dome02;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Application</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//类：抽象的，需要实例化</span><br>        <span class="hljs-comment">//类实例化后返回对象</span><br>        <span class="hljs-type">Student</span> <span class="hljs-variable">xiaoming</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>        Student daming=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>        <br>        <span class="hljs-comment">//给xiaoming的属性赋值</span><br>        xiaoming.name = <span class="hljs-string">&quot;小明&quot;</span>;<br>        xiaoming.age=<span class="hljs-number">20</span>;<br>        <br>        <span class="hljs-comment">//调用方法</span><br>        xiaoming.study();<span class="hljs-comment">//小明在学习</span><br>        daming.study();<span class="hljs-comment">//null在学习</span><br>       <br>        <span class="hljs-comment">//打印属性</span><br>        System.out.println(xiaoming.name);<span class="hljs-comment">//小明</span><br>        System.out.println(xiaoming.age);<span class="hljs-comment">//20</span><br>        System.out.println(daming.name);<span class="hljs-comment">//null</span><br>        System.out.println(daming.age);<span class="hljs-comment">//0</span><br><br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
-<p>类是对象的模板，对象是类的实例，就像以上Student类中属性name,age不能写死，它只是一个模板，对象就是它的实例，用对象来调用属性进行赋值，创建对象时默认初始化属性（daming  的name&#x3D;null   age&#x3D;0）</p>
+<p>类是对象的模板，对象是类的实例，就像以上Student类中属性name,age不能写死，它只是一个模板，对象就是它的实例，用对象来调用属性进行赋值，[创建对象时默认初始化属性（daming  的name&#x3D;null   age&#x3D;0）]</p>
+<p><strong>所以回到了开始那句话：面向对象编程的本质是：以类的方式组织代码，以对象的组织（封装）数据</strong></p>
+<hr>
+<h4 id="构造器详解"><a href="#构造器详解" class="headerlink" title="构造器详解"></a>构造器详解</h4><ul>
+<li><p>类中的构造器也叫构造方法，是在创建对象时必须调用的，并且构造器具有以下两个特点：<br><em>1 .必须和类的名称相同</em></p>
+<p><em>2 .必须没有返回类型，也不能写void</em></p>
+</li>
+<li><p>一个类即使什么也没有写，<em><strong>它也有一个默认构造器</strong></em></p>
+</li>
+<li><p>显示定义构造器(它其实就是一个特殊的无返回值的方法)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome02;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">()</span> &#123;<br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>构造器的作用：</strong></p>
+<ol>
+<li><p>实例化初始值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome02;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>    String name;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">this</span>.name=<span class="hljs-string">&quot;lili&quot;</span>;<br>    &#125;<br>&#125;<br><br><br><br><span class="hljs-keyword">package</span> com.oop.dome02;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Application</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//new 实例化对象</span><br>        <span class="hljs-type">Person</span> <span class="hljs-variable">person</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();<br>        System.out.println(person.name);<span class="hljs-comment">//lili</span><br><br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>所以实例化对象的属性：</p>
+<ol>
+<li>可以通过在main中实例化对象后用对象.属性赋值(即使用默认无参构造器)，</li>
+<li>可以在类中通过  显示无参构造器（属性写死）</li>
+<li>有参构造器初始化（属性传参   new时传参）</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<p><strong>有参构造&amp;&amp;无参构造</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome02;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>    String name;<br><br>    <span class="hljs-comment">//new 关键字实例化，本质是在调用构造器</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">()</span> &#123;<br><br>    &#125;<br><br>    <span class="hljs-comment">//有参构造：一旦定义了有参构造，无参构造就必须显式定义</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">(String name)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br>&#125;<br><br><br><span class="hljs-keyword">package</span> com.oop.dome02;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Application</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//new 实例化对象</span><br>        <span class="hljs-type">Person</span> <span class="hljs-variable">person1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;xiaoming&quot;</span>);<span class="hljs-comment">//不加参数调用的就是无参构造器，打印结果为null，加上参数调用有参构造器，打印机结果xiaoming</span><br> <span class="hljs-comment">// Person person1 = new Person(&quot;xiaoming&quot;);=======Person person1=new person();    person1.name=&quot;小明&quot;;     </span><br>        System.out.println(person1.name);<br><br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>new 实例化，本质在调用构造器，会自动根据参数判断，有参数的直接调用有参构造器 （方法重载）。构造器用来初始化值，在构造器中  <code>this.属性</code>  直接就可以赋值</p>
+</li>
+<li><p><u>注意</u>：<em>一旦定义了有参构造，并且也无参实例化了（无参创建对象），无参构造就必须显式定义，否则会报错</em>   </p>
+<p>默认类中是有无参构造的，写了有参构造，无参构造就没有了，就需要显式定义 </p>
+<p>alt+insert 快捷键默认生成有参构造器</p>
+</li>
+<li><p>定义不同有参构造器即方法重载，在类中创建不同的属性，不同属性作为构造器参数实现方法重载</p>
+</li>
+</ul>
+<hr>
+<p><strong>创建对象内存分析</strong></p>
+<p><img src="/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png" srcset="/img/loading.gif" lazyload alt="image-20250322185600248"></p>
+<hr>
+<h4 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h4><ol>
+<li><p>类是一个模板（抽象的），对象是一个具体的实例</p>
+</li>
+<li><p>方法：定义，调用</p>
+</li>
+<li><p>对象是通过<strong>引用</strong>来操作的：栈—–&gt;堆（地址）</p>
+</li>
+<li><p>属性：字段 Field   成员变量</p>
+<ul>
+<li><p>初始化 ：数字0  0.0 </p>
+<p>​				char : u0000</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>​							  boolean: false</p>
+<p>​							引用： null</p>
+<p>​			修饰符    属性类型   属性名&#x3D;属性值</p>
+<ol start="5">
+<li>对象的创建和使用：<ul>
+<li>必须使用new关键字创造对象  ，构造器</li>
+<li>对象的属性方法调用： <code>对象名.属性   对象.方法</code></li>
+</ul>
+</li>
+<li>类：静态的属性，动态的方法</li>
+</ol>
+<hr>
+<h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><ul>
+<li><p>程序追求 <em>高内聚低耦合</em></p>
+<p>高内聚就是：类的内部数据操作细节自己完成，不允许外部干涉；低耦合：仅暴露少量的方法给外部使用</p>
+</li>
+<li><p>属性私有   get&#x2F;set  （alt  + insert 快捷键生成get&#x2F;set方法）</p>
+</li>
+<li><p>关键字private  就不能直接 s1.name 来操作 借助get方法返回name 调用的方法得到name</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-keyword">package</span> com.oop.dome03;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> &#123;<br>    <span class="hljs-comment">//属性私有  private 关键字   外部的就不能直接  对象,属性 来操作属性</span><br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> id;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">char</span> sex;<br><br>    <span class="hljs-comment">//提供一些操作私有属性的方法</span><br>    <span class="hljs-comment">//提供一些public的get /set方法</span><br><br>    <span class="hljs-comment">//get 获得数据  就是借助方法获得</span><br>    <span class="hljs-keyword">public</span>  String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.name;<br>    &#125;<br><br>    <span class="hljs-comment">//set 给这个数据设置值</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span>  <span class="hljs-title function_">setName</span><span class="hljs-params">(String name)</span>&#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br><br>&#125;<br><br><br><br><br><br><br><span class="hljs-keyword">package</span> com.oop.dome02;<br><br><span class="hljs-keyword">import</span> com.oop.dome03.Student ;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Application</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Student</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>        System.out.println(s1.getName());<span class="hljs-comment">//null</span><br>        s1.setName(<span class="hljs-string">&quot;小明&quot;</span>);<span class="hljs-comment">//通过方法进行设置属性</span><br>        System.out.println(s1.getName());<span class="hljs-comment">//小明</span><br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>思考：</strong>不借助set方法的话，有参构造器也可以直接初始化属性</p>
+<p><em><strong>所以又体现出来构造器就是特殊的方法</strong></em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome03;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Application</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Student</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>(<span class="hljs-string">&quot;xiaoming&quot;</span>);<br>        System.out.println(s1.getName());<br><br>    &#125;<br>&#125;<br><br><br><span class="hljs-keyword">package</span> com.oop.dome03;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> &#123;<br>    <span class="hljs-comment">//属性私有  private 关键字   外部的就不能直接  对象,属性 来操作属性</span><br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> id;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">char</span> sex;<br><br>    <span class="hljs-comment">//提供一些操作私有属性的方法</span><br>    <span class="hljs-comment">//提供一些public的get /set方法</span><br><br>    <span class="hljs-comment">//get 获得数据  就是借助方法获得</span><br>    <span class="hljs-keyword">public</span>  String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.name;<br>    &#125;<br><br>   <br>	<span class="hljs-comment">//有参构造器初始化属性</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Student</span><span class="hljs-params">(String name)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>使用属性的时候再传参即可，构造器在new的时候就会调用，在new的时候直接传参</p>
+<p><strong>封装的好处：</strong></p>
+<p>规避不合法的数据，在set方法中设置条件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome03;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Application</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Student</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br><br>        System.out.println(s1.getAge());<br>        s1.setAge(<span class="hljs-number">999</span>);<span class="hljs-comment">//数据不合法</span><br>        System.out.println(s1.getAge());<span class="hljs-comment">//!!!!!！！这里在set方法中设置了合法条件，所以输出3</span><br><br><br>    &#125;<br>&#125;<br><br><br><br><br><br><span class="hljs-keyword">package</span> com.oop.dome03;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> &#123;<br>    <span class="hljs-comment">//属性私有  private 关键字   外部的就不能直接  对象,属性 来操作属性</span><br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> id;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">char</span> sex;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> age;<br><br>    <span class="hljs-comment">//提供一些操作私有属性的方法</span><br>    <span class="hljs-comment">//提供一些public的get /set方法</span><br><br>    <span class="hljs-comment">//get 获得数据  就是借助方法获得</span><br>    <span class="hljs-keyword">public</span>  <span class="hljs-type">int</span> <span class="hljs-title function_">getAge</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.age;<br>    &#125;<br><br>    <span class="hljs-comment">//set 给这个数据设置值</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span>  <span class="hljs-title function_">setAge</span><span class="hljs-params">(<span class="hljs-type">int</span> age)</span>&#123;<br>       <span class="hljs-keyword">if</span>(age&gt;<span class="hljs-number">120</span>||age&lt;<span class="hljs-number">0</span>)&#123;<br>           <span class="hljs-built_in">this</span>.age=<span class="hljs-number">3</span>;<br>       &#125;<span class="hljs-keyword">else</span>&#123;<br>           <span class="hljs-built_in">this</span>.age = age;<br>       &#125;<br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>好处：</strong></p>
+<ol>
+<li>提高程序的安全性，保护数据</li>
+<li>隐藏代码的实现细节</li>
+<li>统一接口</li>
+<li>系统可维护增加</li>
+</ol>
 
                 
               </div>
