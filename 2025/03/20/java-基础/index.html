@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bxhhf.github.io/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png">
 <meta property="article:published_time" content="2025-03-20T06:38:29.000Z">
-<meta property="article:modified_time" content="2025-03-24T09:58:59.609Z">
+<meta property="article:modified_time" content="2025-03-24T13:03:53.328Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png">
@@ -232,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.8k 字
+          8.5k 字
         
       </span>
     
@@ -243,7 +243,7 @@
         
         
         
-          65 分钟
+          72 分钟
         
       </span>
     
@@ -777,16 +777,18 @@
 
 
 
-<p><strong>有参构造&amp;&amp; 无参构造</strong></p>
-<p>以下部分代码</p>
-<p><em><strong>new的时候就直接调用子类构造器，在子类构造器中有隐藏的调用父类构造器的代码 super()</strong></em></p>
-<p><em>x显示调用父类的构造器必须在子类的构造器第一行</em></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dome01</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Student</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();  <span class="hljs-comment">//输出 Person无参构造  Student无参构造</span><br>       <span class="hljs-comment">// s1.text2();</span><br><br><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//*******以下为父类**********</span><br><br><span class="hljs-keyword">package</span> com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>   <br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;Person无参构造&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//*********以下为子类*************</span><br><br><span class="hljs-keyword">package</span> com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Person</span> &#123;<br>   <br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Student</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">//在子类的构造方法中隐藏代码super()  new的时候调用父类的无参构造</span><br>       <span class="hljs-comment">// super();//调用父类的构造器必须在子类的构造器第一行</span><br>        System.out.println(<span class="hljs-string">&quot;Student无参构造&quot;</span>);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-
-
+<h4 id="有参构造-无参构造"><a href="#有参构造-无参构造" class="headerlink" title="有参构造&amp;&amp; 无参构造"></a><strong>有参构造&amp;&amp; 无参构造</strong></h4><p>以下部分代码 输出： Person无参构造</p>
+<p>​								  Student无参构造</p>
+<p><em><strong>new的时候就根据<code>实际类型</code>调用构造器，若是子类构造器，在子类构造器中有隐藏的调用父类构造器的代码 super()</strong></em></p>
 <ul>
-<li>当子类定义一个有参构造后，无参构造就会消失，就不会默认new的时候调用父类的无参构造了——&gt;只要定义了一个有参构造，就必须显示定义无参构造</li>
+<li><pre><code class="java">Person s1 = new Person();
+//只调用Person 构造器
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><br>*x显示调用父类的构造器必须在子类的构造器第一行*<br><br>``` java<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Dome01</span> &#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(<span class="hljs-params">String[] args</span>)</span> &#123;<br>        Student s1 = <span class="hljs-keyword">new</span> Student();  <span class="hljs-comment">//输出 Person无参构造  Student无参构造</span><br>       <span class="hljs-comment">// s1.text2();</span><br><br><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//*******以下为父类**********</span><br><br>package com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> &#123;<br>   <br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span>()</span> &#123;<br>        System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">&quot;Person无参构造&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//*********以下为子类*************</span><br><br>package com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> <span class="hljs-title">extends</span> <span class="hljs-title">Person</span> &#123;<br>   <br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Student</span>()</span> &#123;<br>        <span class="hljs-comment">//在子类的构造方法中隐藏代码super()  new的时候调用父类的无参构造</span><br>       <span class="hljs-comment">// super();//调用父类的构造器必须在子类的构造器第一行</span><br>        System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">&quot;Student无参构造&quot;</span>);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+</code></pre>
+</li>
+<li><p>当子类定义一个有参构造后，无参构造就会消失，就不会默认new的时候调用父类的无参构造了——&gt;只要定义了一个有参构造，就必须显示定义无参构造</p>
+</li>
 </ul>
 <h4 id="小总结："><a href="#小总结：" class="headerlink" title="小总结："></a><strong>小总结：</strong></h4><ol>
 <li><p>super 注意点：</p>
@@ -872,7 +874,7 @@
 </li>
 </ul>
 <hr>
-<h3 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h3><h3 id=""><a href="#" class="headerlink" title=""></a></h3><ul>
+<h3 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h3><ul>
 <li><p>instanceof是Java中的一种关键字，用于判断一个对象是否属于某个类或其子类</p>
 </li>
 <li><p>在Java中，instanceof关键字通过比较<code>对象的类型</code>和<code>类的类型</code>来判断对象的实例关系。其底层实现原理是通过比较对象的类型和类的类型在内存中的地址。如果两者相同或者具有继承关系，则返回true；否则返回false。</p>
@@ -909,6 +911,49 @@
 <li><p>对象引用类型为父类，不能通过对象调用子类中独有的方法</p>
 <p>如果引用类型为父类，通过对象调用父类子类共有的方法（就是多态啦）</p>
 </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop;<br><span class="hljs-keyword">import</span> com.oop.dome06.Person;<br><br><span class="hljs-keyword">import</span> com.oop.dome06.Student;<br><span class="hljs-keyword">import</span> com.oop.dome06.Teacher;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dome01</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//类型之间的转换：父----&gt;子</span><br>        <span class="hljs-comment">//  高&lt;---转-----低</span><br>        <span class="hljs-type">Person</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>       <span class="hljs-comment">//引用类型为父类的对象强制类型转换才能调用子类独有的方法</span><br>        ((Student)s).go();<br>        <span class="hljs-comment">//或</span><br>        Student student=(Student)s;<br>        student.go();<br><br>        <span class="hljs-comment">//自动低转高</span><br>        <span class="hljs-comment">//子类转父类可能丢失自己本来的一些方法（只存在于子类中的方法）</span><br>        Person person=student;<br>        <span class="hljs-comment">//person.go(); 就无法调用</span><br><br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><p>强制类型转换  存在条件：<strong>父类引用指向子类对象</strong></p>
+<p>直接 父类引用指向父类对象 创建不能强制类型转换（）</p>
+<p>会报ClassCastException的错误</p>
+</li>
+<li><p>父类转换为子类，向下转型，强制转换</p>
+</li>
+</ol>
+<hr>
+<h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><ul>
+<li><p>非静态方法必须new一个对象后才能用对象调用，</p>
+</li>
+<li><p>静态方法跟类一起就加载出来了，可以直接  类.方法  调用</p>
+<p>在同一个类中也可以直接写方法调用，非静态方法中也是可以调用静态方法的</p>
+</li>
+<li><p>new的时候自动调用静态代码块（只执行一次），匿名代码块，构造方法</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome07;<br><br><span class="hljs-keyword">import</span> com.sun.security.jgss.GSSUtil;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>   <span class="hljs-comment">//2：赋初始值~</span><br>    &#123;<br>        System.out.println(<span class="hljs-string">&quot;匿名代码块&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">//1: 只执行一次~</span><br>    <span class="hljs-keyword">static</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;静态代码块&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">//3：</span><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;构造方法&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Person</span> <span class="hljs-variable">p1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();<br>        System.out.println(<span class="hljs-string">&quot;==========&quot;</span>);<br>        Person p2= <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();<br>    &#125;<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">    * 输出：</span><br><span class="hljs-comment">    * 静态代码块</span><br><span class="hljs-comment">    匿名代码块</span><br><span class="hljs-comment">    构造器</span><br><span class="hljs-comment">    ==========</span><br><span class="hljs-comment">    匿名代码块</span><br><span class="hljs-comment">    构造器*/</span><br>    <br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>发现了一个比较好玩的：</strong></p>
+<p>new的时候调用顺序为静态代码块,匿名代码块，构造方法</p>
+<p>调用构造方法的时候是根据对象的实际类型调用的哦！</p>
+<ul>
+<li>new Student (),实际类型是子类就调用子类构造器并且先执行之前学习的隐藏代码super()即先调用父类的构造器，再调用子类的构造器</li>
+<li>new Person(),实际类型是父类就直接调用父类构造器了</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome07;<br><br><span class="hljs-keyword">import</span> com.sun.security.jgss.GSSUtil;<br><span class="hljs-keyword">import</span> com.oop.dome07.Person;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>   <span class="hljs-comment">//2：赋初始值~</span><br>    &#123;<br>        System.out.println(<span class="hljs-string">&quot;匿名代码块&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">//1: 只执行一次~</span><br>    <span class="hljs-keyword">static</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;静态代码块&quot;</span>);<br>    &#125;<br>    <span class="hljs-comment">//3：</span><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;构造方法Person&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Person</span> <span class="hljs-variable">p1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>        System.out.println(<span class="hljs-string">&quot;==========&quot;</span>);<br>        Person p2= <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>();<br>    &#125;<br>    <span class="hljs-comment">/*静态代码块</span><br><span class="hljs-comment">    匿名代码块</span><br><span class="hljs-comment">    构造方法Person</span><br><span class="hljs-comment">    构造方法：Student</span><br><span class="hljs-comment">    ==========</span><br><span class="hljs-comment">    匿名代码块</span><br><span class="hljs-comment">    构造方法Person*/</span><br><br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>遗留一个问题：静态代码，匿名代码写在了Person 类中</p>
+<p>new一个 引用属性，实际属性都是Student的对象 也会调用静态代码，匿名代码</p>
+</li>
+</ul>
+<hr>
+<p><strong>静态导入包：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome07;<br><span class="hljs-comment">//静态导入包</span><br><span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> java.lang.Math.random;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        System.out.println(random());<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>final 修饰常量，如果类被final修饰是没有办法作为父类继承的</li>
 </ul>
 
                 
