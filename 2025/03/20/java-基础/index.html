@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bxhhf.github.io/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png">
 <meta property="article:published_time" content="2025-03-20T06:38:29.000Z">
-<meta property="article:modified_time" content="2025-03-22T16:24:36.907Z">
+<meta property="article:modified_time" content="2025-03-24T08:12:26.941Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png">
@@ -232,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.4k 字
+          7.2k 字
         
       </span>
     
@@ -243,7 +243,7 @@
         
         
         
-          45 分钟
+          60 分钟
         
       </span>
     
@@ -296,12 +296,8 @@
                 
                 <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><span id="more"></span>
 
-<h3 id="hello-word"><a href="#hello-word" class="headerlink" title="hello word"></a>hello word</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Hello</span>&#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span>&#123; <span class="hljs-comment">//psvm </span><br>		System.out.print(<span class="hljs-string">&quot;Hello,Word!&quot;</span>);<span class="hljs-comment">//sout</span><br>	&#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
 
-
-<h4 id="注意的情况"><a href="#注意的情况" class="headerlink" title="注意的情况"></a>注意的情况</h4><p>1 .文件名和类名必须一致，并且首字母大写</p>
-<p>2 .java大小写敏感</p>
 <h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><ul>
 <li><p>单行注释&#x2F;&#x2F;  （ctrl +&#x2F;）</p>
 </li>
@@ -312,7 +308,8 @@
 <li>字母（大小写），数字，下划线，美元符组成，但不能以数字开头</li>
 <li>大小写敏感</li>
 </ul>
-<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>基本数据类型，引用数据类型</p>
+<ul>
 <li><p>强类型语言：所有变量先定义后使用</p>
 </li>
 <li><p>基本数据类型：</p>
@@ -593,7 +590,7 @@
 <h4 id="稀疏数组"><a href="#稀疏数组" class="headerlink" title="稀疏数组"></a><strong>稀疏数组</strong></h4><p>记录有效值及其行列</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.zhang.array;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dome06</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//创建一个新的目标数组</span><br>        <span class="hljs-type">int</span>[][] arrays1=<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">11</span>][<span class="hljs-number">11</span>];<br>                arrays1[<span class="hljs-number">1</span>][<span class="hljs-number">2</span>]=<span class="hljs-number">1</span>;<br>                arrays1[<span class="hljs-number">2</span>][<span class="hljs-number">3</span>]=<span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span>[] ants:arrays1)&#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> ents:ants)&#123;<br>                System.out.print(ents+<span class="hljs-string">&quot; &quot;</span>);<br>            &#125;<br>            System.out.println();<br>        &#125;<br><br>        <span class="hljs-comment">//统计有效值,为新建稀疏数组的行数做准备</span><br>        <span class="hljs-type">int</span> sum=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;arrays1.length;i++)&#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;arrays1[i].length;j++)&#123;<br>                <span class="hljs-keyword">if</span> (arrays1[i][j]!=<span class="hljs-number">0</span>)&#123;<br>                    sum++;<br>                &#125;<br>            &#125;<br>        &#125;<br>        System.out.println(sum);<br><br><br><br>        <span class="hljs-comment">//创建稀疏数组及它的第0行（第0行是  原数组的行数 列数   有效值）</span><br>        <span class="hljs-type">int</span>[][] arrays2=<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[sum+<span class="hljs-number">1</span>][<span class="hljs-number">3</span>];<br>        arrays2[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]=arrays1.length;<br>        arrays2[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>]=arrays1[<span class="hljs-number">0</span>].length;<br>        arrays2[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>]=sum;<br><br><br>        <span class="hljs-comment">//将有效值放入稀疏数组</span><br>        <span class="hljs-type">int</span> m=<span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;arrays1.length;i++)&#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;arrays1[i].length;j++)&#123;<br>                <span class="hljs-keyword">if</span>(arrays1[i][j]!=<span class="hljs-number">0</span>)&#123;<br>                    m++;<br>                    arrays2[m][<span class="hljs-number">0</span>]=i;<br>                    arrays2[m][<span class="hljs-number">1</span>]=j;<br>                    arrays2[m][<span class="hljs-number">2</span>]=arrays1[i][j];<br>                &#125;<br>            &#125;<br>        &#125;<br><br><br><br><br>        <span class="hljs-comment">//打印稀疏数组</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span>[] ants: arrays2)&#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> ents:ants)&#123;<br>                System.out.print(ents+<span class="hljs-string">&quot; &quot;</span>);<br>            &#125;<br>            System.out.println();<br><br>        &#125;<br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
-<h3 id="—————"><a href="#—————" class="headerlink" title="—————-"></a>—————-</h3><h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><p><strong>本质：</strong><br><u><em>以类的方式组织代码，以对象的组织（封装）数据</em></u></p>
+<h3 id="—————"><a href="#—————" class="headerlink" title="—————"></a>—————</h3><h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><p><strong>本质：</strong><br><u><em>以类的方式组织代码，以对象的组织（封装）数据</em></u></p>
 <p><strong>三大特性：</strong></p>
 <p>封装，继承，多态</p>
 <p><strong>从代码的角度：</strong>先有类才有对象</p>
@@ -726,7 +723,158 @@
 <li>统一接口</li>
 <li>系统可维护增加</li>
 </ol>
+<hr>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><ul>
+<li><p>继承的本质是对一批类的抽象</p>
+</li>
+<li><p>关键字 extends 子类是父类的扩展</p>
+</li>
+<li><p>继承是类与类之间的一种关系，类与类之间的关系还有依赖，组合，聚合等</p>
+</li>
+<li><p>继承关系的两个类，一个为子类（派生类），一个为父类（基类）。</p>
+</li>
+<li><p><strong>只要子类继承了父类，实例化子类对象，对象也可以用父类中的属性和方法</strong></p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//父类</span><br><span class="hljs-keyword">package</span> com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> money=<span class="hljs-number">10_0000_0000</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">say</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;说了一句话&quot;</span>);<br><br>    &#125;&#125;<br><br><br><br><span class="hljs-comment">//子类继承父类</span><br><span class="hljs-keyword">package</span> com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Person</span> &#123;<br>&#125;<br><br><br><br><span class="hljs-comment">//实例化子类，子类对象调用父类的方法和属性</span><br><span class="hljs-keyword">package</span> com.oop;<br><br><span class="hljs-keyword">import</span> com.oop.dome04.Student;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dome01</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Student</span> <span class="hljs-variable">student</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>        student.say();<br>        System.out.println(student.money);<br><br>    &#125;<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
 
+<p>修饰符：public（要加public,才能用子类创建的对象调用父类的属性）protected,default,private(私有的   子类不能继承私有属性，要借助get,set)</p>
+<ul>
+<li><p>在java中所有的类都默认直接或间接继承object类，也可以显示定义继承object类</p>
+</li>
+<li><p>java中只有单继承（即一个儿子对应一个爸爸）</p>
+</li>
+<li><p>犯的错误：</p>
+<p>在父类中定义方法无返回值，使用子类创建的对象调用该方法时，因为该方法无返回值，不能直接输出，可以直接调用就好</p>
+</li>
+</ul>
+<hr>
+<h4 id="super详解"><a href="#super详解" class="headerlink" title="super详解"></a>super详解</h4><ul>
+<li><p>子类的方法中访问父类的属性或方法 <code>super.属性或方法</code></p>
+<p>回顾：<code>this.属性或方法</code>调用当前类中的属性或方法</p>
+<p>在方法中可以互相直接调用方法</p>
+</li>
+</ul>
+<p>以下代码实现了 通过子类方法执行其他类方法，和子类方法中调用父类方法</p>
+<p>Person 父类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>     <span class="hljs-keyword">public</span> String name=<span class="hljs-string">&quot;Person&quot;</span>;<br>     <span class="hljs-type">int</span> age;<br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sayHello</span><span class="hljs-params">()</span> &#123;<br>         System.out.println(<span class="hljs-string">&quot;Hello World&quot;</span>);<br>     &#125;<br><br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">()</span>&#123;<br>    System.out.println(<span class="hljs-string">&quot;Person&quot;</span>);<br><br>    &#125;<br><br><br>    &#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>Student 子类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Person</span> &#123;<br>    <span class="hljs-keyword">private</span> String name=<span class="hljs-string">&quot;小明&quot;</span>;<br><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;Student&quot;</span>);<br><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">text1</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-comment">/*print();//Student</span><br><span class="hljs-comment">        System.out.println(this.name);</span><br><span class="hljs-comment">        System.out.println(super.name);*/</span><br><br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">text2</span><span class="hljs-params">()</span>&#123;<br>        print();<span class="hljs-comment">//方法中调用方法 </span><br>        <span class="hljs-built_in">this</span>.print();<span class="hljs-comment">//调用这个类的print方法</span><br>        <span class="hljs-built_in">super</span>.print();<span class="hljs-comment">//父类的print方法</span><br>        <br>    &#125;<br><br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>main:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop;<br><span class="hljs-keyword">import</span> com.oop.dome04.Person;<br><span class="hljs-keyword">import</span> com.oop.dome04.Student;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dome01</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Student</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>        s1.text2();<br><br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p><strong>this   &amp;&amp; super</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">text1</span><span class="hljs-params">(String name)</span>&#123;<br>     print();<span class="hljs-comment">// 此类中的print方法  Student</span><br>     System.out.println(<span class="hljs-built_in">this</span>.name);<span class="hljs-comment">// 就近原则 此类中的name </span><br>     System.out.println(<span class="hljs-built_in">super</span>.name);<span class="hljs-comment">//父类中的属性name</span><br>     System.out.println(name);<span class="hljs-comment">//方法传参的name</span><br><br> &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>有参构造&amp;&amp; 无参构造</strong></p>
+<p>部分代码</p>
+<p>执行程序输出：</p>
+<p>Person无参构造</p>
+<p>Student 无参构造</p>
+<p><em>调用父类的构造器必须在子类的构造器第一行</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dome01</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Student</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();  <br>       <span class="hljs-comment">// s1.text2();</span><br><br><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//*******以下为父类**********</span><br><br><span class="hljs-keyword">package</span> com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>   <br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;Person无参构造&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//*********以下为子类*************</span><br><br><span class="hljs-keyword">package</span> com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Person</span> &#123;<br>   <br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Student</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">//在子类的构造方法中隐藏代码super()  new的时候调用父类的无参构造</span><br>        <span class="hljs-built_in">super</span>();<span class="hljs-comment">//调用父类的构造器必须在子类的构造器第一行</span><br>        System.out.println(<span class="hljs-string">&quot;Student无参构造&quot;</span>);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>当子类定义一个有参构造后，无参构造就会消失，就不会默认new的时候调用父类的无参构造了——&gt;只要定义了一个有参构造，就必须显示定义无参构造</li>
+</ul>
+<h4 id="小总结："><a href="#小总结：" class="headerlink" title="小总结："></a><strong>小总结：</strong></h4><ol>
+<li><p>super 注意点：</p>
+<ul>
+<li>super 调用父类的构造方法，必须在构造方法的第一个</li>
+<li><em>super必须只能出现在子类的方法或者构造方法中去调用父类的方法或属性</em></li>
+<li>super() 和this() 不能同时调用构造方法，因为他们都要写在第一行</li>
+</ul>
+</li>
+<li><p>super VS this:<br><em>代表对象不同</em>：this :代表调用者这个对象    super:代表父类对象的应用</p>
+<p><em>前提</em>： this :没有继承也可以使用   super  :  只能在继承条件下才能使用</p>
+<p><em>构造方法</em>：this() 本类的构造       super() 父类的构造</p>
+</li>
+</ol>
+<hr>
+<h3 id="方法重写"><a href="#方法重写" class="headerlink" title="方法重写"></a>方法重写</h3><p>重写都是方法重写，与属性无关</p>
+<p>方法重写只与非静态方法有关，与静态方法无关</p>
+<p>定义的什么类（等号左边的）就调用的什么类的静态方法，回想之前学的方法的调用，静态方法可以直接用类调用（它随类一起加载）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dome01</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>      <br>        <span class="hljs-comment">//方法的调用只和左边，定义的数据类型有关</span><br>        <span class="hljs-type">A</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">A</span>();<br>        a.test();<span class="hljs-comment">//A类中的方法    结果：A----test</span><br>        <br>        <span class="hljs-comment">//父类的引用指向了子类</span><br>        <span class="hljs-type">B</span> <span class="hljs-variable">b</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">A</span>();<br>        b.test();<span class="hljs-comment">//B类中的方法    结果：B----&gt;test</span><br><span class="hljs-comment">//!!!!它们调用的都是静态方法</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//A类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">B</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;A---&gt;test()&quot;</span>);<br>    &#125;<br>&#125;<br><br><br><br><span class="hljs-comment">//B类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;B---&gt;test()&quot;</span>);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>然而 非静态方法 与以上的静态方法不同</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dome01</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">A</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">A</span>();<br>        a.test();<span class="hljs-comment">//还是A类输出   A----&gt;test</span><br>        <span class="hljs-type">B</span> <span class="hljs-variable">b</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">A</span>();<span class="hljs-comment">//子类重写了父类的方法 （非静态）</span><br>        b.test();<span class="hljs-comment">//!!!!这里就是调用的A了   输出A---&gt;test</span><br><br><br>    &#125;<br>&#125;<br><br><br><br><br><span class="hljs-keyword">package</span> com.oop.dome05;<br><br><span class="hljs-keyword">import</span> org.w3c.dom.ls.LSOutput;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">B</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;A---&gt;test()&quot;</span>);<br>    &#125;<br><br>&#125;<br><br><br><br><br><br><br><span class="hljs-keyword">package</span> com.oop.dome05;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;<br><br>    <span class="hljs-keyword">public</span>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;B---&gt;test()&quot;</span>);<br>    &#125;<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
+
+<p><strong>理解：</strong></p>
+<p>静态方法属于类，非静态方法属于对象</p>
+<p>静态时方法随类一起加载，new 的b 是B类（等号左边），因此执行B类方法</p>
+<p>非静态时，子类重写了父类的方法，都执行子类方法</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>重写存在于子类父类，有了继承才能子类重写父类的方法</p>
+<ol>
+<li><p>子类父类的方法名必须相同，（alt+insert快捷键重写方法自动给就可以实现）</p>
+</li>
+<li><p>参数列表也必须相同（不同那就是<del>方法的重载啦</del>，也不是，方法的重载是在一个类中的）</p>
+</li>
+<li><p>子类重写的方法的修饰符范围只能比父类的修饰符扩大，</p>
+<p>public&gt;protected&gt;default(默认什么都不写的)&gt;private</p>
+</li>
+<li><p>抛出异常：范围，可以缩小，不能扩大</p>
+<p>ClassNotFoundException(小异常)—-&gt;Exception(大异常)</p>
+</li>
+</ol>
+<p><strong>为什么需要重写：</strong></p>
+<ol>
+<li><p>父类的功能子类不需要，或者不一定满足！</p>
+<p>快捷键：alt+insert 选择重写方法</p>
+</li>
+</ol>
+<hr>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//引用类型       实际类型</span><br>Person s1=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>Student s2=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>一个对象的实际类型是确定的，但引用类型是不确定的</p>
+</li>
+<li><p>方法重写后，父类的引用类型调用子类的方法（相比继承：子类继承父类的方法和属性），（多态讲的父类何时能调用子类的方法）</p>
+</li>
+<li><p>当方法只有子类中有的时候，父类调用不了子类的，需要强制类型转换（继承时子类自然继承父类的）</p>
+</li>
+<li><p>对象能执行哪些方法看左边引用类型：</p>
+<p>子类的引用类型能调用继承的父类的方法</p>
+<p>而父类的引用类型不能调用子类独有的（要强制类型转换），能调用子类重写后的</p>
+</li>
+<li><p>注意事项：</p>
+<ol>
+<li><p>多态时方法的重写，属性没有多态</p>
+</li>
+<li><p>创建对象时父类和子类有联系，要注意类型转换异常！ ClassCastException!</p>
+</li>
+<li><p>多态存在条件：继承关系，方法重写，<strong>父类引用指向子类对象</strong></p>
+<p><em>不能重写的方法</em></p>
+<ul>
+<li><p>static 方法，不属于实例，属于类,</p>
+</li>
+<li><p>final  修饰的是常量</p>
+</li>
+<li><p>private 方法</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="instanceof-和类型转换"><a href="#instanceof-和类型转换" class="headerlink" title="instanceof 和类型转换"></a>instanceof 和类型转换</h3>
                 
               </div>
             
