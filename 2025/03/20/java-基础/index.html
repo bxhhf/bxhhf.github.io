@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bxhhf.github.io/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png">
 <meta property="article:published_time" content="2025-03-20T06:38:29.000Z">
-<meta property="article:modified_time" content="2025-03-25T10:50:20.851Z">
+<meta property="article:modified_time" content="2025-03-25T15:13:14.378Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png">
@@ -232,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.2k 字
+          9.9k 字
         
       </span>
     
@@ -243,7 +243,7 @@
         
         
         
-          77 分钟
+          83 分钟
         
       </span>
     
@@ -755,7 +755,7 @@
 <p>在方法中可以互相直接调用方法</p>
 </li>
 </ul>
-<p>以下代码实现了 通过子类方法执行其他类方法，和子类方法中调用父类方法</p>
+<p>以下代码实现了 通过子类方法执行类的其他方法，和子类方法中调用父类方法</p>
 <p>Person 父类：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome04;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>     <span class="hljs-keyword">public</span> String name=<span class="hljs-string">&quot;Person&quot;</span>;<br>     <span class="hljs-type">int</span> age;<br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sayHello</span><span class="hljs-params">()</span> &#123;<br>         System.out.println(<span class="hljs-string">&quot;Hello World&quot;</span>);<br>     &#125;<br><br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">()</span>&#123;<br>    System.out.println(<span class="hljs-string">&quot;Person&quot;</span>);<br><br>    &#125;<br><br><br>    &#125;<br><br></code></pre></td></tr></table></figure>
 
@@ -959,10 +959,10 @@
 <p>父类是静态方法，子类是不能重写的</p>
 <hr>
 <h3 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h3><ul>
-<li>抽象类本质也是类，是由abstract声明的类   extends :单继承    （接口可以实现多继承）</li>
-<li>子类继承抽象类后，必须实现抽象方法，否则该子类也必须声明为抽象类。</li>
+<li>抽象类本质也是类，是由abstract声明的类 （abstract  class）  extends :单继承    （接口可以实现多继承）</li>
+<li>子类继承抽象类后，必须实现抽象方法，除非该子类也必须声明为抽象类。</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome08;<br><span class="hljs-comment">//abstract 抽象类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Action</span> &#123;<br>    <span class="hljs-comment">//abstract 抽象方法，只有方法的名字，在抽象类中没有方法体  方法的实现是在继承他的子类中重写实现</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doSonmething</span><span class="hljs-params">()</span>;<br>&#125;<br><br><br><br><br><br><br><br><br><span class="hljs-keyword">package</span> com.oop.dome08;<br><span class="hljs-comment">//继承了抽象类的子类，都必须要实现 抽象类 的方法（抽象类中没有方法的）</span><br><span class="hljs-comment">//除非子类也是抽象类,那就由子子类去实现了</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Action</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doSonmething</span><span class="hljs-params">()</span> &#123;<br>      <br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome08;<br><span class="hljs-comment">//abstract 抽象类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Action</span> &#123;<br>    <span class="hljs-comment">//abstract 抽象方法，只有方法的名字，在抽象类中没有方法体  方法的实现是在继承他的子类中重写实现</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doSonmething</span><span class="hljs-params">()</span>;<br>&#125;<br><br><br><br><br><br><br><br><br><span class="hljs-keyword">package</span> com.oop.dome08;<br><span class="hljs-comment">//继承了抽象类的子类，都必须要实现(相当于重写) 抽象类 的方法（因为抽象类中没有方法体）  普通方法就不一定必须重写了</span><br><span class="hljs-comment">//除非子类也是抽象类,那就由子子类去实现了</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Action</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doSonmething</span><span class="hljs-params">()</span> &#123;<br>      <br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
 <p><strong>特点：</strong></p>
 <ol>
@@ -972,15 +972,17 @@
 <h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><ul>
 <li><p>普通类：只有具体实现方法</p>
 <p>抽象类：具体实现方法和定义（抽象方法）都有！</p>
-<p>接口：只有抽象方法的定义！</p>
-<p>接口的本质是契约，声明接口的关键词是：interface</p>
+<p>接口：只有抽象方法的定义！ 约束和实现分离</p>
+<p>接口的本质是契约，声明接口的关键词是：<u>interface</u></p>
 </li>
-<li><p>成员变量：只能是常量，默认修饰符public static final</p>
-<p>成员方法：JDK7前只能是抽象方法 ，默认修饰符public abstract </p>
+<li><p>接口中定义的所有属性，只能是常量，默认修饰符<strong>public static final</strong></p>
+<p>接口中定义的所有方法，默认什么都不写的修饰符<strong>public abstract</strong> </p>
 </li>
 <li><p>没有构造方法</p>
 </li>
-<li><p>实现多个接口，要重写里面的所有抽象方法，如果接口中的方法重名，只需要在实现类中重写一次即可，重写的方法既代表对接口1中方法的重写，又代表对接口2中得方法的重写</p>
+<li><p><em>实现类：</em>一般以impl结尾   一个类实现一个接口通过 implements 关键字，并且一个实现类必须重写接口里面的所有方法</p>
+</li>
+<li><p>实现类实现多个接口，要重写里面的所有抽象方法，如果接口中的方法重名，只需要在实现类中重写一次即可，重写的方法既代表对接口1中方法的重写，又代表对接口2中的方法的重写</p>
 </li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//**********接口*************</span><br><span class="hljs-keyword">package</span> com.oop.dome09;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserService</span> &#123;<span class="hljs-comment">//接口都需要实现类</span><br>    <span class="hljs-comment">//接口中的所有方法都是默认抽象的 public abstract</span><br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">add</span><span class="hljs-params">(String name)</span>;<br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">delete</span><span class="hljs-params">(String name)</span>;<br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">update</span><span class="hljs-params">(String name)</span>;<br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">query</span><span class="hljs-params">(String name)</span>;<br>&#125;<br><br><br><br><span class="hljs-comment">//**********实现方法**************</span><br><br><span class="hljs-keyword">package</span> com.oop.dome09;<br><span class="hljs-comment">//implements关键字 可以实现接口   extends 只能是单继承</span><br><br><span class="hljs-comment">//实现了接口的类，就需要重写接口的方法~</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">add</span><span class="hljs-params">(String name)</span> &#123;<br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">delete</span><span class="hljs-params">(String name)</span> &#123;<br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">update</span><span class="hljs-params">(String name)</span> &#123;<br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">query</span><span class="hljs-params">(String name)</span> &#123;<br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
@@ -991,9 +993,8 @@
 <p><strong>作用：</strong></p>
 <ol>
 <li>约束</li>
-<li>在接口中定义一些方法，让不同的 实现类 实现</li>
-<li>接口中的方法都是 public abstract，默认的方法也是</li>
-<li>接口不能实例化，接口中没有方法实现（和抽象类一样）</li>
+<li>在接口中定义一些方法（没有方法体），让不同的 实现类 实现，实现接口必须重写方法</li>
+<li>接口不能实例化，没有构造方法。接口中没有方法实现（和抽象类一样），</li>
 <li>implements 可以实现多个接口</li>
 </ol>
 <hr>
@@ -1003,8 +1004,47 @@
 </li>
 <li><p>都不能实例化本类对象，只能让子类实例化对象</p>
 </li>
-<li></li>
 </ol>
+<hr>
+<p><strong>接口与类之间的关系：</strong></p>
+<ul>
+<li><p>类于类的关系：继承，只能是单继承，不能多继承，（单继承多继承主体是下一级 单继承   多继承）但可以是多层继承</p>
+</li>
+<li><p>类与接口之间的关系：实现关系，实现类  来  实现接口</p>
+</li>
+<li><p>接口与接口之间的关系：继承关系（也是extends关键字），可以单继承，*<u>也可以多继承</u>*</p>
+<p>若实现类实现的是最下面的子接口的话，需要重写这个体系中所有的抽象方法</p>
+</li>
+</ul>
+<hr>
+<h3 id="N种内部类"><a href="#N种内部类" class="headerlink" title="N种内部类"></a>N种内部类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome10;<br><br><span class="hljs-keyword">import</span> org.w3c.dom.ls.LSOutput;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Outer</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> id=<span class="hljs-number">105</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">out</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;这是外部类的方法&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">outPrivate</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;这是外部类的私有方法&quot;</span>);<br>    &#125;<br><br><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span>  <span class="hljs-title class_">Inner</span>&#123;<br><br>       <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">in</span><span class="hljs-params">()</span> &#123;<br>           System.out.println(<span class="hljs-string">&quot;这是内部类的方法&quot;</span>);<br>       &#125;<br><br>       <span class="hljs-comment">//内部类写方法访问外部类的私有属性</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">getId</span><span class="hljs-params">()</span> &#123;<br>            System.out.println(id);<br>        &#125;<br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">getOut</span><span class="hljs-params">()</span> &#123;<br>           outPrivate();<span class="hljs-comment">//调用外部方法</span><br>        &#125;<br><br>    &#125;<br>&#125;<br><br><br><br><br><span class="hljs-keyword">package</span> com.oop;<br><span class="hljs-keyword">import</span> com.oop.dome10.Outer;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Dome01</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br><br>        <span class="hljs-comment">//实例化外部类</span><br>        <span class="hljs-type">Outer</span> <span class="hljs-variable">outer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Outer</span>();<br>        <span class="hljs-comment">//通过外部类对象new内部类来实例化内部类~</span><br>        Outer.<span class="hljs-type">Inner</span> <span class="hljs-variable">inner</span> <span class="hljs-operator">=</span> outer.<span class="hljs-keyword">new</span> <span class="hljs-title class_">Inner</span>();<br>        inner.in();<br><br>        <span class="hljs-comment">//内部类实例化对象调用内部类方法实现访问外部类的私有属性</span><br>        inner.getId();<span class="hljs-comment">//内部类获取外部类私有属性</span><br>        inner.getOut();<span class="hljs-comment">//内部类获取外部类私有方法</span><br>        <br>        <span class="hljs-comment">/*输出： 这是内部类的方法</span><br><span class="hljs-comment">                105</span><br><span class="hljs-comment">                这是外部类的私有方法*/</span><br><br>    &#125;<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>总结：</strong></p>
+<ul>
+<li><p>实例化内部类对象时，先实例化一个外部的对象，再通过这个外部对象new内部对象</p>
+<ul>
+<li><pre><code class="java">//实例化外部类
+Outer outer = new Outer();
+//通过外部类对象new内部类来实例化内部类~
+Outer.Inner inner = outer.new Inner();
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><em><strong>子类对象访问父类私有属性和方法，内部类对象访问外部类私有属性和方法</strong></em>，通过在子类或内部类写类似get方法即可获取到</p>
+</li>
+</ul>
+<hr>
+<p><strong>静态内部类</strong></p>
+<p>以上代码的内部类加上static 就是静态内部类了</p>
+<ul>
+<li><p>静态内部类可以直接访问外部类的静态成员，但不能访问外部类的实例成员</p>
+</li>
+<li><p>静态内部类中   获取外部类的私有属性和方法的代码就会出错：因为先实例化的外部对象，static  静态内部类先加载出来，而外部类的实例成员还没有加载出来</p>
+</li>
+</ul>
 
                 
               </div>
