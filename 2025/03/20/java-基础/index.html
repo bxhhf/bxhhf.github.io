@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bxhhf.github.io/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png">
 <meta property="article:published_time" content="2025-03-20T06:38:29.000Z">
-<meta property="article:modified_time" content="2025-03-24T13:03:53.328Z">
+<meta property="article:modified_time" content="2025-03-25T10:46:58.867Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/java-%E5%9F%BA%E7%A1%80/image-20250322185600248.png">
@@ -232,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.5k 字
+          9.2k 字
         
       </span>
     
@@ -243,7 +243,7 @@
         
         
         
-          72 分钟
+          77 分钟
         
       </span>
     
@@ -936,7 +936,7 @@
 
 <p><strong>发现了一个比较好玩的：</strong></p>
 <p>new的时候调用顺序为静态代码块,匿名代码块，构造方法</p>
-<p>调用构造方法的时候是根据对象的实际类型调用的哦！</p>
+<p>调用构造方法的时候是根据对象的实际类型调用的！</p>
 <ul>
 <li>new Student (),实际类型是子类就调用子类构造器并且先执行之前学习的隐藏代码super()即先调用父类的构造器，再调用子类的构造器</li>
 <li>new Person(),实际类型是父类就直接调用父类构造器了</li>
@@ -955,6 +955,59 @@
 <ul>
 <li>final 修饰常量，如果类被final修饰是没有办法作为父类继承的</li>
 </ul>
+<p><strong>static 静态方法</strong></p>
+<p>父类是静态方法，子类是不能重写的</p>
+<hr>
+<h3 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h3><ul>
+<li>抽象类本质也是类，是由abstract声明的类   extends :单继承    （接口可以实现多继承）</li>
+<li>子类继承抽象类后，必须实现抽象方法，否则该子类也必须声明为抽象类。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.oop.dome08;<br><span class="hljs-comment">//abstract 抽象类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Action</span> &#123;<br>    <span class="hljs-comment">//abstract 抽象方法，只有方法的名字，在抽象类中没有方法体  方法的实现是在继承他的子类中重写实现</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doSonmething</span><span class="hljs-params">()</span>;<br>&#125;<br><br><br><br><br><br><br><br><br><span class="hljs-keyword">package</span> com.oop.dome08;<br><span class="hljs-comment">//继承了抽象类的子类，都必须要实现 抽象类 的方法（抽象类中没有方法的）</span><br><span class="hljs-comment">//除非子类也是抽象类,那就由子子类去实现了</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Action</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doSonmething</span><span class="hljs-params">()</span> &#123;<br>      <br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>特点：</strong></p>
+<ol>
+<li>抽象类不能new,无法实例化，只能靠子类去实现它</li>
+<li>抽象类里面也可以有普通方法，但一旦有了抽象方法就必须是在抽象类里面</li>
+</ol>
+<p><strong>思考</strong></p>
+<p>抽象类不能new,那存在构造器么？</p>
+<p>抽象类存在的意义： </p>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><ul>
+<li><p>普通类：只有具体实现方法</p>
+<p>抽象类：具体实现方法和定义（抽象方法）都有！</p>
+<p>接口：只有抽象方法的定义！</p>
+<p>接口的本质是契约，声明接口的关键词是：interface</p>
+</li>
+<li><p>成员变量：只能是常量，默认修饰符public static final</p>
+<p>成员方法：JDK7前只能是抽象方法 ，默认修饰符public abstract </p>
+</li>
+<li><p>没有构造方法</p>
+</li>
+<li><p>实现多个接口，要重写里面的所有抽象方法，如果接口中的方法重名，只需要在实现类中重写一次即可，重写的方法既代表对接口1中方法的重写，又代表对接口2中得方法的重写</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//**********接口*************</span><br><span class="hljs-keyword">package</span> com.oop.dome09;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserService</span> &#123;<span class="hljs-comment">//接口都需要实现类</span><br>    <span class="hljs-comment">//接口中的所有方法都是默认抽象的 public abstract</span><br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">add</span><span class="hljs-params">(String name)</span>;<br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">delete</span><span class="hljs-params">(String name)</span>;<br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">update</span><span class="hljs-params">(String name)</span>;<br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">query</span><span class="hljs-params">(String name)</span>;<br>&#125;<br><br><br><br><span class="hljs-comment">//**********实现方法**************</span><br><br><span class="hljs-keyword">package</span> com.oop.dome09;<br><span class="hljs-comment">//implements关键字 可以实现接口   extends 只能是单继承</span><br><br><span class="hljs-comment">//实现了接口的类，就需要重写接口的方法~</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">UserService</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">add</span><span class="hljs-params">(String name)</span> &#123;<br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">delete</span><span class="hljs-params">(String name)</span> &#123;<br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">update</span><span class="hljs-params">(String name)</span> &#123;<br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">query</span><span class="hljs-params">(String name)</span> &#123;<br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>接口里面定义的都是抽象方法，定义常量   静态常量方法</li>
+</ul>
+<p><strong>作用：</strong></p>
+<ol>
+<li>约束</li>
+<li>在接口中定义一些方法，让不同的 实现类 实现</li>
+<li>接口中的方法都是 public abstract，默认的方法也是</li>
+<li>接口不能实例化，接口中没有方法实现（和抽象类一样）</li>
+<li>implements 可以实现多个接口</li>
+</ol>
+<hr>
+<p><strong>抽象类和接口的共同点</strong></p>
+<ol>
+<li><p>都是为了让方法抽象，再让子类去实现</p>
+</li>
+<li><p>都不能实例化本类对象，只能让子类实例化对象</p>
+</li>
+<li></li>
+</ol>
 
                 
               </div>
