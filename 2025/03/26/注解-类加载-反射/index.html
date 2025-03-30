@@ -19,18 +19,18 @@
   <meta name="author" content="bxhhf">
   <meta name="keywords" content="">
   
-    <meta name="description" content="注解Annotation:  不是程序本身，可以对程序作出解释，可以被其他程序（比如：编译器）读取  格式：”@注释名” 在代码中存在，还可以添加一些参数值，eg:@SuppressWarnings(value&#x3D;”unchecked”)  可以附加在package,class,method,field 等上面。相当于给他们添加了额外的辅助信息，我们可以通过反射机制编程实现对这些元数据的访">
+    <meta name="description" content="注解Annotation:  不是程序本身，可以对程序作出解释，可以被其他程序（比如：编译器）读取  格式：”@注释名” 在代码中存在，还可以添加一些参数值，eg:@SuppressWarnings(value&#x3D;”unchecked”)  可以附加在package,class,method,field 等上面。相当于给他们添加了额外的辅助信息，我们可以通过反射机制编程实现对这些元数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="注解&amp;&amp;反射&amp;&amp;类加载">
 <meta property="og:url" content="https://bxhhf.github.io/2025/03/26/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/index.html">
 <meta property="og:site_name" content="bxhhf">
-<meta property="og:description" content="注解Annotation:  不是程序本身，可以对程序作出解释，可以被其他程序（比如：编译器）读取  格式：”@注释名” 在代码中存在，还可以添加一些参数值，eg:@SuppressWarnings(value&#x3D;”unchecked”)  可以附加在package,class,method,field 等上面。相当于给他们添加了额外的辅助信息，我们可以通过反射机制编程实现对这些元数据的访">
+<meta property="og:description" content="注解Annotation:  不是程序本身，可以对程序作出解释，可以被其他程序（比如：编译器）读取  格式：”@注释名” 在代码中存在，还可以添加一些参数值，eg:@SuppressWarnings(value&#x3D;”unchecked”)  可以附加在package,class,method,field 等上面。相当于给他们添加了额外的辅助信息，我们可以通过反射机制编程实现对这些元数据">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bxhhf.github.io/2025/03/26/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/image-20250327222718531.png">
 <meta property="og:image" content="https://bxhhf.github.io/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/image-20250328105137340.png">
 <meta property="og:image" content="https://bxhhf.github.io/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/image-20250328112739343.png">
 <meta property="article:published_time" content="2025-03-26T13:35:18.000Z">
-<meta property="article:modified_time" content="2025-03-30T13:38:33.163Z">
+<meta property="article:modified_time" content="2025-03-30T13:40:53.866Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/03/26/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/image-20250327222718531.png">
@@ -296,7 +296,9 @@
             
               <div class="markdown-body">
                 
-                <h3 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h3><p>Annotation:</p>
+                <!---more-->
+
+<h3 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h3><p>Annotation:</p>
 <ul>
 <li><p>不是程序本身，可以对程序作出解释，可以被其他程序（比如：编译器）读取</p>
 </li>
