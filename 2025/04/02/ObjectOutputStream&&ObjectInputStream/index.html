@@ -22,16 +22,16 @@
     <meta name="description" content="节点流&amp;&amp; 处理流 节点流：可以从一个特定的数据源（如：文件）读写数据，如：FileReader,FileWriter  处理流： （也叫包装流），是“连接”在已存在的流（节点流或处理流）之上    例如：BufferedReader类中有属性Reader,即可以封装一个节点流，该节点流可以是任意的，只要是Reader的子类就行（如上图：可以是文件，数组，管道，字符串…） Fi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ObjectOutputStream &amp;&amp; ObjectInputStream">
-<meta property="og:url" content="https://bxhhf.github.io/2025/04/04/ObjectOutputStream&&ObjectInputStream/index.html">
+<meta property="og:url" content="https://bxhhf.github.io/2025/04/02/ObjectOutputStream&&ObjectInputStream/index.html">
 <meta property="og:site_name" content="bxhhf">
 <meta property="og:description" content="节点流&amp;&amp; 处理流 节点流：可以从一个特定的数据源（如：文件）读写数据，如：FileReader,FileWriter  处理流： （也叫包装流），是“连接”在已存在的流（节点流或处理流）之上    例如：BufferedReader类中有属性Reader,即可以封装一个节点流，该节点流可以是任意的，只要是Reader的子类就行（如上图：可以是文件，数组，管道，字符串…） Fi">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://bxhhf.github.io/2025/04/04/ObjectOutputStream&&ObjectInputStream/image-20250403111505906-17437501750711.png">
-<meta property="article:published_time" content="2025-04-04T06:46:37.000Z">
-<meta property="article:modified_time" content="2025-04-04T07:04:24.351Z">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/02/ObjectOutputStream&&ObjectInputStream/image-20250403111505906-17437501750711.png">
+<meta property="article:published_time" content="2025-04-02T06:46:37.000Z">
+<meta property="article:modified_time" content="2025-04-06T16:43:57.925Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bxhhf.github.io/2025/04/04/ObjectOutputStream&&ObjectInputStream/image-20250403111505906-17437501750711.png">
+<meta name="twitter:image" content="https://bxhhf.github.io/2025/04/02/ObjectOutputStream&&ObjectInputStream/image-20250403111505906-17437501750711.png">
   
   
   
@@ -220,8 +220,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-04-04 14:46" pubdate>
-          2025年4月4日 下午
+        <time datetime="2025-04-02 14:46" pubdate>
+          2025年4月2日 下午
         </time>
       </span>
     
@@ -243,7 +243,7 @@
         
         
         
-          10 分钟
+          11 分钟
         
       </span>
     
@@ -300,7 +300,7 @@
 <li><p>节点流：可以从一个特定的数据源（如：文件）读写数据，如：FileReader,FileWriter</p>
 </li>
 <li><p>处理流： （也叫包装流），是“连接”在已存在的流（节点流或处理流）之上</p>
-<p><img src="/2025/04/04/ObjectOutputStream&&ObjectInputStream/image-20250403111505906-17437501750711.png" srcset="/img/loading.gif" lazyload alt="image-20250403111505906"></p>
+<p><img src="/2025/04/02/ObjectOutputStream&&ObjectInputStream/image-20250403111505906-17437501750711.png" srcset="/img/loading.gif" lazyload alt="image-20250403111505906"></p>
 </li>
 </ol>
 <p>例如：BufferedReader类中有属性Reader,即可以封装一个节点流，该节点流可以是任意的，只要是Reader的子类就行（如上图：可以是文件，数组，管道，字符串…）</p>
@@ -325,7 +325,7 @@
 <p>eg:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(filePath));<br>oos.writeObject(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Dog</span>(<span class="hljs-string">&quot;旺财&quot;</span>,<span class="hljs-number">10</span>));<br></code></pre></td></tr></table></figure>
 </li>
-<li><p>void writeInt     void writeChar    void  writeBoolean    同理</p>
+<li><p>void writeInt （int …）    void writeChar(char …)    void  writeBoolean(boolean …)    同理</p>
 </li>
 </ul>
 <h3 id="ObjectInputStream"><a href="#ObjectInputStream" class="headerlink" title="ObjectInputStream"></a>ObjectInputStream</h3><p>（对象的反序列化流）的构造方法：</p>
@@ -413,7 +413,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>ObjectOutputStream &amp;&amp; ObjectInputStream</div>
-      <div>https://bxhhf.github.io/2025/04/04/ObjectOutputStream&amp;&amp;ObjectInputStream/</div>
+      <div>https://bxhhf.github.io/2025/04/02/ObjectOutputStream&amp;&amp;ObjectInputStream/</div>
     </div>
     <div class="license-meta">
       
@@ -425,7 +425,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年4月4日</div>
+          <div>2025年4月2日</div>
         </div>
       
       
@@ -457,12 +457,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2025/04/02/Java%E5%8E%9F%E7%94%9F%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="概述&amp;&amp;URLDNS">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">概述&amp;&amp;URLDNS</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/04/02/%E6%A6%82%E8%BF%B0&amp;&amp;URLDNS/" title="概述&amp;&amp;URLDNS">
-                        <span class="hidden-mobile">概述&amp;&amp;URLDNS</span>
+                      <a href="/2025/03/26/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/" title="注解&amp;&amp;反射&amp;&amp;类加载">
+                        <span class="hidden-mobile">注解&amp;&amp;反射&amp;&amp;类加载</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
