@@ -19,19 +19,19 @@
   <meta name="author" content="bxhhf">
   <meta name="keywords" content="">
   
-    <meta name="description" content="静态代理 真实类，代理类，都实现接口 在代理类构造器中传入正常的真实类的对象(实现真实类，代理类对接),重写代理类中的方法即用真实类对象调用真实类方法（有点像将  正常的对象调用方法  封装到代理类的方法中来间接调用，对象也传进去），再添加增强的功能  示例代码接口 12345678package com.test;public interface  IUser &#123;    public">
+    <meta name="description" content="静态代理&amp;&amp;动态代理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="静态代理&amp;&amp;动态代理">
 <meta property="og:url" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/index.html">
 <meta property="og:site_name" content="bxhhf">
-<meta property="og:description" content="静态代理 真实类，代理类，都实现接口 在代理类构造器中传入正常的真实类的对象(实现真实类，代理类对接),重写代理类中的方法即用真实类对象调用真实类方法（有点像将  正常的对象调用方法  封装到代理类的方法中来间接调用，对象也传进去），再添加增强的功能  示例代码接口 12345678package com.test;public interface  IUser &#123;    public">
+<meta property="og:description" content="静态代理&amp;&amp;动态代理">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bxhhf.github.io/AppData/Roaming/Typora/typora-user-images/image-20250407204641231.png">
 <meta property="og:image" content="https://bxhhf.github.io/AppData/Roaming/Typora/typora-user-images/image-20250407211957728.png">
 <meta property="og:image" content="https://bxhhf.github.io/AppData/Roaming/Typora/typora-user-images/image-20250408211045098.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20250408214930692.png">
 <meta property="article:published_time" content="2025-04-09T01:17:18.000Z">
-<meta property="article:modified_time" content="2025-04-09T01:20:16.332Z">
+<meta property="article:modified_time" content="2025-04-09T01:22:39.688Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/AppData/Roaming/Typora/typora-user-images/image-20250407204641231.png">
@@ -297,7 +297,10 @@
             
               <div class="markdown-body">
                 
-                <h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><ul>
+                <p>静态代理&amp;&amp;动态代理</p>
+<span id="more"></span>
+
+<h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><ul>
 <li>真实类，代理类，<strong>都实现接口</strong></li>
 <li>在代理类构造器中传入<strong>正常的真实类的对象</strong>(实现真实类，代理类对接),重写代理类中的方法<strong>即用真实类对象调用真实类方法</strong>（有点像将  正常的对象调用方法  封装到代理类的方法中<em>来间接调用</em>，对象也传进去），再添加增强的功能</li>
 </ul>
