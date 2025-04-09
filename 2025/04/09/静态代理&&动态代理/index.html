@@ -27,11 +27,11 @@
 <meta property="og:description" content="静态代理&amp;&amp;动态代理">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250407204639.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20250407211957728-17441618592322.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20250408211045098-17441618642003.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250407204639-17441621995156-17441622013667.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250408211042-174416227367010.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20250408214930692-17441618707024.png">
 <meta property="article:published_time" content="2025-04-09T01:17:18.000Z">
-<meta property="article:modified_time" content="2025-04-09T01:28:44.908Z">
+<meta property="article:modified_time" content="2025-04-09T01:41:06.792Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250407204639.png">
@@ -334,13 +334,8 @@
 
 
 
-<img src="/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20250407211957728-17441618592322.png" srcset="/img/loading.gif" lazyload alt="image-20250407211957728" style="zoom:50%;">
-
-
-
-
-
-<p><em><strong>所以最后得出结论</strong></em>它们之间的调用与同名无关，同名也是为了看着会清楚，知道这个代理对象调用了这个show方法意味着这个方法show里面会调用真正对象的重名方法show</p>
+<p><img src="/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250407204639-17441621995156-17441622013667.png" srcset="/img/loading.gif" lazyload alt="联想截图_20250407204639"></p>
+<p><em><strong>所以最后得出结论</strong></em>它们之间的调用与同名无关，同名也是为了看着会清楚，知道这个代理对象调用了这个show方法意味着这个方法show里面会调用真正对象的重名方法show,也体现出接口它规范行为的这么一个作用吧</p>
 <p>就干脆直接在代理类中重写实现类要调的方法，把真正掉的丢进方法里去，代理类调用与真实类的方法同名的方法也就是告诉你最后会调到真实对象的方法</p>
 <hr>
 <p>但静态代理的缺陷：</p>
@@ -363,10 +358,9 @@
 
 
 
-<img src="/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20250408211045098-17441618642003.png" srcset="/img/loading.gif" lazyload alt="image-20250408211045098" style="zoom:50%;">
 
 
-
+<p><img src="/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250408211042-174416227367010.png" srcset="/img/loading.gif" lazyload alt="联想截图_20250408211042"></p>
 <h4 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h4><p>？？？？静态代理用代理类对象调代理类方法来间接调真正类对象的方法，动态代理创建代理Proxy类对象后强转成<del>接口类Iuser对象，再用这个Iuser对象调方法</del>。。（那这这这和直接用接口类引用对象调方法有什么区别）（其实这儿不是Iuser对象，是代理对象~~）</p>
 <p>这块的疑问的产生应该是没搞清动态代理的作用和它的底层逻辑咋实现的</p>
 <p>下面参考原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xiao_yao_xian/article/details/146052177">https://blog.csdn.net/xiao_yao_xian/article/details/146052177</a></p>
@@ -444,6 +438,27 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
   
   
 </div>
