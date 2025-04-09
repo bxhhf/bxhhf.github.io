@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250408211042-174416227367010.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20250408214930692-17441618707024.png">
 <meta property="article:published_time" content="2025-04-09T01:17:18.000Z">
-<meta property="article:modified_time" content="2025-04-09T01:41:06.792Z">
+<meta property="article:modified_time" content="2025-04-09T07:18:57.312Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250407204639.png">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k 字
+          2.8k 字
         
       </span>
     
@@ -246,7 +246,7 @@
         
         
         
-          23 分钟
+          24 分钟
         
       </span>
     
@@ -419,18 +419,23 @@
 <p>发现<strong>它是实现InvocationHandler接口的对象</strong>，而恰好在Proxy用newInstance创建对象时也传进去一个InvocationHandle类的对象！！</p>
 <p><em><strong>所以底层创建的代理类的sell方法（要增强的方法）中调用了InvocationHandle类的对象invoke方法,这个对象就是创建的实现InvocationHandler接口的对象，即示例代码组长讲的实现接口invocationHandler的类中重写的invoke方法，也是上述文章中的内部类方法</strong></em></p>
 <hr>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><em><strong>核心</strong></em>：创建出的底层代理类它包含的方法中调用InvocationHandler 对象的invoke方法</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><em><strong>核心</strong></em>：创建出的底层代理类它包含的方法中调用InvocationHandler 对象的invoke方法，创建时传参—–&gt;帮助我们实现增强方法功能</p>
 <p>我们需要：</p>
 <p>1.创建出底层代理类Proxy.newProxyInstance(类加载器，接口，InvocationHandler 对象)</p>
 <p>2 .有一个实现接口InvocationHandler的类，创建出InvocationHandler 对象，他作为参数传进1中去（起连接的一个作用吧）</p>
 <p>3 .重写invoke方法，在里面调用方法（使用反射的形式），并实现功能增强</p>
 <ul>
 <li>接口：底层代理类会实现这个接口(契合代理模式)，<em><strong>且底层代理类中也会有接口中的方法（由反射获得），方法里面是调InvocationHandler对象的invoke</strong></em></li>
-<li>InvocationHandler 对象：底层代理类包含的方法会调用InvocationHandler 对象的invoke方法，要是不传这个参数就没办法后续利用增强功能（具体它其实是传到Proxy构造器了，然后代理类又是Proxy的子类，所以代理类方法中调invoke方法通过它就能拿出来利用了，去增强功能）</li>
+<li>InvocationHandler 对象：&#x3D;&#x3D;底层代理类包含的方法会调用InvocationHandler 对象的invoke方法，要是不传这个参数就没办法后续利用增强功能&#x3D;&#x3D;（具体它其实是传到Proxy构造器了，然后代理类又是Proxy的子类，所以代理类方法中调invoke方法通过它就能拿出来利用了，去增强功能）</li>
 </ul>
 <p>注意：Proxy.newProxyInstance(…)返回对象强转后是代理类型的（class jdk.proxy1.$Proxy0） </p>
 <p>所以执行流程：</p>
 <p>代理类对象调用方法—–&gt;到底层代理类方法中调用InvocationHandler对象的invoke方法——&gt;到我们自己写的实现接口InvocationHandler的类中的invoke方法——&gt;在invoke()中调用目标类的方法，并实现功能的增强</p>
+<h4 id="在反序列化中的一个作用"><a href="#在反序列化中的一个作用" class="headerlink" title="在反序列化中的一个作用"></a>在反序列化中的一个作用</h4><p>正常的话，这个O任意类型调目标方法：</p>
+<p>A[O]-&gt;O.f 往A中传B即可实现调B的f</p>
+<p>当这个O是动态代理类,O它<strong>调的是别的方法不是目标方法</strong>时：</p>
+<p>A[O]—-&gt;O.abc(虽然不是调的目标方法但这儿会触发O的invoke方法)</p>
+<p>O[B]代理类传进去参数B—-&gt;invoke中调B.f  在invoke中增强功能，调目标f方法</p>
 
                 
               </div>
