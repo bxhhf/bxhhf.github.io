@@ -1,0 +1,844 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#ADD8E6">
+  <meta name="author" content="bxhhf">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="类的动态加载回顾 静态代码块在类加载时已经被加载了  静态代码块用来初始化静态成员变量的，在类加载的初始化阶段执行   构造代码块和构造函数都是在实例化对象时会被调用，构造代码块依赖于构造函数，先于构造函数执行  构造代码块的作用也是和构造函数的一样，用于初始化对象，并且只要创建一个对象，构造代码块都会执行一次，但创建一个对象会自动选择调有参还是无参构造方法，构造方法不会全调    初始化：类的c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bxhhf">
+<meta property="og:url" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/index.html">
+<meta property="og:site_name" content="bxhhf">
+<meta property="og:description" content="类的动态加载回顾 静态代码块在类加载时已经被加载了  静态代码块用来初始化静态成员变量的，在类加载的初始化阶段执行   构造代码块和构造函数都是在实例化对象时会被调用，构造代码块依赖于构造函数，先于构造函数执行  构造代码块的作用也是和构造函数的一样，用于初始化对象，并且只要创建一个对象，构造代码块都会执行一次，但创建一个对象会自动选择调有参还是无参构造方法，构造方法不会全调    初始化：类的c">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410143734859.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250409211313959.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410162826850.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410203627775.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410220807191.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412151107691-17444418702692.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412171220098-17444491417233.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412205821124-17444627029651.png">
+<meta property="article:published_time" content="2025-04-10T14:13:42.216Z">
+<meta property="article:modified_time" content="2025-04-12T14:05:13.435Z">
+<meta property="article:author" content="bxhhf">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410143734859.png">
+  
+  
+  
+  <title>bxhhf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bxhhf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"enable":true,"app_id":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","app_key":"gbgqDB024hr2I7jmwbO6Mz2a","server_url":"https://an6azuya.lc-cn-n1-shared.com","enable_sync":false,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start --><link rel="stylesheet" href="https://registry.npmmirror.com/lxgw-wenkai-screen-web/latest/files/style.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">bxhhf</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/8.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-04-10 22:13" pubdate>
+          2025年4月10日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="类的动态加载"><a href="#类的动态加载" class="headerlink" title="类的动态加载"></a>类的动态加载</h3><h4 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h4><ul>
+<li><p><strong>静态代码块</strong>在类加载时已经被加载了</p>
+<ul>
+<li>静态代码块用来初始化静态成员变量的，在<em>类加载的初始化阶段执行</em></li>
+</ul>
+</li>
+<li><p><strong>构造代码块和构造函数</strong>都是在实例化对象时会被调用，构造代码块依赖于构造函数，先于构造函数执行</p>
+<ul>
+<li>构造代码块的作用也是和构造函数的一样，用于初始化对象，并且只要创建一个对象，构造代码块都会执行一次，但创建一个对象会自动选择调有参还是无参构造方法，构造方法不会全调</li>
+</ul>
+</li>
+</ul>
+<p><strong>初始化：</strong>类的class不会触发初始化，Class的forName和Object的getClass会触发初始化</p>
+<p>**实例化会触发…**：1.类加载初始化 2.构造代码块 3.(有参或无参)构造器  {就是静态代码块和构类的}</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ClassLoader</span> <span class="hljs-variable">c1</span> <span class="hljs-operator">=</span> ClassLoader.getSystemClassLoader();<br>       Class&lt;?&gt; c = Class.forName(<span class="hljs-string">&quot;com.test.classLoad.Person&quot;</span>, <span class="hljs-literal">false</span>, c1);<br>        c.newInstance();<span class="hljs-comment">//创建一般对象触发构造代码块和无参构造器</span><br>       System.out.println(<span class="hljs-string">&quot;=======&quot;</span>);<br>       c.getDeclaredConstructor(String.class,<span class="hljs-type">int</span>.class).newInstance(<span class="hljs-string">&quot;xiao&quot;</span>,<span class="hljs-number">18</span>);<span class="hljs-comment">//创建一般对象触发构造代码块和有参构造器</span><br>       System.out.println(<span class="hljs-string">&quot;=======&quot;</span>);<br>       <span class="hljs-comment">/*下面</span><br><span class="hljs-comment">       *触发：类加载初始化--&gt;静态代码块</span><br><span class="hljs-comment">       *       实例化对象---&gt;构造代码块and有参构造器</span><br><span class="hljs-comment">        */</span><br>       System.out.println(<span class="hljs-string">&quot;即使程序中会有多个地方触发类加载初始化，但static代码块只执行一次噢&quot;</span>);<br>       <span class="hljs-type">Person</span> <span class="hljs-variable">person</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;wang&quot;</span>,<span class="hljs-number">20</span>);<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410143734859.png" srcset="/img/loading.gif" lazyload alt="image-20250410143734859"></p>
+<hr>
+<h4 id="————–"><a href="#————–" class="headerlink" title="————–"></a>————–</h4><h4 id="forName"><a href="#forName" class="headerlink" title="forName()"></a>forName()</h4><p><strong>forName（）它可以选择触发或者不触发初始化：</strong></p>
+<p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250409211313959.png" srcset="/img/loading.gif" lazyload alt="image-20250409211313959"></p>
+<ul>
+<li><p>ClassLoader :抽象类</p>
+<p>它里面的静态方法getSystemClassLoader() 获得系统加载类</p>
+</li>
+<li><p>当传参布尔值为false时，由Class.forName()创建类对象时<strong>不会触发初始化！！</strong></p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ClassLoader</span> <span class="hljs-variable">c1</span> <span class="hljs-operator">=</span> ClassLoader.getSystemClassLoader();<br>    Class.forName(<span class="hljs-string">&quot;com.test.classLoad.A&quot;</span>,<span class="hljs-literal">false</span>,c1);<br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="ClassLoader-loadClass（）"><a href="#ClassLoader-loadClass（）" class="headerlink" title="ClassLoader.loadClass（）"></a>ClassLoader.loadClass（）</h4><p>它 不触发初始化，类加载器获取到Class类对象,并实例化</p>
+<p><em>欸这不就是之前学类加载过程时那句话的具体实现嘛：程序编译成class文件后，通过类加载器加载Class对象到堆中。</em>每一个加载到内存的类都由一个 Class 对象来表示每一个 Class 对象都有一个指向加载该类的类加载器的引用,通过 <code>getClassLoader()</code>方法就可以获取到此引用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ClassLoader</span> <span class="hljs-variable">cl</span> <span class="hljs-operator">=</span> ClassLoader.getSystemClassLoader();<span class="hljs-comment">//获得系统类加载器c1</span><br> Class&lt;?&gt; c = cl.loadClass(<span class="hljs-string">&quot;com.test.classLoad.Person&quot;</span>);<span class="hljs-comment">//！！！！这里loadClass方法获得Class对象是不会初始化的   也就与之前学的那句话相符</span><br> c.newInstance();<br><span class="hljs-comment">//到这儿肯定调的是static代码块，构造代码块，无参构造器</span><br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="父类加载器"><a href="#父类加载器" class="headerlink" title="父类加载器"></a>父类加载器</h4><p>先了解一下父类加载器吧</p>
+<ul>
+<li><p>对于开发人员编写的类加载器来说</p>
+<ul>
+<li>其父类加载器是<em>加载此类加载器 Java 类的类加载器。</em>因为类加载器 Java 类如同其它的 Java 类一样，也是要由类加载器来加载的。调用 <code>getParent()</code>方法来输出父类加载器。一般来说，开发人员编写的类加载器的父类加载器是系统类加载器(AppClassLoader）。</li>
+</ul>
+</li>
+<li><p>对于系统提供的类加载器来说</p>
+<ul>
+<li>系统类加载器（AppClassLoader)的父类加载器是扩展类加载器ExtClassLoader</li>
+<li>而扩展类加载器ExtClassLoader的父类加载器是启动类加载器BootstrapClassLoader；</li>
+</ul>
+</li>
+</ul>
+<p>Java虚拟机判断两个类是否相同除了要看类的全名是否相同还要看加载此类的类加载器是否相同</p>
+<h4 id="类加载的底层"><a href="#类加载的底层" class="headerlink" title="类加载的底层"></a>类加载的底层</h4><p>不同版本的jdk是不一样的，下面按组长视频的<strong>jdk8</strong>学习具体的类加载器加载一个类到内存中，类加载底层实现（这里注意：调试的时候要设置一下取消勾选跳过加载器）</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_54106682/article/details/135879953">安装java8和java21共存，如何自由切换java版本？_java切换版本-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38322527/article/details/114592338">IDEA——修改开发环境为 JDK 1.8_javaweb项目jdk为1.8怎么修改-CSDN博客</a></p>
+<p>下面的类加载学习参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/54693308">好怕怕的类加载器 - 知乎</a></p>
+<p><a target="_blank" rel="noopener" href="https://qchery.github.io/2019/10/11/">https://qchery.github.io/2019/10/11/</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/burningmyself/burningmyself.github.io/blob/master/docs/java/load-class.md">https://github.com/burningmyself/burningmyself.github.io/blob/master/docs/java/load-class.md</a></p>
+<p><a target="_blank" rel="noopener" href="https://louluan.blog.csdn.net/article/details/50529868">https://louluan.blog.csdn.net/article/details/50529868</a></p>
+<p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410162826850.png" srcset="/img/loading.gif" lazyload alt="image-20250410162826850"></p>
+<p><strong>Launcher</strong>是JRE中用于启动程序入口main()的类，让我们看下Launcher的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-title function_">Launcher</span><span class="hljs-params">()</span> &#123;<br>        Launcher.ExtClassLoader var1;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//加载扩展类类加载器</span><br>            var1 = Launcher.ExtClassLoader.getExtClassLoader();<br>        &#125; <span class="hljs-keyword">catch</span> (IOException var10) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InternalError</span>(<span class="hljs-string">&quot;Could not create extension class loader&quot;</span>, var10);<br>        &#125;<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//加载应用程序类加载器，并设置parent为extClassLoader</span><br>            <span class="hljs-built_in">this</span>.loader = Launcher.AppClassLoader.getAppClassLoader(var1);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException var9) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InternalError</span>(<span class="hljs-string">&quot;Could not create application class loader&quot;</span>, var9);<br>        &#125;<br>        <span class="hljs-comment">//设置默认的线程上下文类加载器为AppClassLoader</span><br>        Thread.currentThread().setContextClassLoader(<span class="hljs-built_in">this</span>.loader);<br>        <span class="hljs-comment">//此处删除无关代码。。。</span><br>        &#125;<br></code></pre></td></tr></table></figure>
+
+<p>在虚拟机启动的时候会初始化BootstrapClassLoader，然后在Launcher类中去加载ExtClassLoader、AppClassLoader，并将AppClassLoader的parent设置为ExtClassLoader，并设置线程上下文类加载器。</p>
+<h4 id="类的加载工作"><a href="#类的加载工作" class="headerlink" title="类的加载工作"></a>类的加载工作</h4><p>这块儿具体就是一个双亲委派机制~~</p>
+<ol>
+<li>检查该类是否已经被当前的类加载器加载。因为一旦一个类被加载到JVM中，同一个类就不会被再次载入了。加载到内存中的Class对象是唯一的</li>
+</ol>
+<p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410203627775.png" srcset="/img/loading.gif" lazyload alt="image-20250410203627775"></p>
+<ol start="2">
+<li><p>若已经加载过则直接返回对应的Class实例就好了</p>
+<p>若没加载，则就要委托给父加载器，现在是APP，则让父类加载器EXT加载（调用父类加载器的loadClass，还是这个代码）</p>
+<p>Ext没有（parent&#x3D;null，实际上是等于Bootstrap ClassLoader，因为它是c写的所以在java中就是null），则看是已经被启动类加载器BootstrapClassLoader加载</p>
+<p>（下面的代码在AppClassLoader时走的是if后面的，ExtClassLoader时走的是else后面的）</p>
+</li>
+</ol>
+<p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410220807191.png" srcset="/img/loading.gif" lazyload alt="image-20250410220807191"></p>
+<ol start="3">
+<li><p><em><strong>!!!!!!现在还在Ext还没出去</strong></em>，上面的都没加载，则尝试该类加载器Ext自己加载，则调用 <code>findClass()</code> 方法加载类</p>
+<p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412151107691-17444418702692.png" srcset="/img/loading.gif" lazyload alt="image-20250412151107691"></p>
+</li>
+<li><p>调Ext的findClass(),但EXT和APP都没有classLoader方法，就会调它的父类URLclassLoader的findClass了，没有找到，就退出到APP的（c&#x3D;&#x3D;null）了，继续调APP的findClass即调URLClassLoader的findclass—&gt;URLClassLoader的defineClass—&gt;SecureClassLoader defineClass—&gt;ClassLoader  defineClass</p>
+</li>
+</ol>
+<p>继承关系：ClassLoader-&gt;SecureClassLoader-&gt;URLClassLoader-&gt;AppClassLoader</p>
+<p>执行：loadClass-&gt;findClass(重写的方法)-&gt;defineClass(从字节码加载类)</p>
+<hr>
+<h4 id="————–-1"><a href="#————–-1" class="headerlink" title="————–"></a>————–</h4><p>上面是类加载器的具体工作了，下面学习安全方面的类加载</p>
+<h4 id="URLClassLoader"><a href="#URLClassLoader" class="headerlink" title="URLClassLoader"></a>URLClassLoader</h4><p>任意类加 file&#x2F;http&#x2F;jar</p>
+<p>进行操作时在本地报错：<code>ClassNotFoundException：Try02 (wrong name: com/test/classLoad/Try02</code>·</p>
+<p>http协议报错<code>.NoClassDefFoundError: Try02 (wrong name: com/test/classLoad/Try02)</code>,但看服务是收到了请求的</p>
+<p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412171220098-17444491417233.png" srcset="/img/loading.gif" lazyload alt="image-20250412171220098"></p>
+<p>在快放下它的时候终于终于在一篇文章里知道原因了！！~~，因为编译的时候没有删除package全包名，（带上包名，URLClassLoader当然会从本地去加载指定class类了那肯定就找不到我们外部加载的类）</p>
+<p>下面是它的加载代码</p>
+<p>http协议：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;http://localhost:9999/&quot;</span>)&#125;);<br>Class&lt;?&gt; c1 = urlClassLoader.loadClass(<span class="hljs-string">&quot;Test95&quot;</span>);<br>c1.newInstance();<span class="hljs-comment">//触发初始化</span><br></code></pre></td></tr></table></figure>
+
+<p>本地加载；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;file:///D:\\tmp\\classes\\&quot;</span>)&#125;);<br>Class&lt;?&gt; c1 = urlClassLoader.loadClass(<span class="hljs-string">&quot;Test95&quot;</span>);<br>c1.newInstance();<br></code></pre></td></tr></table></figure>
+
+<p>jar:</p>
+<p>生成jar文件</p>
+<ol>
+<li><p>先编译.java文件生成.class文件</p>
+</li>
+<li><p>在终端对应目录执行命令    jar cf myapp.jar MyClass.class（<code>c</code> 表示创建一个新的 JAR 文件。<code>f</code> 指定 JAR 文件的名称，这里是 <code>myapp.jar</code>。<code>MyClass.class</code> 是要包含在 JAR 文件中的编译后的 Java 类文件。）</p>
+<p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412205821124-17444627029651.png" srcset="/img/loading.gif" lazyload alt="image-20250412205821124"></p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;jar:file:///D:\\tmp\\classes\\myapp.jar!/&quot;</span>)&#125;);<br>Class&lt;?&gt; c1 = urlClassLoader.loadClass(<span class="hljs-string">&quot;Test95&quot;</span>);<span class="hljs-comment">//这里的时jar保重编译后的class文件</span><br>c1.newInstance();<br></code></pre></td></tr></table></figure>
+
+<p>jar包也可以用http协议</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;jar:http://localhost:9595/myapp.jar!/&quot;</span>)&#125;);<br>Class&lt;?&gt; c1 = urlClassLoader.loadClass(<span class="hljs-string">&quot;Test95&quot;</span>);<br>c1.newInstance();<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="defineClass"><a href="#defineClass" class="headerlink" title="defineClass()"></a>defineClass()</h4><p><strong>ClassLoader.defineClass 字节码加载任意类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Method</span> <span class="hljs-variable">defineClassMethd</span> <span class="hljs-operator">=</span> ClassLoader.class.getDeclaredMethod(<span class="hljs-string">&quot;defineClass&quot;</span>, String.class, <span class="hljs-type">byte</span>[].class, <span class="hljs-type">int</span>.class, <span class="hljs-type">int</span>.class);<br>defineClassMethd.setAccessible(<span class="hljs-literal">true</span>);<br><span class="hljs-type">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;D:\\tmp\\classes\\Test95.class&quot;</span>));<br><span class="hljs-type">Class</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> (Class) defineClassMethd.invoke(cl, <span class="hljs-string">&quot;Test95&quot;</span>, code, <span class="hljs-number">0</span>, code.length);<br>c.newInstance();<br></code></pre></td></tr></table></figure>
+
+<h4 id="Unsafe"><a href="#Unsafe" class="headerlink" title="Unsafe"></a>Unsafe</h4><p>Unsafe.defineClass字节码加载  public类但不能直接生成</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">Class&lt;Unsafe&gt; c = Unsafe.class;<br><span class="hljs-type">Field</span> <span class="hljs-variable">theUnsafeField</span> <span class="hljs-operator">=</span> c.getDeclaredField(<span class="hljs-string">&quot;theUnsafe&quot;</span>);<br>theUnsafeField.setAccessible(<span class="hljs-literal">true</span>);<br><span class="hljs-type">Unsafe</span> <span class="hljs-variable">unsafe</span> <span class="hljs-operator">=</span> (Unsafe) theUnsafeField.get(<span class="hljs-literal">null</span>);<br><span class="hljs-type">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;D:\\tmp\\classes\\Test95.class&quot;</span>));<br>Class&lt;?&gt; c2 = unsafe.defineClass(<span class="hljs-string">&quot;Test95&quot;</span>, code, <span class="hljs-number">0</span>, code.length, cl, <span class="hljs-literal">null</span>);<br>c2.newInstance();<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://bxhhf.github.io/2025/04/10/类的动态加载/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>bxhhf</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年4月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&amp;&amp;%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" title="静态代理&amp;&amp;动态代理">
+                        <span class="hidden-mobile">静态代理&amp;&amp;动态代理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","appKey":"gbgqDB024hr2I7jmwbO6Mz2a","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+  <!-- 雪花特效 -->
+  <script type="text/javascript" src="\js\snow.js"></script>
+  
+</body>
+</html>
