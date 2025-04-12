@@ -19,12 +19,12 @@
   <meta name="author" content="bxhhf">
   <meta name="keywords" content="">
   
-    <meta name="description" content="类的动态加载回顾 静态代码块在类加载时已经被加载了  静态代码块用来初始化静态成员变量的，在类加载的初始化阶段执行   构造代码块和构造函数都是在实例化对象时会被调用，构造代码块依赖于构造函数，先于构造函数执行  构造代码块的作用也是和构造函数的一样，用于初始化对象，并且只要创建一个对象，构造代码块都会执行一次，但创建一个对象会自动选择调有参还是无参构造方法，构造方法不会全调    初始化：类的c">
+    <meta name="description" content="类的动态加载">
 <meta property="og:type" content="article">
-<meta property="og:title" content="bxhhf">
+<meta property="og:title" content="类的动态加载">
 <meta property="og:url" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/index.html">
 <meta property="og:site_name" content="bxhhf">
-<meta property="og:description" content="类的动态加载回顾 静态代码块在类加载时已经被加载了  静态代码块用来初始化静态成员变量的，在类加载的初始化阶段执行   构造代码块和构造函数都是在实例化对象时会被调用，构造代码块依赖于构造函数，先于构造函数执行  构造代码块的作用也是和构造函数的一样，用于初始化对象，并且只要创建一个对象，构造代码块都会执行一次，但创建一个对象会自动选择调有参还是无参构造方法，构造方法不会全调    初始化：类的c">
+<meta property="og:description" content="类的动态加载">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410143734859.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250409211313959.png">
@@ -35,14 +35,14 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412171220098-17444491417233.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412205821124-17444627029651.png">
 <meta property="article:published_time" content="2025-04-10T14:13:42.216Z">
-<meta property="article:modified_time" content="2025-04-12T14:05:13.435Z">
+<meta property="article:modified_time" content="2025-04-12T14:10:07.863Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410143734859.png">
   
   
   
-  <title>bxhhf</title>
+  <title>类的动态加载 - bxhhf</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -229,7 +229,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="类的动态加载"></span>
           
         </div>
 
@@ -309,12 +309,14 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
+            <h1 id="seo-header">类的动态加载</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="类的动态加载"><a href="#类的动态加载" class="headerlink" title="类的动态加载"></a>类的动态加载</h3><h4 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h4><ul>
+                <h3 id="类的动态加载"><a href="#类的动态加载" class="headerlink" title="类的动态加载"></a>类的动态加载</h3><span id="more"></span>
+
+<h4 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h4><ul>
 <li><p><strong>静态代码块</strong>在类加载时已经被加载了</p>
 <ul>
 <li>静态代码块用来初始化静态成员变量的，在<em>类加载的初始化阶段执行</em></li>
@@ -449,6 +451,27 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
 </div>
 
@@ -458,7 +481,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
+      <div>类的动态加载</div>
       <div>https://bxhhf.github.io/2025/04/10/类的动态加载/</div>
     </div>
     <div class="license-meta">
