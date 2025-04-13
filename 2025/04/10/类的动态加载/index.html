@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412171220098-17444491417233.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412205821124-17444627029651.png">
 <meta property="article:published_time" content="2025-04-10T14:13:42.216Z">
-<meta property="article:modified_time" content="2025-04-13T05:56:17.908Z">
+<meta property="article:modified_time" content="2025-04-13T07:46:39.561Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410143734859.png">
@@ -437,10 +437,19 @@
 
 
 
+
+
+
+
 <h4 id="defineClass"><a href="#defineClass" class="headerlink" title="defineClass()"></a>defineClass()</h4><p><strong>ClassLoader.defineClass 字节码加载任意类</strong>，defineClass是一个protected的方法，所以就得反射调用</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ClassLoader</span> <span class="hljs-variable">cl</span> <span class="hljs-operator">=</span> ClassLoader.getSystemClassLoader();<br><span class="hljs-type">Method</span> <span class="hljs-variable">defineClassMethd</span> <span class="hljs-operator">=</span> ClassLoader.class.getDeclaredMethod(<span class="hljs-string">&quot;defineClass&quot;</span>, String.class, <span class="hljs-type">byte</span>[].class, <span class="hljs-type">int</span>.class, <span class="hljs-type">int</span>.class);<br>defineClassMethd.setAccessible(<span class="hljs-literal">true</span>);<br><span class="hljs-type">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;D:\\tmp\\classes\\Test95.class&quot;</span>));<br><span class="hljs-type">Class</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> (Class) defineClassMethd.invoke(cl, <span class="hljs-string">&quot;Test95&quot;</span>, code, <span class="hljs-number">0</span>, code.length);<br>c.newInstance();<br></code></pre></td></tr></table></figure>
 
-<h4 id="Unsafe"><a href="#Unsafe" class="headerlink" title="Unsafe"></a>Unsafe</h4><p>Unsafe.defineClass字节码加载  defineClass虽然是public，但是类但不能直接生成，Unsafe类中属性theUnsafe就是一个Unsafe对象，通过反射获得属性theUnsafe获得一个Unsafe对象，来调用defineClass方法</p>
+<h4 id="Unsafe"><a href="#Unsafe" class="headerlink" title="Unsafe"></a>Unsafe</h4><p>Unsafe.defineClass字节码加载  </p>
+<p>defineClass方法虽然是public，但是类但不能直接生成</p>
+<ul>
+<li>原因是：它的构造函数是private，这个设计是单例模式，Runtime类也是如此，这块儿就，通过反射获得属性theUnsafe获得一个Unsafe对象，来调用defineClass方法</li>
+</ul>
+<p>Unsafe类中属性theUnsafe就是一个Unsafe对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ClassLoader</span> <span class="hljs-variable">cl</span> <span class="hljs-operator">=</span> ClassLoader.getSystemClassLoader();<br>Class&lt;Unsafe&gt; c = Unsafe.class;<br><span class="hljs-type">Field</span> <span class="hljs-variable">theUnsafeField</span> <span class="hljs-operator">=</span> c.getDeclaredField(<span class="hljs-string">&quot;theUnsafe&quot;</span>);<span class="hljs-comment">//获得属性theUnsafe</span><br>theUnsafeField.setAccessible(<span class="hljs-literal">true</span>);<br><span class="hljs-type">Unsafe</span> <span class="hljs-variable">unsafe</span> <span class="hljs-operator">=</span> (Unsafe) theUnsafeField.get(<span class="hljs-literal">null</span>);<span class="hljs-comment">//获取属性返回结果强转为Unsafe对象</span><br><span class="hljs-type">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;D:\\tmp\\classes\\Test95.class&quot;</span>));<br>Class&lt;?&gt; c2 = unsafe.defineClass(<span class="hljs-string">&quot;Test95&quot;</span>, code, <span class="hljs-number">0</span>, code.length, cl, <span class="hljs-literal">null</span>);<br>c2.newInstance();<br></code></pre></td></tr></table></figure>
 
 
