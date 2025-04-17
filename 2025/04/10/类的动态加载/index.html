@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412171220098-17444491417233.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412205821124-17444627029651.png">
 <meta property="article:published_time" content="2025-04-10T14:13:42.216Z">
-<meta property="article:modified_time" content="2025-04-13T07:46:39.561Z">
+<meta property="article:modified_time" content="2025-04-16T14:29:21.133Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410143734859.png">
@@ -400,14 +400,14 @@
 <li><p><em><strong>!!!!!!现在还在Ext还没出去</strong></em>，上面的都没加载，则尝试该类加载器Ext自己加载，则调用 <code>findClass()</code> 方法加载类</p>
 <p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412151107691-17444418702692.png" srcset="/img/loading.gif" lazyload alt="image-20250412151107691"></p>
 </li>
-<li><p>调Ext的findClass(),但EXT和APP都没有classLoader方法，就会调它的父类URLclassLoader的findClass了，没有找到，就退出到APP的（c&#x3D;&#x3D;null）了，继续调APP的findClass即调URLClassLoader的findclass—&gt;URLClassLoader的defineClass—&gt;SecureClassLoader defineClass—&gt;ClassLoader  defineClass</p>
+<li><p>调Ext的findClass(),但EXT和APP都没有findClass方法，就会调它的父类URLclassLoader的findClass了，没有找到，就退出回到APP的（c&#x3D;&#x3D;null）了，继续调APP的findClass即调URLClassLoader的findclass—&gt;URLClassLoader的defineClass—&gt;SecureClassLoader defineClass—&gt;ClassLoader  defineClass</p>
 </li>
 </ol>
 <p>继承关系：ClassLoader-&gt;SecureClassLoader-&gt;URLClassLoader-&gt;AppClassLoader</p>
 <p>执行：loadClass-&gt;findClass(重写的方法)-&gt;defineClass(从字节码加载类)</p>
 <hr>
 <h4 id="————–-1"><a href="#————–-1" class="headerlink" title="————–"></a>————–</h4><p>上面是类加载器的具体工作了，下面学习安全方面的类加载</p>
-<h4 id="URLClassLoader"><a href="#URLClassLoader" class="headerlink" title="URLClassLoader"></a>URLClassLoader</h4><p>任意类加 file&#x2F;http&#x2F;jar</p>
+<h4 id="URLClassLoader"><a href="#URLClassLoader" class="headerlink" title="URLClassLoader"></a>URLClassLoader</h4><p>任意类加载    file&#x2F;http&#x2F;jar</p>
 <p>进行操作时在本地报错：<code>ClassNotFoundException：Try02 (wrong name: com/test/classLoad/Try02</code>·</p>
 <p>http协议报错<code>.NoClassDefFoundError: Try02 (wrong name: com/test/classLoad/Try02)</code>,但看服务是收到了请求的</p>
 <p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412171220098-17444491417233.png" srcset="/img/loading.gif" lazyload alt="image-20250412171220098"></p>
@@ -428,7 +428,7 @@
 <p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412205821124-17444627029651.png" srcset="/img/loading.gif" lazyload alt="image-20250412205821124"></p>
 </li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;jar:file:///D:\\tmp\\classes\\myapp.jar!/&quot;</span>)&#125;);<br>Class&lt;?&gt; c1 = urlClassLoader.loadClass(<span class="hljs-string">&quot;Test95&quot;</span>);<span class="hljs-comment">//这里的时jar保重编译后的class文件</span><br>c1.newInstance();<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;jar:file:///D:\\tmp\\classes\\myapp.jar!/&quot;</span>)&#125;);<br>Class&lt;?&gt; c1 = urlClassLoader.loadClass(<span class="hljs-string">&quot;Test95&quot;</span>);<span class="hljs-comment">//这里的时jar保存编译后的class文件</span><br>c1.newInstance();<br></code></pre></td></tr></table></figure>
 
 <p>jar包也可以用http协议</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">URLClassLoader</span> <span class="hljs-variable">urlClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">URLClassLoader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>[]&#123;<span class="hljs-keyword">new</span> <span class="hljs-title class_">URL</span>(<span class="hljs-string">&quot;jar:http://localhost:9595/myapp.jar!/&quot;</span>)&#125;);<br>Class&lt;?&gt; c1 = urlClassLoader.loadClass(<span class="hljs-string">&quot;Test95&quot;</span>);<br>c1.newInstance();<br></code></pre></td></tr></table></figure>
@@ -534,6 +534,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2025/04/17/CC1/" title="CC1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CC1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

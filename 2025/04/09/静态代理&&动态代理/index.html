@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250408211042-174416227367010.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20250408214930692-17441618707024.png">
 <meta property="article:published_time" content="2025-04-09T01:17:18.000Z">
-<meta property="article:modified_time" content="2025-04-12T14:11:44.506Z">
+<meta property="article:modified_time" content="2025-04-15T03:42:34.328Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250407204639.png">
@@ -444,6 +444,7 @@
 <p>注意：Proxy.newProxyInstance(…)返回对象强转后是代理类型的（class jdk.proxy1.$Proxy0） </p>
 <p>所以执行流程：</p>
 <p>代理类对象调用方法—–&gt;到底层代理类方法中调用InvocationHandler对象的invoke方法——&gt;到我们自己写的实现接口InvocationHandler的类中的invoke方法——&gt;在invoke()中调用目标类的方法，并实现功能的增强</p>
+<hr>
 <h4 id="在反序列化中的一个作用"><a href="#在反序列化中的一个作用" class="headerlink" title="在反序列化中的一个作用"></a>在反序列化中的一个作用</h4><p>正常的话，这个O任意类型调目标方法：</p>
 <p>A[O]-&gt;O.f 往A中传B即可实现调B的f</p>
 <p>当这个O是<strong>动态代理类</strong>,O它<strong>调的是别的方法不是目标方法</strong>时：</p>
