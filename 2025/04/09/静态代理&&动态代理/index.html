@@ -29,9 +29,9 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250407204639.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250407204639-17441621995156-17441622013667.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250408211042-174416227367010.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20250408214930692-17441618707024.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250408214855-17448891189762-17448891207543.png">
 <meta property="article:published_time" content="2025-04-09T01:17:18.000Z">
-<meta property="article:modified_time" content="2025-04-15T03:42:34.328Z">
+<meta property="article:modified_time" content="2025-04-17T13:41:20.786Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250407204639.png">
@@ -248,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.8k 字
+          2.9k 字
         
       </span>
     
@@ -259,7 +259,7 @@
         
         
         
-          24 分钟
+          25 分钟
         
       </span>
     
@@ -362,12 +362,20 @@
 <li><p>Proxy创建对象强转后调用方法，会触发实现InvocationHandler接口类的invoke()自动执行（具体在底层）</p>
 </li>
 </ul>
-<h4 id="示例代码-1"><a href="#示例代码-1" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-comment">//动态代理</span><br>        <span class="hljs-comment">//classloader,要代理的接口，要做的事情 （真正类的加载器，真正类实现的接口，处理器对象）</span><br>        <span class="hljs-type">UserInvocationHandler</span> <span class="hljs-variable">userInvocationHandler</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UserInvocationHandler</span>(user);<br>        <span class="hljs-type">IUser</span> <span class="hljs-variable">userProxy</span>  <span class="hljs-operator">=</span> (IUser) Proxy.newProxyInstance(user.getClass().getClassLoader(), user.getClass().getInterfaces(), userInvocationHandler);<br>        userProxy.show();<br>System.out.println(userProxy.getClass());<span class="hljs-comment">//class jdk.proxy1.$Proxy0      userProxy已经是一个代理对象了</span><br></code></pre></td></tr></table></figure>
+<h4 id="示例代码-1"><a href="#示例代码-1" class="headerlink" title="示例代码"></a>示例代码</h4><p>接口IUser:</p>
+<p>​	 实现类：UserImpl(真正类)  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">IUser</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">show</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;实现类的展示&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">creat</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;创造&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">update</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;实现类的update&quot;</span>);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
 
 
-<p>实现接口InvocationHandler的类</p>
+
+
+<p>实现接口InvocationHandler的类UserInvocationHandler：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.test;<br><br><span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;<br><span class="hljs-keyword">import</span> java.lang.reflect.Method;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserInvocationHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">InvocationHandler</span> &#123;<br>    IUser user;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UserInvocationHandler</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-built_in">super</span>();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UserInvocationHandler</span><span class="hljs-params">(IUser user)</span> &#123;<br>        <span class="hljs-built_in">this</span>.user = user;<br>    &#125;<br><br>    <span class="hljs-comment">//invoke为了获取到外面调用的方法，得到Method</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>        System.out.println(<span class="hljs-string">&quot;现在是invoke方法，调用了&quot;</span>+method.getName());<br>        method.invoke(user,args);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>      <span class="hljs-comment">//直接连接调用</span><br>      <span class="hljs-type">IUser</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UserImpl</span>();<span class="hljs-comment">//接口类引用指向实现类对象</span><br>      user.show();<br>      <span class="hljs-comment">//user.update();</span><br>      System.out.println(<span class="hljs-string">&quot;====&quot;</span>);<br><br>      <span class="hljs-comment">//静态代理</span><br>      <span class="hljs-comment">//IUser userProxy = new UserProxy(user);//传进真正的对象</span><br>      <span class="hljs-comment">//userProxy.show();</span><br>      <span class="hljs-comment">//userProxy.creat();</span><br><br><br>        <span class="hljs-comment">//动态代理</span><br>        <span class="hljs-type">UserInvocationHandler</span> <span class="hljs-variable">userInvocationHandler</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UserInvocationHandler</span>(user);<span class="hljs-comment">//传user,为了调它的方法</span><br>     <span class="hljs-comment">//classloader,要代理的接口，要做的事情 （真正类的加载器，真正类实现的接口，处理器对象）</span><br>        <span class="hljs-type">IUser</span> <span class="hljs-variable">userProxy</span>  <span class="hljs-operator">=</span> (IUser) Proxy.newProxyInstance(user.getClass().getClassLoader(), user.getClass().getInterfaces(), userInvocationHandler);<br>        userProxy.show();<br>        System.out.println(userProxy.getClass());<span class="hljs-comment">//class jdk.proxy1.$Proxy0      userProxy已经是一个代理对象了</span><br>    &#125;<br></code></pre></td></tr></table></figure>
 
 
 
@@ -392,7 +400,7 @@
 <p>interfaces：真正类<strong>实现的接口数组</strong>，通过目标对象的反射可获取</p>
 <p>​                 –这个接口相当于静态代理的接口，可以规范行为</p>
 <p>handler：调用处理器，也叫做方法拦截器，<em><strong>传的是一个实现了  InvocationHandler接口的  <code>实现类的</code>对象</strong></em>      它后面会在代理类中用到</p>
-<p>返回对象:经过一系列的操作后，返回的对象就是我们看不见的代理对象，非常重要!!!!!<strong>二中具体讲</strong></p>
+<p>返回对象:经过一系列的操作后，返回的对象就是我们看不见的代理对象，非常重要!!!!!<strong>二中具体学习</strong></p>
 </li>
 <li><p>实现InvocationHandler接口的类中的invoke方法,它通过反射得到具体的方法，并实现了方法功能的增强</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> Object <span class="hljs-title function_">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span>;<br></code></pre></td></tr></table></figure></li>
@@ -408,14 +416,14 @@
 <li><ul>
 <li><p>extends Proxy：<u>继承了代理类Proxy</u></p>
 </li>
-<li><p>implements ServiceSell： 实现了接口。 <em><strong>这儿的接口其实就是在Proxy类用newInstance创建对象时传的接口参数</strong></em>，这样才可以在<strong>自动生成这个类的时候实现该接口</strong>。</p>
+<li><p>implements ServiceSell： 实现了接口。 <em><strong>这儿的接口就是在Proxy类用newInstance创建对象时传的接口参数</strong></em>，这样才可以在<strong>自动生成这个类的时候实现该接口</strong>。</p>
 </li>
 </ul>
 <p>重点理解：和我们静态代理的代理类应该是一样的，因为实现了相同的接口</p>
 <p><em><strong>这也契合了代理模式</strong></em></p>
 </li>
 <li><p>下面就是代理类中获得{要增强的方法}的具体方法，在底层就是通过反射获得了该方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java">-静态代码块，我们这里省去异常处理的分析，主要分析<span class="hljs-keyword">try</span>的内容<br><br><span class="hljs-keyword">static</span> &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        m1 = Class.forName(<span class="hljs-string">&quot;java.lang.Object&quot;</span>).getMethod(<span class="hljs-string">&quot;equals&quot;</span>, Class.forName(<span class="hljs-string">&quot;java.lang.Object&quot;</span>));<br>        m2 = Class.forName(<span class="hljs-string">&quot;java.lang.Object&quot;</span>).getMethod(<span class="hljs-string">&quot;toString&quot;</span>);<br>        m0 = Class.forName(<span class="hljs-string">&quot;java.lang.Object&quot;</span>).getMethod(<span class="hljs-string">&quot;hashCode&quot;</span>);<br>        m3 = Class.forName(<span class="hljs-string">&quot;dynamicproxy.jdk.ServiceSell&quot;</span>).getMethod(<span class="hljs-string">&quot;sell&quot;</span>, Integer.TYPE);<br>    &#125;<br>&#125;<br><br>-理解：我们知道，静态代码块是在类加载时就会执行，分析其执行的业务。<br><br>        从类的结构来看m0,m1,m2...都是Method的对象，表示一个方法<br><br>        这个静态代码块就是获得类的基本方法和根据接口实现的方法<br><br>        我们主要看<span class="hljs-type">m3</span><br><br>        <span class="hljs-variable">m3</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;dynamicproxy.jdk.ServiceSell&quot;</span>).getMethod(<span class="hljs-string">&quot;sell&quot;</span>,         Integer.TYPE);根据这个接口我们得到了ServiceSell接口内的方法，也正是我们真正类的方法(需要增强的方法)，因此我们可以理解m3就是真正类（Factory类）的sell<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><br><span class="hljs-keyword">static</span> &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        m1 = Class.forName(<span class="hljs-string">&quot;java.lang.Object&quot;</span>).getMethod(<span class="hljs-string">&quot;equals&quot;</span>, Class.forName(<span class="hljs-string">&quot;java.lang.Object&quot;</span>));<br>        m2 = Class.forName(<span class="hljs-string">&quot;java.lang.Object&quot;</span>).getMethod(<span class="hljs-string">&quot;toString&quot;</span>);<br>        m0 = Class.forName(<span class="hljs-string">&quot;java.lang.Object&quot;</span>).getMethod(<span class="hljs-string">&quot;hashCode&quot;</span>);<br>        m3 = Class.forName(<span class="hljs-string">&quot;dynamicproxy.jdk.ServiceSell&quot;</span>).getMethod(<span class="hljs-string">&quot;sell&quot;</span>, Integer.TYPE);<br>    &#125;<br>&#125;<br><br>-理解：我们知道，静态代码块是在类加载时就会执行，分析其执行的业务。<br><br>        从类的结构来看m0,m1,m2...都是Method的对象，表示一个方法<br><br>        这个静态代码块就是获得类的基本方法和根据接口实现的方法<br><br>        我们主要看<span class="hljs-type">m3</span><br><br>        <span class="hljs-variable">m3</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;dynamicproxy.jdk.ServiceSell&quot;</span>).getMethod(<span class="hljs-string">&quot;sell&quot;</span>,         Integer.TYPE);根据这个接口我们得到了ServiceSell接口内的方法，也正是我们真正类的方法(需要增强的方法)，因此我们可以理解m3就是真正类（Factory类）的sell<br><br></code></pre></td></tr></table></figure>
 
 
 
@@ -427,15 +435,15 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java">-sell()<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sell</span><span class="hljs-params">(<span class="hljs-type">int</span> var1)</span> <span class="hljs-keyword">throws</span>  &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-built_in">super</span>.h.invoke(<span class="hljs-built_in">this</span>, m3, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;var1&#125;);<br>        &#125; <br>    &#125;<br><br><span class="hljs-built_in">super</span>.h.invoke(<span class="hljs-built_in">this</span>, m3, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;var1&#125;);<br><br></code></pre></td></tr></table></figure>
 
 <p>上面这是代理类中sell()方法的逻辑</p>
-<p>super.h，在类的定义中，我们知道这个代理类时extends Proxy，所以想要了解这个h是什么，我们进入Proxy源码</p>
-<p><img src="/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20250408214930692-17441618707024.png" srcset="/img/loading.gif" lazyload alt="image-20250408214930692"></p>
+<p>super.h，在类的定义中，我们知道这个代理类是extends Proxy，所以想要了解这个h是什么，我们进入Proxy源码</p>
+<p><img src="/2025/04/09/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86&&%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250408214855-17448891189762-17448891207543.png" srcset="/img/loading.gif" lazyload alt="联想截图_20250408214855"></p>
 <p>发现<strong>它是实现InvocationHandler接口的对象</strong>，而恰好在Proxy用newInstance创建对象时也传进去一个InvocationHandle类的对象！！</p>
 <p><em><strong>所以底层创建的代理类的sell方法（要增强的方法）中调用了InvocationHandle类的对象invoke方法,这个对象就是创建的实现InvocationHandler接口的对象，即示例代码组长讲的实现接口invocationHandler的类中重写的invoke方法，也是上述文章中的内部类方法</strong></em></p>
 <hr>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><em><strong>核心</strong></em>：创建出的底层代理类它包含的方法中调用InvocationHandler 对象的invoke方法，创建时传参—–&gt;帮助我们实现增强方法功能</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><em><strong>核心</strong></em>：创建出的底层代理类它包含（要增强的）的方法中调用InvocationHandler 对象的invoke方法，创建时传参—–&gt;帮助我们实现增强方法功能</p>
 <p>我们需要：</p>
 <p>1.创建出底层代理类Proxy.newProxyInstance(类加载器，接口，InvocationHandler 对象)</p>
-<p>2 .有一个实现接口InvocationHandler的类，创建出InvocationHandler 对象，他作为参数传进1中去（起连接的一个作用吧）</p>
+<p><em><strong>2 .有一个实现接口InvocationHandler的类，创建出InvocationHandler 对象</strong></em>，他作为参数传进1中去（起连接的一个作用吧）</p>
 <p>3 .重写invoke方法，在里面调用方法（使用反射的形式），并实现功能增强</p>
 <ul>
 <li>接口：底层代理类会实现这个接口(契合代理模式)，<em><strong>且底层代理类中也会有接口中的方法（由反射获得），方法里面是调InvocationHandler对象的invoke</strong></em></li>
@@ -447,7 +455,7 @@
 <hr>
 <h4 id="在反序列化中的一个作用"><a href="#在反序列化中的一个作用" class="headerlink" title="在反序列化中的一个作用"></a>在反序列化中的一个作用</h4><p>正常的话，这个O任意类型调目标方法：</p>
 <p>A[O]-&gt;O.f 往A中传B即可实现调B的f</p>
-<p>当这个O是<strong>动态代理类</strong>,O它<strong>调的是别的方法不是目标方法</strong>时：</p>
+<p>当这个O是<strong>动态代理类</strong>（实现接口InvocationHandler的）,O它<strong>调的是别的方法不是目标方法</strong>时：</p>
 <p>A[O]—-&gt;O.abc(虽然不是调的目标方法但这儿会触发O的invoke方法)</p>
 <p>O[B]代理类传进去参数B—-&gt;invoke中调B.f  在invoke中增强功能，调目标f方法</p>
 
