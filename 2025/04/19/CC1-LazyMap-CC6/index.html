@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/19/CC1-LazyMap-CC6/image-20250419165240667.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/19/CC1-LazyMap-CC6/image-20250419172137717.png">
 <meta property="article:published_time" content="2025-04-19T10:15:31.000Z">
-<meta property="article:modified_time" content="2025-04-19T10:18:49.553Z">
+<meta property="article:modified_time" content="2025-04-20T08:07:13.919Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/04/19/CC1-LazyMap-CC6/image-20250418141717888.png">
@@ -353,8 +353,13 @@
 
 
 
-
-
+<p>CC1:</p>
+<p>LazyMap:<br>AnnotationInvocationHandler.readObject.Map.setEntry</p>
+<p>​										AnnotationInvocationHandler.invoke.memberValues.get</p>
+<p>​																														LazyMap.get.factor.transform</p>
+<p>​																															.				ChainedTransformed.transform</p>
+<p>​																																							 ConstantTransformer.tansform</p>
+<p>​																																			 				InvokerTransformer.tansform</p>
 <p><strong>版本：</strong></p>
 <p>jdk8u_71:AnnotationInvocationHandler.readObject中没有调setValue，就没有TransformedMap这条链了</p>
 <p>由于动态代理反序列化的影响，LazyMap这条链也不能用了</p>
@@ -399,6 +404,18 @@
 
 
 
+
+
+
+
+<p>CC6 </p>
+<p>HashMap.readObject.hash(key)-&gt;HashMap.hash.key.hashCode</p>
+<p>​																						TiedMapEntry.hashCode.getValue</p>
+<p>​																												  TiedMapEntry.getValue.map.get</p>
+<p>​																																							LazyMap.get.factor.transform</p>
+<p>​																																											ChainedTransformed.transform</p>
+<p>​																																											 ConstantTransformer.tansform</p>
+<p>​																																			 			                	InvokerTransformer.tansform</p>
 
                 
               </div>
