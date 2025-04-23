@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412171220098-17444491417233.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412205821124-17444627029651.png">
 <meta property="article:published_time" content="2025-04-10T14:13:42.216Z">
-<meta property="article:modified_time" content="2025-04-16T14:29:21.133Z">
+<meta property="article:modified_time" content="2025-04-23T11:12:10.008Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250410143734859.png">
@@ -400,7 +400,7 @@
 <li><p><em><strong>!!!!!!现在还在Ext还没出去</strong></em>，上面的都没加载，则尝试该类加载器Ext自己加载，则调用 <code>findClass()</code> 方法加载类</p>
 <p><img src="/2025/04/10/%E7%B1%BB%E7%9A%84%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD/image-20250412151107691-17444418702692.png" srcset="/img/loading.gif" lazyload alt="image-20250412151107691"></p>
 </li>
-<li><p>调Ext的findClass(),但EXT和APP都没有findClass方法，就会调它的父类URLclassLoader的findClass了，没有找到，就退出回到APP的（c&#x3D;&#x3D;null）了，继续调APP的findClass即调URLClassLoader的findclass—&gt;URLClassLoader的defineClass—&gt;SecureClassLoader defineClass—&gt;ClassLoader  defineClass</p>
+<li><p>调Ext的findClass(),但EXT和APP都没有findClass方法，就会调它的父类URLClassLoader的findClass了，没有找到，就退出回到APP的（c&#x3D;&#x3D;null）了，继续调APP的findClass即调URLClassLoader的findclass—&gt;URLClassLoader的defineClass—&gt;SecureClassLoader defineClass—&gt;ClassLoader  defineClass</p>
 </li>
 </ol>
 <p>继承关系：ClassLoader-&gt;SecureClassLoader-&gt;URLClassLoader-&gt;AppClassLoader</p>

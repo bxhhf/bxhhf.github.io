@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/03/26/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250328105121-17435969548973.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/03/26/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20250328112734-17435969263562.png">
 <meta property="article:published_time" content="2025-03-26T13:35:18.000Z">
-<meta property="article:modified_time" content="2025-04-08T13:25:11.822Z">
+<meta property="article:modified_time" content="2025-04-23T11:12:31.927Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/2025/03/26/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/image-20250327222718531.png">
@@ -247,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.4k 字
+          6.5k 字
         
       </span>
     
@@ -258,7 +258,7 @@
         
         
         
-          54 分钟
+          55 分钟
         
       </span>
     
@@ -396,11 +396,11 @@
 <img src="/2025/03/26/%E6%B3%A8%E8%A7%A3-%E7%B1%BB%E5%8A%A0%E8%BD%BD-%E5%8F%8D%E5%B0%84/image-20250327222718531.png" srcset="/img/loading.gif" lazyload alt="image-20250327222718531" style="zoom:50%;"></li>
 </ol>
 <h4 id="获取class对象的三种方式"><a href="#获取class对象的三种方式" class="headerlink" title="获取class对象的三种方式"></a><strong>获取class对象的三种方式</strong></h4><ul>
-<li><p>Class c1&#x3D;类名.class    每一个类都有一个默认的class属性</p>
+<li><p>Class c1&#x3D;类名.class    每一个类都有一个默认的class属性                 class关键字</p>
 </li>
-<li><p>调用Class提供的方法：Class c2&#x3D; Class. forName(“类的全类名”);</p>
+<li><p>调用Class提供的方法：Class c2&#x3D; Class. forName(“类的全类名”);            Class方法forName</p>
 </li>
-<li><p>通过实例 ：  Object 提供的方法： new 类（）； Class c3&#x3D;对象. getClass();    </p>
+<li><p>通过实例 ：  Object 提供的方法： new 类（）； Class c3&#x3D;对象. getClass();         Object方法</p>
 <p><strong>注意</strong>：[getClass 返回实际类型的Class类型] </p>
 <p>​			 [<em>子类Class 类型的对象</em> getSuperClass方法 可以获得父类的Class 对象 ]</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Person</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student2</span>();<br>        <span class="hljs-type">Class</span> <span class="hljs-variable">c1</span> <span class="hljs-operator">=</span> s1.getClass();<span class="hljs-comment">//创建对象，获得子类的Class对象</span><br>        c1.getSuperclass();<span class="hljs-comment">//通过子类Class对象，获得父类Class对象</span><br></code></pre></td></tr></table></figure>
@@ -444,7 +444,7 @@
 <li><p>类的初始化：JVM负责对类进行初始化</p>
 <p>执行类构造器<clinit>()方法的过程，<code>类构造器&lt;clinit&gt;()方法</code> 是由编译器自动收集类中的所有类变量的赋值动作和静态代码块中的语句合并产生的（就是所有static 的变量和代码块）（类构造器是构造类信息的，<em>不是构造该类对象的构造器</em>）</clinit></p>
 <p>当初始化一个类的时候，如果发现它的父类还没进行初始化，则先触发其父类的初始化</p>
-<p>{说白了，类初始化就是通过类构造器<clinit>()方法将该类的静态变量和静态代码块合并}</clinit></p>
+<p>{说白了，类初始化就是通过类构造器<clinit>()方法将该类的<em><strong>静态变量和静态代码块</strong></em>合并}</clinit></p>
 </li>
 </ul>
 </li>
@@ -470,7 +470,7 @@
 <li>类的主动引用一定会触发类的初始化<ul>
 <li><u><em><strong>虚拟机启动，先初始化main方法所在的类</strong></em></u></li>
 <li>new 类</li>
-<li>使用java.lang.reflect包的方法进行反射调用 &#x3D;&#x3D;类.class调用反射不能触发类的初始化&#x3D;&#x3D;</li>
+<li>使用java.lang.reflect包的方法进行反射调用  &#x3D;&#x3D;类.class调用反射不能触发类的初始化&#x3D;&#x3D;</li>
 <li>直接用类调用静态方法或属性 （除了final变量）</li>
 </ul>
 </li>
@@ -546,7 +546,7 @@
 <h4 id="动态创建对象执行方法"><a href="#动态创建对象执行方法" class="headerlink" title="动态创建对象执行方法"></a>动态创建对象执行方法</h4><ul>
 <li>总结流程就是：<ol>
 <li>先由反射获得Class对象</li>
-<li>Class对象 通过getDeclaredConstructor().newInstance()获得一般对象  （之后备用哈ha）</li>
+<li>Class对象 通过newInstance()(或者借助有参构造器)获得一般对象  （之后备用哈ha）</li>
 <li>获得（抽象【就是由class对象getDeclaredField()得到的】）（其实也就是Method,Field对象）属性&#x2F;方法</li>
 <li>将抽象属性&#x2F;方法&#x2F;构造器 进行（set&#x2F;invoke&#x2F;） 抽象方法激活，抽象属性设置<ul>
 <li>抽象方法.invoke（所属的一般对象,方法的参数值）</li>
@@ -568,11 +568,15 @@
 <li><p>得到抽象方法或属性时，注意第二个参数是反射类型的</p>
 </li>
 </ol>
-<p>细节：</p>
+<p>细节： c1.newInstance()本质调用无参构造器（一定要用无参构造器，且允许访问）—等价于c1.getDeclaredConstructor().newInstance()</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//获取Class对象</span><br>       <span class="hljs-type">Class</span> <span class="hljs-variable">c1</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;com.zhang.reflection.User&quot;</span>);<br>       <span class="hljs-comment">//Class对象创建一般对象  返回的是Object类型的，需强转成User类型的</span><br>       <span class="hljs-type">User</span> <span class="hljs-variable">user1</span> <span class="hljs-operator">=</span> (User)c1.getDeclaredConstructor().newInstance();<span class="hljs-comment">//这里需要注意getDeclaredConstructor()不加参数 本质上是调用的无参构造器，没有public 无参构造器会报错的！！</span><br>       System.out.println(user1);<br><br>       <span class="hljs-comment">//通过有参构造器创建对象</span><br>       <span class="hljs-type">Constructor</span> <span class="hljs-variable">constructor</span> <span class="hljs-operator">=</span> c1.getDeclaredConstructor(String.class, <span class="hljs-type">int</span>.class, <span class="hljs-type">int</span>.class);<br>       <span class="hljs-type">User</span> <span class="hljs-variable">user2</span> <span class="hljs-operator">=</span>(User) constructor.newInstance(<span class="hljs-string">&quot;xiao&quot;</span>, <span class="hljs-number">001</span>, <span class="hljs-number">18</span>);<br>       System.out.println(user2);<br>       <span class="hljs-comment">//直接调用</span><br>      <span class="hljs-comment">/* user1.setName(&quot;xiao&quot;);</span><br><span class="hljs-comment">       System.out.println(user1.getName());*/</span><br><br>       <span class="hljs-comment">//通过反射调用普通方法</span><br>       <span class="hljs-type">User</span> <span class="hljs-variable">user3</span> <span class="hljs-operator">=</span> (User) c1.getDeclaredConstructor().newInstance();<br>       <span class="hljs-comment">//先获得抽象方法          上面代码这里本质上调用无参构造器</span><br>       <span class="hljs-type">Method</span> <span class="hljs-variable">setName</span> <span class="hljs-operator">=</span> c1.getDeclaredMethod(<span class="hljs-string">&quot;setName&quot;</span>, String.class);<br>       <span class="hljs-comment">//激活抽象方法</span><br>      setName.invoke(user3,<span class="hljs-string">&quot;xiao&quot;</span>);<br>       System.out.println(user3.getName());<br>       System.out.println(<span class="hljs-string">&quot;333333333333&quot;</span>);<br>       <br>	<br>	<span class="hljs-comment">//操作私有方法试一下</span><br>       <span class="hljs-comment">//1.先得到指定的抽象的方法</span><br>       <span class="hljs-type">Method</span> <span class="hljs-variable">test5</span> <span class="hljs-operator">=</span> c1.getDeclaredMethod(<span class="hljs-string">&quot;test5&quot;</span>);<br>       test5.setAccessible(<span class="hljs-literal">true</span>);<span class="hljs-comment">//关闭程序的安全及检验只是能对私有方法或属性操作，但并不能直接调用</span><br>       test5.invoke(user3,<span class="hljs-literal">null</span>);<br>       user3.getTest05();<span class="hljs-comment">//调用私有方法它无返回值时一定不能打印！！，直接调用即可</span><br></code></pre></td></tr></table></figure>
 
 
 
+<h4 id="本质记忆"><a href="#本质记忆" class="headerlink" title="本质记忆"></a>本质记忆</h4><p>类Person</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">Class c1=Class.forName(<span class="hljs-string">&quot;com.test.classLoad.Person&quot;</span>);<br><span class="hljs-comment">//1.本质使用无参构造器创建对象</span><br>c1.newInstance();<br><span class="hljs-comment">//2.本质还是无参构造器</span><br>c1.getDelaredConstruct().newInstance();<br><span class="hljs-comment">//3.本质使用有参构造器</span><br>c1.getDeclaredConstruct(String.class,<span class="hljs-type">int</span>.class).newInstance(<span class="hljs-string">&quot;zhang&quot;</span>,<span class="hljs-number">18</span>);<br></code></pre></td></tr></table></figure>
+
+<p>newInstance是往构造器中传参进行初始化</p>
 <h4 id="性能对比"><a href="#性能对比" class="headerlink" title="性能对比"></a>性能对比</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test10</span>&#123;<br><br>    <span class="hljs-comment">//普通测试</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test01</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br><br>        <span class="hljs-type">long</span> <span class="hljs-variable">start</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000000000</span>; i++) &#123;<br>            user.getName();<br>        &#125;<br>        <span class="hljs-type">long</span> <span class="hljs-variable">end</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br>        System.out.println(<span class="hljs-string">&quot;普通方式执行&quot;</span>+(end - start));<br>    &#125;<br><br><br>    <span class="hljs-comment">//反射测试</span><br>    <span class="hljs-keyword">public</span>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test02</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> NoSuchMethodException, InvocationTargetException, IllegalAccessException &#123;<br>        <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br>        Class&lt;User&gt; c1 = User.class;<br>        <span class="hljs-type">Method</span> <span class="hljs-variable">getName</span> <span class="hljs-operator">=</span> c1.getDeclaredMethod(<span class="hljs-string">&quot;getName&quot;</span>, <span class="hljs-literal">null</span>);<br>        <span class="hljs-type">long</span> <span class="hljs-variable">start</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000000000</span>; i++) &#123;<br>            getName.invoke(user,<span class="hljs-literal">null</span>);<br>        &#125;<br>        <span class="hljs-type">long</span> <span class="hljs-variable">end</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br>        System.out.println(<span class="hljs-string">&quot;反射方式执行&quot;</span>+ (end - start));<br>    &#125;<br><br><br>    <span class="hljs-comment">//反射测试  关闭检测</span><br>    <span class="hljs-keyword">public</span>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test03</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> NoSuchMethodException, InvocationTargetException, IllegalAccessException &#123;<br>        <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br>        Class&lt;User&gt; c1 = User.class;<br>        <span class="hljs-type">Method</span> <span class="hljs-variable">getName</span> <span class="hljs-operator">=</span> c1.getDeclaredMethod(<span class="hljs-string">&quot;getName&quot;</span>, <span class="hljs-literal">null</span>);<br>        getName.setAccessible(<span class="hljs-literal">true</span>);<br>        <span class="hljs-type">long</span> <span class="hljs-variable">start</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000000000</span>; i++) &#123;<br>            getName.invoke(user,<span class="hljs-literal">null</span>);<br>        &#125;<br>        <span class="hljs-type">long</span> <span class="hljs-variable">end</span> <span class="hljs-operator">=</span> System.currentTimeMillis();<br>        System.out.println(end - start);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InvocationTargetException, NoSuchMethodException, IllegalAccessException &#123;<br>        test01();<span class="hljs-comment">//3</span><br>        test02();<span class="hljs-comment">//4194</span><br>        test03();<span class="hljs-comment">//3750  关闭点检测能提高点效率</span><br><br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
 
