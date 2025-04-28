@@ -26,6 +26,7 @@
 <meta property="og:site_name" content="bxhhf">
 <meta property="og:description" content="CC3_InvokerTransformer&amp;&amp;CC3_InstantiateTransformer">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250428190941496-17458386128001.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250421084139564-174541371225327.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250421084942921-17454122737692.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250421164501487-17454122779993.png">
@@ -47,6 +48,7 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250421221223972-174541230507818.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250422102516144-174541230710619.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250422102821774-174541230866920.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250428194352388-17458406540412.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250422162017718-174541231217321.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250422192152536-174541231443822.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250422202323139-174541231917323.png">
@@ -54,10 +56,10 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250423192909345-174541232217425.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250423202204935-174541232414326.png">
 <meta property="article:published_time" content="2025-04-23T14:28:31.000Z">
-<meta property="article:modified_time" content="2025-04-24T14:11:14.908Z">
+<meta property="article:modified_time" content="2025-04-28T12:34:36.152Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250421084139564-174541371225327.png">
+<meta name="twitter:image" content="https://bxhhf.github.io/2025/04/23/CC3/image-20250428190941496-17458386128001.png">
   
   
   
@@ -336,7 +338,8 @@
                 <p>CC3_InvokerTransformer&amp;&amp;CC3_InstantiateTransformer</p>
 <span id="more"></span>
 
-<h2 id="CC3-InvokerTransformer"><a href="#CC3-InvokerTransformer" class="headerlink" title="CC3_InvokerTransformer"></a>CC3_InvokerTransformer</h2><p><strong>回顾类加载：</strong></p>
+<h2 id="CC3-InvokerTransformer"><a href="#CC3-InvokerTransformer" class="headerlink" title="CC3_InvokerTransformer"></a>CC3_InvokerTransformer</h2><p><img src="/2025/04/23/CC3/image-20250428190941496-17458386128001.png" srcset="/img/loading.gif" lazyload alt="image-20250428190941496"></p>
+<p><strong>回顾类加载：</strong></p>
 <p>classLoader.loadclass</p>
 <p>​						findclass—&gt;子类.findclass(重写的ClassLoader的findclass)—&gt;	defineclass(从字节码加载类)</p>
 <p><strong>defineclass只加载类，并没有执行类，进行类的初始化，还需要实例化newInstance触发类的初始化</strong>																		</p>
@@ -447,7 +450,8 @@
 
 
 
-<h2 id="CC3-InstantiateTransformer"><a href="#CC3-InstantiateTransformer" class="headerlink" title="CC3_InstantiateTransformer"></a>CC3_InstantiateTransformer</h2><h3 id="分析怎么调newTransformer"><a href="#分析怎么调newTransformer" class="headerlink" title="分析怎么调newTransformer"></a>分析怎么调newTransformer</h3><p><strong>禁用InvokerTransformer</strong></p>
+<h2 id="CC3-InstantiateTransformer"><a href="#CC3-InstantiateTransformer" class="headerlink" title="CC3_InstantiateTransformer"></a>CC3_InstantiateTransformer</h2><p><img src="/2025/04/23/CC3/image-20250428194352388-17458406540412.png" srcset="/img/loading.gif" lazyload alt="image-20250428194352388"></p>
+<h3 id="分析怎么调newTransformer"><a href="#分析怎么调newTransformer" class="headerlink" title="分析怎么调newTransformer"></a>分析怎么调newTransformer</h3><p><strong>禁用InvokerTransformer</strong></p>
 <p>官方CC3中用了InstantiateTransformer</p>
 <p>如果黑名单禁用Runtime，InvokerTransformer</p>
 <p>尾部加载类执行任意代码还是一样的，但就不能用InvokerTransformer调任意方法，就不能调上面那条链中TemplatesImpl.newTransformer</p>
