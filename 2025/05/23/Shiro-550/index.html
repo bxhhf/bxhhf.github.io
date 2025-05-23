@@ -26,11 +26,11 @@
 <meta property="og:site_name" content="bxhhf">
 <meta property="og:description" content="URLDNS验证！CC！CB！">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515142811341-17478128961311.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250521091406658-17478128982662.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250521151220835-17478129020163.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250521151715734-17478129054414.png">
-<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515164150697-17479864050891.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515142811341-17478128961311-174798675394349.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250521091406658-17478128982662-174798675922650.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250521151220835-17478129020163-174798676158451.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250521151715734-17478129054414-174798676392552.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515164150697-17479864050891-174798676783953.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515164810131-17479864068832.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515203548786-17479864085253.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515210414603-17479864117484.png">
@@ -81,10 +81,10 @@
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250523152614267-174798652761347.png">
 <meta property="og:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250523152849195-174798653032548.png">
 <meta property="article:published_time" content="2025-05-23T07:45:33.000Z">
-<meta property="article:modified_time" content="2025-05-23T07:48:54.047Z">
+<meta property="article:modified_time" content="2025-05-23T07:52:50.924Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515142811341-17478128961311.png">
+<meta name="twitter:image" content="https://bxhhf.github.io/2025/05/23/Shiro-550/image-20250515142811341-17478128961311-174798675394349.png">
   
   
   
@@ -385,16 +385,16 @@
 </li>
 </ul>
 <p>之后启动时，报404，要加上这两个</p>
-<p><img src="/2025/05/23/Shiro-550/image-20250515142811341-17478128961311.png" srcset="/img/loading.gif" lazyload alt="image-20250515142811341"></p>
-<p>启动tomcat乱码：\conf\logging.properties 文件中这儿的UTF-8改为GBK<img src="/2025/05/23/Shiro-550/image-20250521091406658-17478128982662.png" srcset="/img/loading.gif" lazyload alt="image-20250521091406658"></p>
+<p><img src="/2025/05/23/Shiro-550/image-20250515142811341-17478128961311-174798675394349.png" srcset="/img/loading.gif" lazyload alt="image-20250515142811341"></p>
+<p>启动tomcat乱码：\conf\logging.properties 文件中这儿的UTF-8改为GBK<img src="/2025/05/23/Shiro-550/image-20250521091406658-17478128982662-174798675922650.png" srcset="/img/loading.gif" lazyload alt="image-20250521091406658"></p>
 <p>localhost:8080访问tomcat启动成功，然后直接用上下文路径访问(<a target="_blank" rel="noopener" href="http://localhost:8123/shirodemo_war/login.jsp">http://localhost:8123/shirodemo_war/login.jsp</a>)</p>
 <p>tomcat自己不知道怎么就关了，直接在jdk中运行也是一样的</p>
 <p>然后浏览器插件设置代理模式端口8100，bp监听8100,</p>
 <p>localhost抓不到包，用IPV4的ip去替换访问就可以抓到包了</p>
 <p>root，secret 勾选rememberMe登录抓包，看到向浏览器返回了rememberMe记录身份信息的，下一次就可以直接登录</p>
-<p><img src="/2025/05/23/Shiro-550/image-20250521151220835-17478129020163.png" srcset="/img/loading.gif" lazyload alt="image-20250521151220835"></p>
+<p><img src="/2025/05/23/Shiro-550/image-20250521151220835-17478129020163-174798676158451.png" srcset="/img/loading.gif" lazyload alt="image-20250521151220835"></p>
 <p>下一次直接成功登录了，接下来去分析源码的具体逻辑</p>
-<p><img src="/2025/05/23/Shiro-550/image-20250521151715734-17478129054414.png" srcset="/img/loading.gif" lazyload alt="image-20250521151715734"></p>
+<p><img src="/2025/05/23/Shiro-550/image-20250521151715734-17478129054414-174798676392552.png" srcset="/img/loading.gif" lazyload alt="image-20250521151715734"></p>
 <h1 id="二-逆向分析"><a href="#二-逆向分析" class="headerlink" title="二.逆向分析"></a>二.逆向分析</h1><h2 id="解密，反序列化"><a href="#解密，反序列化" class="headerlink" title="&lt;2.1&gt;解密，反序列化"></a>&lt;2.1&gt;解密，反序列化</h2><ol>
 <li><p>全局搜索cookie，找到CookieRemberMeManager的getRememberedSerializedIdentity方法</p>
 <ul>
@@ -408,7 +408,7 @@
 </li>
 <li><p>向上查找它的用法，抽象类AbstractRememberMeManager 的          getRememberedPrincipals方法中将 调自己的函数getRememberedSerializedIdentity()的结果赋值给数组bytes(即它就是base64解码之后的结果)</p>
 <p>然后bytes作为参数调用convertBytesToPrincipals</p>
-<p><img src="/2025/05/23/Shiro-550/image-20250515164150697-17479864050891.png" srcset="/img/loading.gif" lazyload alt="image-20250515164150697"></p>
+<p><img src="/2025/05/23/Shiro-550/image-20250515164150697-17479864050891-174798676783953.png" srcset="/img/loading.gif" lazyload alt="image-20250515164150697"></p>
 <p>这个方法就是要解密和反序列化</p>
 <p><img src="/2025/05/23/Shiro-550/image-20250515164810131-17479864068832.png" srcset="/img/loading.gif" lazyload alt="image-20250515164810131"></p>
 <p>先看反序列化，反序列化可以成为CC的利用之处</p>
@@ -733,8 +733,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/05/13/CC5_CC7/" title="CC5 &amp;&amp; CC7+">
-                        <span class="hidden-mobile">CC5 &amp;&amp; CC7+</span>
+                      <a href="/2025/05/13/CC5_CC7/" title="CC5 &amp;&amp; CC7">
+                        <span class="hidden-mobile">CC5 &amp;&amp; CC7</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
