@@ -1,0 +1,898 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#ADD8E6">
+  <meta name="author" content="bxhhf">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一.环境搭建1.1 源码搭建  phpMyAdmin 中创建数据库，导入根目录下的 yccms.sql 文件 config.inc.php 配置数据库  1.2X-debug 配置：    出现这样就好了   二.分析显而易见是 MVC 模式   再回顾各层具体职能：  Controller(控制器层)：处理客户端(浏览器)请求，调用 Model(模型层)获取或处理数据，再将返回的数据传递给视图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="yccms">
+<meta property="og:url" content="https://bxhhf.github.io/2025/07/08/yuque/yccms/index.html">
+<meta property="og:site_name" content="bxhhf">
+<meta property="og:description" content="一.环境搭建1.1 源码搭建  phpMyAdmin 中创建数据库，导入根目录下的 yccms.sql 文件 config.inc.php 配置数据库  1.2X-debug 配置：    出现这样就好了   二.分析显而易见是 MVC 模式   再回顾各层具体职能：  Controller(控制器层)：处理客户端(浏览器)请求，调用 Model(模型层)获取或处理数据，再将返回的数据传递给视图">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751958955649-a7dfb53e-1654-4cc3-a885-2fc3ad9ac3a7.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751984675610-47380b43-0ea1-4ea7-b5fe-e005fbdb9af8.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751984862554-52709e3a-fa48-4071-9a72-62b28c46c102.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751984892284-d6d8b073-8369-4754-9e65-5ac45e0d5024.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751973370307-19df42cb-d034-4aa2-95a6-155fdc910c16.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752050606332-8b33af10-9d48-4b28-8ec9-54a725303aea.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752051425432-d1869082-e77a-4ec0-b189-01ecbd0edbbe.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752304452632-c4ef54e5-273b-4baa-aede-c8738e998139.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752303791234-a43b8548-6be2-4f49-b8c5-d105da7eedf7.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752319867356-41928e8e-78a6-4f1e-b0f5-2001241303bf.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752305429454-7a80c3d3-1af9-41e2-851e-704616892cbc.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/56492498/1752309987475-4f45183d-a42a-4a1d-829f-9d0d1ecc8d82.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752310041520-81215888-060c-4ab6-8f77-88acb62b63b5.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752320037722-cf102a02-0db5-4940-8679-3e58a7e91564.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752321179240-aa16506d-3c6e-4173-9f7b-e74cc9477177.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752321055344-d6909ad8-3afa-4ad2-9b9f-25d19e09de3d.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752324154666-cc9855fe-4062-4a13-a1fa-c5d32d6bbadd.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752321511668-d9dd8798-813d-4068-8e86-5f90d82fbcb4.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752321652894-715929ec-d21e-4d08-adb3-417793744d0f.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752321633990-70ddd060-d5c9-40bb-bd41-683273e2d9fd.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752322818776-c395e3ba-2ab4-4747-a0de-fb055d19abea.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752323869218-4d756d2a-3010-41c5-a99d-7ef0e408bda0.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752323826260-d3634f42-9207-49fe-a534-515ce261fa82.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752323962706-2b183af3-be80-4fa5-b0da-c9151b80478e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/56492498/1752325126139-f8a261ba-b86d-48f9-bd00-3640df64d879.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752325637606-62bd8cad-e577-4323-af44-ba92b2a85234.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752326255695-28618295-1765-4e67-837e-dea62b892fed.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752326320052-a0937842-8977-4bfb-b49a-e638465c2675.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752326344632-caa0ed03-9d57-4b11-8fca-1972eb877b97.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752325338493-a60688d6-55f6-4536-9cff-7ba8abbf3af3.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752324823261-fe0a2282-1940-42b3-8d1c-22e010c260d2.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752324908431-9a09cb70-3ed5-4443-a809-525348dc3da5.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752324666553-1b4e7cc0-0e48-4414-8cbb-0fad6328d81f.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752324744334-814ef745-dee7-4c09-be7a-a972a2f47ec7.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752390007083-91553dbe-2fb7-46d5-bf2f-70b10e9c4b5c.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/image-20250713104302724.png">
+<meta property="article:published_time" content="2025-07-08T07:13:18.000Z">
+<meta property="article:modified_time" content="2025-07-13T07:52:09.593Z">
+<meta property="article:author" content="bxhhf">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751958955649-a7dfb53e-1654-4cc3-a885-2fc3ad9ac3a7.png">
+  
+  
+  
+  <title>yccms - bxhhf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bxhhf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"enable":true,"app_id":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","app_key":"gbgqDB024hr2I7jmwbO6Mz2a","server_url":"https://an6azuya.lc-cn-n1-shared.com","enable_sync":false,"path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start --><link rel="stylesheet" href="https://registry.npmmirror.com/lxgw-wenkai-screen-web/latest/files/style.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">bxhhf</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/8.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="yccms"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-07-08 15:13" pubdate>
+          2025年7月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">yccms</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2025年7月13日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一-环境搭建"><a href="#一-环境搭建" class="headerlink" title="一.环境搭建"></a>一.环境搭建</h1><h2 id="1-1-源码搭建"><a href="#1-1-源码搭建" class="headerlink" title="1.1 源码搭建"></a>1.1 源码搭建</h2><ul>
+<li><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751958955649-a7dfb53e-1654-4cc3-a885-2fc3ad9ac3a7.png" srcset="/img/loading.gif" lazyload style="zoom:50%;"></li>
+<li>phpMyAdmin 中创建数据库，导入根目录下的 yccms.sql 文件</li>
+<li>config.inc.php 配置数据库</li>
+</ul>
+<h2 id="1-2X-debug-配置："><a href="#1-2X-debug-配置：" class="headerlink" title="1.2X-debug 配置："></a>1.2X-debug 配置：</h2><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751984675610-47380b43-0ea1-4ea7-b5fe-e005fbdb9af8.png" srcset="/img/loading.gif" lazyload style="zoom: 67%;">
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751984862554-52709e3a-fa48-4071-9a72-62b28c46c102.png" srcset="/img/loading.gif" lazyload style="zoom: 33%;">
+
+<p>出现这样就好了</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751984892284-d6d8b073-8369-4754-9e65-5ac45e0d5024.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<h1 id="二-分析"><a href="#二-分析" class="headerlink" title="二.分析"></a>二.分析</h1><p>显而易见是 MVC 模式</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1751973370307-19df42cb-d034-4aa2-95a6-155fdc910c16.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p>再回顾各层具体职能：</p>
+<ul>
+<li>Controller(控制器层)：处理客户端(浏览器)请求，调用 Model(模型层)获取或处理数据，再将返回的数据传递给视图</li>
+<li>model(模型层)：存放于数据库交互的 PHP 文件，负责数据的操作，让控制器专注流程控制</li>
+<li>view(视图层)：<font style="color:rgba(0, 0, 0, 0.85);">存放页面展示的 HTML 结构（可能嵌入 PHP 代码做动态渲染），接收控制器传递的数据，将其格式化展示给用户，专注页面呈现</font></li>
+</ul>
+<p><font style="color:rgba(0, 0, 0, 0.85);">在 Smarty 模板引擎中，</font><code>&lt;font style=&quot;color:rgba(0, 0, 0, 0.85);&quot;&gt;.tpl.php&lt;/font&gt;</code><font style="color:rgba(0, 0, 0, 0.85);">文件通常是</font><strong>模板文件经过编译后生成的 PHP 文件</strong><font style="color:rgba(0, 0, 0, 0.85);"> </font></p>
+<p><font style="color:rgba(0, 0, 0, 0.85);">作用：</font></p>
+<ol>
+<li>内容展示：接收到数据后，模板文件按照预先设计的格式进行展示</li>
+<li>代码复用：多个页面有相同的头部或底部部分，只需写入一个.tpl.php 文件，其他页面模板文件通过包含这个文件复用代码</li>
+</ol>
+<h2 id="2-1-漏洞复现"><a href="#2-1-漏洞复现" class="headerlink" title="2.1 漏洞复现"></a>2.1 漏洞复现</h2><p>在配置文件中发现它是 3.4 版本的</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752050606332-8b33af10-9d48-4b28-8ec9-54a725303aea.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<h3 id="2-1-1RCE"><a href="#2-1-1RCE" class="headerlink" title="2.1.1RCE"></a>2.1.1RCE</h3><ol>
+<li>全局搜索危险方法：eval(),锁定 Factory.class.php<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752051425432-d1869082-e77a-4ec0-b189-01ecbd0edbbe.png" srcset="/img/loading.gif" lazyload></li>
+</ol>
+<blockquote>
+<ul>
+<li><strong>语法补充：范围解析操作符（</strong><code>**::**</code><strong>）</strong>：也叫双冒号操作符，用于访问类的静态成员（属性和方法），类常量，还能在子类中访问被覆盖的父类成员和方法 。</li>
+</ul>
+</blockquote>
+<ol start="2">
+<li><p>找到了危险方法 eval ,接着看参数是否可控，这里是将由参数$a动态获取到的<strong>拼接</strong>到Model上，获取对应的模型再实例化对象，并赋值给了Factory类的静态属性$_obj. (看上面$_a 是由 getA()获得的,并且该方法对变量也没有进行过滤)<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752304452632-c4ef54e5-273b-4baa-aede-c8738e998139.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>利用,可以看到上面有<font style="color:rgb(35, 38, 59);background-color:rgba(255, 255, 255, 0.9);">file_exists()函数的检查(检查是否存在该文件路径)，该函数允许路径中存在特殊字符，且遇到</font><code>**&lt;font style=&quot;color:rgb(216, 59, 100);background-color:rgb(249, 242, 244);&quot;&gt;/../&lt;/font&gt;**</code><font style="color:rgb(35, 38, 59);background-color:rgba(255, 255, 255, 0.9);">的时候会返回到上级目录,所以最后 payload:</font></p>
+</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json">http<span class="hljs-punctuation">:</span><span class="hljs-comment">//yccms:8678/admin/?a=Factory();phpinfo();//../</span><br></code></pre></td></tr></table></figure>
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752303791234-a43b8548-6be2-4f49-b8c5-d105da7eedf7.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<h3 id="2-1-2-任意文件上传-一"><a href="#2-1-2-任意文件上传-一" class="headerlink" title="2.1.2 任意文件上传(一)"></a>2.1.2 任意文件上传(一)</h3><ol>
+<li>定位到<font style="color:rgb(102, 102, 102);">controller\CallAction.class.php。</font>直接不登陆也是可以访问上传文件功能的</li>
+</ol>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752319867356-41928e8e-78a6-4f1e-b0f5-2001241303bf.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752305429454-7a80c3d3-1af9-41e2-851e-704616892cbc.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<p>这里跟进 LogoUpload 函数，(public&#x2F;class&#x2F;LogoUpload.class.php)发现它只有构造方法，返回文件路径，移动文件，重命名，验证目录，验证类型</p>
+<ol start="2">
+<li>可以看到验证类型是检查 MIME，就可以绕过了</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/56492498/1752309987475-4f45183d-a42a-4a1d-829f-9d0d1ecc8d82.png" srcset="/img/loading.gif" lazyload style="zoom:33%;"><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752310041520-81215888-060c-4ab6-8f77-88acb62b63b5.png" srcset="/img/loading.gif" lazyload style="zoom:33%;"></p>
+<p>源码中还有一个设置新文件名，所以上传的文件会被重命名为 logo</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752320037722-cf102a02-0db5-4940-8679-3e58a7e91564.png" srcset="/img/loading.gif" lazyload style="zoom: 67%;">
+
+<ol start="3">
+<li><strong>复现</strong></li>
+</ol>
+<p>上传正常的 png 图片，抓包修改添加 php 代码，修改文件名</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752321179240-aa16506d-3c6e-4173-9f7b-e74cc9477177.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p>访问上传路径，成功执行</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752321055344-d6909ad8-3afa-4ad2-9b9f-25d19e09de3d.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<p>蚁剑也连接成功！</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752324154666-cc9855fe-4062-4a13-a1fa-c5d32d6bbadd.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<h3 id="2-1-3-任意文件上传-二）"><a href="#2-1-3-任意文件上传-二）" class="headerlink" title="2.1.3 任意文件上传(二）"></a>2.1.3 任意文件上传(二）</h3><p>路径：<font style="color:rgb(102, 102, 102);">controller\CallAction.class.php 中的 xhUp 函数</font></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752321511668-d9dd8798-813d-4068-8e86-5f90d82fbcb4.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<p>跟进<font style="color:rgb(102, 102, 102);">FileUpload</font></p>
+<p><font style="color:rgb(102, 102, 102);">可以看到验证类型还是检验 MIME 类型</font></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752321652894-715929ec-d21e-4d08-adb3-417793744d0f.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752321633990-70ddd060-d5c9-40bb-bd41-683273e2d9fd.png" srcset="/img/loading.gif" lazyload style="zoom:33%;">
+
+<p>重命名与上面还是有一些变化的，以时间 1-100 之间的随机数进行重命名</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752322818776-c395e3ba-2ab4-4747-a0de-fb055d19abea.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p><strong>复现：</strong></p>
+<p>上传正常图片，抓包该包</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752323869218-4d756d2a-3010-41c5-a99d-7ef0e408bda0.png" srcset="/img/loading.gif" lazyload style="zoom:33%;">
+
+<p>成功上传到 upload 目录下<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752323826260-d3634f42-9207-49fe-a534-515ce261fa82.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;"></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752323962706-2b183af3-be80-4fa5-b0da-c9151b80478e.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<h3 id="2-1-4-未授权更改管理员账号密码"><a href="#2-1-4-未授权更改管理员账号密码" class="headerlink" title="2.1.4 未授权更改管理员账号密码"></a>2.1.4 未授权更改管理员账号密码</h3><p>修改密码的 url:</p>
+<img src="https://cdn.nlark.com/yuque/0/2025/png/56492498/1752325126139-f8a261ba-b86d-48f9-bd00-3640df64d879.png" srcset="/img/loading.gif" lazyload style="zoom:33%;">
+
+<p><font style="color:rgb(102, 102, 102);">由 url 定位代码，函数位于 controller\AdminAction.class.php 中的 update 函数</font></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752325637606-62bd8cad-e577-4323-af44-ba92b2a85234.png" srcset="/img/loading.gif" lazyload style="zoom:33%;">
+
+<p>跟进<font style="color:rgb(102, 102, 102);">editAdmin()函数，</font><font style="color:rgb(22, 18, 9);">该函数位于 model&#x2F;AdminModel.class.php，将变量$_sql 传入父类 update 中执行并返回（漏洞主要在这里直接将传入的 username 和 password 拼接到 sql 语句中执行）</font></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752326255695-28618295-1765-4e67-837e-dea62b892fed.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<p><font style="color:rgb(22, 18, 9);">看看父类</font></p>
+<p><font style="color:rgb(22, 18, 9);">class AdminModel extends Model</font></p>
+<p><font style="color:rgb(22, 18, 9);">跟进去看一下</font></p>
+<p><font style="color:rgb(22, 18, 9);">位于 model&#x2F;Model.class.php，看一下 update 函数，调用 execute 函数去执行 sql 语句</font></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752326320052-a0937842-8977-4bfb-b49a-e638465c2675.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752326344632-caa0ed03-9d57-4b11-8fca-1972eb877b97.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p>然后在未授权的情况下，访问 url，构造数据包，抓正常修改密码的数据包，看一下结构</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752325338493-a60688d6-55f6-4536-9cff-7ba8abbf3af3.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p>在未登陆状态下访问，修改数据包，只需<font style="color:rgba(0, 0, 0, 0.87);">更改 username password notpassword 的值</font></p>
+<h3 id="2-1-5-任意文件删除"><a href="#2-1-5-任意文件删除" class="headerlink" title="2.1.5 任意文件删除"></a><font style="color:rgba(0, 0, 0, 0.87);">2.1.5 任意文件删除</font></h3><p>删除文件功能点：</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752324823261-fe0a2282-1940-42b3-8d1c-22e010c260d2.png" srcset="/img/loading.gif" lazyload style="zoom:33%;">
+
+<p><font style="color:rgb(102, 102, 102);">根据删除文件左下角 url 定位代码位置：&#x2F;controller&#x2F;PicAction.class.php</font></p>
+<p><font style="color:rgb(102, 102, 102);">delall(),这里产生漏洞是因为对 pid 传进来的值并没有进行过滤就进行了了路径的拼接，导致了路径穿越漏洞，触发任意文件删除漏洞</font></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752324908431-9a09cb70-3ed5-4443-a809-525348dc3da5.png" srcset="/img/loading.gif" lazyload style="zoom:33%;">
+
+
+
+<p><strong>复现</strong></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752324666553-1b4e7cc0-0e48-4414-8cbb-0fad6328d81f.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p><font style="color:rgb(102, 102, 102);">当前是在 uploads 下，测试文件在上一级目录</font></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752324744334-814ef745-dee7-4c09-be7a-a972a2f47ec7.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+
+
+
+
+
+
+<h3 id="2-1-6-xss"><a href="#2-1-6-xss" class="headerlink" title="2.1.6 xss"></a>2.1.6 xss</h3><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752390007083-91553dbe-2fb7-46d5-bf2f-70b10e9c4b5c.png" srcset="/img/loading.gif" lazyload alt="image.png" style="zoom: 33%;">
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/image-20250713104302724.png" srcset="/img/loading.gif" lazyload alt="image-20250713104302724" style="zoom:50%;">
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>yccms</div>
+      <div>https://bxhhf.github.io/2025/07/08/yuque/yccms/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>bxhhf</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年7月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/07/08/yuque-hexo-post/yccms/" title="yccms">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">yccms</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="php变量覆盖&amp;&amp;反序列化">
+                        <span class="hidden-mobile">php变量覆盖&amp;&amp;反序列化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","appKey":"gbgqDB024hr2I7jmwbO6Mz2a","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+  <!-- 雪花特效 -->
+  <script type="text/javascript" src="\js\snow.js"></script>
+  
+</body>
+</html>

