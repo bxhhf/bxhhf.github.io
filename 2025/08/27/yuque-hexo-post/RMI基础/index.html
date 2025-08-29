@@ -9,13 +9,13 @@
   <meta charset="UTF-8">
 
   <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
+  <link rel="icon" href="/img/11.jpg">
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <meta name="theme-color" content="#ADD8E6">
+  <meta name="theme-color" content="	#FFC0CB	">
   <meta name="author" content="bxhhf">
   <meta name="keywords" content="">
   
@@ -26,49 +26,13 @@
 <meta property="og:site_name" content="bxhhf">
 <meta property="og:description" content="RMI 调用的流程及可能出现的反序列化攻击点">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755326934324-f7c7013a-5ef3-489f-b2f0-d12df309a52a.jpeg">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755443990338-694be342-01d9-4eed-b38d-d6efad5791f2.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755501829173-994fdb53-52b6-496d-921a-cca95c42ccb0.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755501861880-a1bfd1d0-23ef-4db6-8108-d5ff6d01560e.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755502879164-02181194-f392-450b-9260-8251990d4bab.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755606449508-4974bff1-ef07-49ea-b18f-14b1ae87de84.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755617034980-6888c721-73a7-4816-a094-793c859c0b43.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755617680801-eed19bb8-7634-4d35-8ddd-275bb1cd85ca.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755617823425-dbe143e5-921a-45c3-a37a-cc036473a4e0.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755619335370-9076f8be-ff9b-46d2-b8c7-a2fd10feb92f.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755651940133-5ece89a2-2e2f-487e-a0cb-aaf4b55334fe.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755652020758-c91521a5-fa59-41a2-96ae-95b3f26c12d4.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755652093500-f67e6f73-db5c-4353-9325-dbbec9569d6c.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755828539466-30d9031b-6520-45ab-863a-9d9aaaacdae9.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755869443528-e117172c-5c35-4afc-8654-d87126f86794.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755871694915-14b95b1f-2ab5-4e4e-ac6e-a4d378a30f0a.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755925050327-4cbfc2be-d426-4750-a622-bcbb9cf47964.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755924564318-a25f1686-4fb5-4143-8215-759cc0237e96.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755938737556-48318753-d4cc-4f8d-b71c-8567ab752941.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755959806478-ba8872cb-bce8-4542-b3c7-5f0b52759867.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755960323419-d3ba3bcd-730d-47ab-9984-d1870cf2b054.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756003901829-27d52239-26f4-46c8-9044-59eb033ea003.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756003967785-8ce4aa8b-3913-4ce3-9dba-313a7ed593b4.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756004387676-6c6484c6-c99d-4ff4-a695-eb3ef8cbf2da.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/56492498/1756006466253-b3686d85-c955-4d67-a772-086f1669ea00.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756029465440-30f2f79b-5ab2-4656-bbf4-e55d4a6b8dfd.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756019675465-4dfe0c1d-7615-499b-a12e-25aa351e1977.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756018836999-73271755-bbde-4680-a530-fda208d5901e.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756030310383-2ad079cb-c2d3-4703-82b2-a8626aab6c0b.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756030732534-3c4f67ad-04c8-41cc-9c17-3a6a1e200d9e.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756031147167-da024ce7-9d84-4875-8c45-6eda7b01e934.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756048718442-3d9ac659-9eec-4fc6-b63b-b0a9fc49b07a.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756048793768-8fbae2d0-13e6-42b8-b9c6-b82179651b8b.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756088667246-7bea2bf4-9cc9-497e-87bc-0ff2ccd3714d.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756092318874-f1c72a0f-79cc-428f-bbcd-2341220fbdf8.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756092394922-565456c4-4b4f-4544-a923-3fb9deb34ddf.png">
-<meta property="og:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1756115098629-70b81ed1-70bf-446d-a770-3ec74d67eb36.png">
+<meta property="og:image" content="https://bxhhf.github.io/img/c.png">
 <meta property="article:published_time" content="2025-08-27T11:23:20.000Z">
-<meta property="article:modified_time" content="2025-08-27T12:25:49.976Z">
+<meta property="article:modified_time" content="2025-08-29T12:02:17.080Z">
 <meta property="article:author" content="bxhhf">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1755326934324-f7c7013a-5ef3-489f-b2f0-d12df309a52a.jpeg">
+<meta name="twitter:image" content="https://bxhhf.github.io/img/c.png">
   
   
   
@@ -112,6 +76,8 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+<link rel="stylesheet" href="/css/glassBg.css">
+<link rel="stylesheet" href="/css/scrollAnimation.css">
 
 
 
@@ -157,7 +123,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong class="navbar-title">bxhhf</strong>
+      <strong class="navbar-title">bxhhf&#39;s blog</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -253,7 +219,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/8.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/b.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
       <div class="banner-text text-center fade-in-up">
@@ -344,7 +310,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2025年8月27日 晚上
+                    本文最后更新于 2025年8月29日 晚上
                   
                 
               </p>
@@ -1275,6 +1241,8 @@
 
   
 <script src="/cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="/js/background.js"></script>
+<script src="/js/scrollAnimation.js"></script>
 
 
 
