@@ -9,13 +9,13 @@
   <meta charset="UTF-8">
 
   <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/11.jpg">
+  <link rel="icon" href="/img/bb.png">
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <meta name="theme-color" content="	#FFC0CB	">
+  <meta name="theme-color" content="	#ADD8E6">
   <meta name="author" content="bxhhf">
   <meta name="keywords" content="">
   
@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bxhhf.github.io/img/n.png">
 <meta property="article:published_time" content="2025-07-23T07:24:10.000Z">
-<meta property="article:modified_time" content="2025-08-29T13:06:32.854Z">
+<meta property="article:modified_time" content="2025-08-30T06:35:16.283Z">
 <meta property="article:author" content="bxhhf">
 <meta property="article:tag" content="php代码审计">
 <meta name="twitter:card" content="summary_large_image">
@@ -74,10 +74,10 @@
 <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
 <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
-<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
-<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
 <link rel="stylesheet" href="/css/glassBg.css">
+<link rel="stylesheet" href="/css/sign.css">
 <link rel="stylesheet" href="/css/scrollAnimation.css">
+<link rel="stylesheet" href="/css/code.css">
 
 
 
@@ -219,7 +219,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/b.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/17.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
       <div class="banner-text text-center fade-in-up">
@@ -307,14 +307,6 @@
           <article class="post-content mx-auto">
             <h1 id="seo-header">php常见敏感函数</h1>
             
-              <p id="updated-time" class="note note-info" style="">
-                
-                  
-                    本文最后更新于 2025年8月29日 晚上
-                  
-                
-              </p>
-            
             
               <div class="markdown-body">
                 
@@ -336,12 +328,12 @@
 <p><font style="color:rgb(26, 26, 26);">string create_function(string $args , string $code )</font></p>
 <p><font style="color:rgb(26, 26, 26);">$args 变量部分</font></p>
 <p><font style="color:rgb(26, 26, 26);">$code 方法代码部分（要执行的代码）</font></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs plain">&lt;?php<br>//用普通函数实现执行命令<br>function func($cmd)<br>&#123;<br>	return system($cmd);<br>&#125;<br>func(&#x27;whoami&#x27;);<br>echo &quot;<br>&quot;;<br><br>//以上函数可以用匿名函数表示<br>$func = create_function(&#x27;$cmd&#x27;,&#x27;return system($cmd);&#x27;);<br>$func (&#x27;whoami&#x27;);<br>?&gt;<br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">//用普通函数实现执行命令</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">func</span>(<span class="hljs-params"><span class="hljs-variable">$cmd</span></span>)</span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-variable">$cmd</span>);<br>&#125;<br><span class="hljs-title function_ invoke__">func</span>(<span class="hljs-string">&#x27;whoami&#x27;</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;</span><br><span class="hljs-string">&quot;</span>;<br><br><span class="hljs-comment">//以上函数可以用匿名函数表示</span><br><span class="hljs-variable">$func</span> = <span class="hljs-title function_ invoke__">create_function</span>(<span class="hljs-string">&#x27;$cmd&#x27;</span>,<span class="hljs-string">&#x27;return system($cmd);&#x27;</span>);<br><span class="hljs-variable">$func</span> (<span class="hljs-string">&#x27;whoami&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
 <ol start="11">
 <li>call_user_func 和 call_user_func_array 和 array_map。这三个函数都是将第一个参数当作一个方法名，第二个参数当作该方法的内部参数。不同的是第一个函数接受的回调内部参数是单个变量，而后两个函数接受的回调内部参数必须是数组类型。</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs plain">&lt;?php<br>function callback()&#123;<br>	$shell=$_GET[&#x27;shell&#x27;];<br>	eval($shell);<br>&#125;<br>@call_user_func(&#x27;callback&#x27;,$shell);<br>?&gt;<br><br>&lt;?php<br>function callback()&#123;<br>	$shell=$_GET[&#x27;shell&#x27;];<br>	eval($shell);<br>&#125;<br>@call_user_func_array(&#x27;callback&#x27;,array($shell));<br>?&gt;<br><br>&lt;?php<br>function callback()&#123;<br>	$shell=$_GET[&#x27;shell&#x27;];<br>	eval($shell);<br>&#125;<br>@array_map(&#x27;callback&#x27;,array($shell));<br>?&gt;<br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callback</span>(<span class="hljs-params"></span>)</span>&#123;<br>	<span class="hljs-variable">$shell</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;shell&#x27;</span>];<br>	<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$shell</span>);<br>&#125;<br>@<span class="hljs-title function_ invoke__">call_user_func</span>(<span class="hljs-string">&#x27;callback&#x27;</span>,<span class="hljs-variable">$shell</span>);<br><span class="hljs-meta">?&gt;</span><br><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callback</span>(<span class="hljs-params"></span>)</span>&#123;<br>	<span class="hljs-variable">$shell</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;shell&#x27;</span>];<br>	<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$shell</span>);<br>&#125;<br>@<span class="hljs-title function_ invoke__">call_user_func_array</span>(<span class="hljs-string">&#x27;callback&#x27;</span>,<span class="hljs-keyword">array</span>(<span class="hljs-variable">$shell</span>));<br><span class="hljs-meta">?&gt;</span><br><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callback</span>(<span class="hljs-params"></span>)</span>&#123;<br>	<span class="hljs-variable">$shell</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;shell&#x27;</span>];<br>	<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$shell</span>);<br>&#125;<br>@<span class="hljs-title function_ invoke__">array_map</span>(<span class="hljs-string">&#x27;callback&#x27;</span>,<span class="hljs-keyword">array</span>(<span class="hljs-variable">$shell</span>));<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
 <ol start="12">
 <li>&#96;&#96; 反引号</li>
@@ -416,7 +408,7 @@
 <blockquote>
 <p>sprint()正常来讲当字符中%的个数大于参数的个数时必须用占位符，<font style="color:rgb(0, 0, 0);background-color:rgb(250, 250, 250);">占位符位于 </font><font style="color:rgb(166, 127, 89);">%</font><font style="color:rgb(0, 0, 0);background-color:rgb(250, 250, 250);"> 符号之后，由数字和 </font><font style="color:rgb(80, 161, 79);">“$“</font><font style="color:rgb(0, 0, 0);background-color:rgb(250, 250, 250);"> 组成。利用它把%\匹配占位符从而使单引号逃逸。</font></p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs plain">echo sprintf(&quot;select * from user where username = &#x27;%\&#x27; and 1=1#&#x27;;&quot;, &quot;admin&quot;);<br>//此时%\回去匹配admin字符串，但是%\只会匹配空<br>运行后的结果<br>select * from user where username = &#x27;&#x27; and 1=1#&#x27;<br><br><br>//对$input与$b进行了拼接<br>//$sql = sprintf (&quot;SELECT * FROM t WHERE a=&#x27;%s&#x27; AND b=&#x27;%1$\&#x27; and 1=1#&#x27; &quot;, &#x27;admin&#x27; );<br>//很明显，这个句子里面的\是由addsashes为了转义单引号而加上的，使用%s与%1$\类匹配admin，那么admin只会出现在%s里，%1$\为空<br>echo  $sql ;<br>运行后的结果<br>SELECT * FROM t WHERE a=&#x27;admin&#x27; AND b=&#x27;&#x27; and 1=1#&#x27;<br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;select * from user where username = &#x27;%\&#x27; and 1=1#&#x27;;&quot;</span>, <span class="hljs-string">&quot;admin&quot;</span>);<br><span class="hljs-comment">//此时%\回去匹配admin字符串，但是%\只会匹配空</span><br>运行后的结果<br>select * <span class="hljs-keyword">from</span> user where username = <span class="hljs-string">&#x27;&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1</span>=<span class="hljs-number">1</span><span class="hljs-comment">#&#x27;</span><br><br><br><span class="hljs-comment">//对$input与$b进行了拼接</span><br><span class="hljs-comment">//$sql = sprintf (&quot;SELECT * FROM t WHERE a=&#x27;%s&#x27; AND b=&#x27;%1$\&#x27; and 1=1#&#x27; &quot;, &#x27;admin&#x27; );</span><br><span class="hljs-comment">//很明显，这个句子里面的\是由addsashes为了转义单引号而加上的，使用%s与%1$\类匹配admin，那么admin只会出现在%s里，%1$\为空</span><br><span class="hljs-keyword">echo</span>  <span class="hljs-variable">$sql</span> ;<br>运行后的结果<br>SELECT * FROM t WHERE a=<span class="hljs-string">&#x27;admin&#x27;</span> AND b=<span class="hljs-string">&#x27;&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1</span>=<span class="hljs-number">1</span><span class="hljs-comment">#&#x27;</span><br></code></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>mysql_connect()打开一个到 Mysql 服务器的连接</li>
@@ -436,7 +428,7 @@
 </blockquote>
 <h3 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h3><p><font style="color:rgb(77, 77, 77);">1.extract()</font></p>
 <p><font style="color:rgb(77, 77, 77);">从数组中将变量导入到当前的符号表。</font></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plain">&lt;?php<br>$var=&quot;don9&quot;;<br>extract($_GET);<br>if($var == &quot;sec&quot;)&#123;<br>echo $var;<br>&#125;<br>else echo $var;<br>?&gt;<br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$var</span>=<span class="hljs-string">&quot;don9&quot;</span>;<br><span class="hljs-title function_ invoke__">extract</span>(<span class="hljs-variable">$_GET</span>);<br><span class="hljs-keyword">if</span>(<span class="hljs-variable">$var</span> == <span class="hljs-string">&quot;sec&quot;</span>)&#123;<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$var</span>;<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">echo</span> <span class="hljs-variable">$var</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p><font style="color:rgb(77, 77, 77);"></font></p>
 <p><font style="color:rgb(77, 77, 77);">2.parse_str()把查询字符串解析到变量中</font></p>
@@ -862,6 +854,7 @@
 <script src="/cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
 <script src="/js/background.js"></script>
 <script src="/js/scrollAnimation.js"></script>
+<script src="/js/sign.js"></script>
 
 
 
