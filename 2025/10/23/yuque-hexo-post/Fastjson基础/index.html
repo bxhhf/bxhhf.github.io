@@ -1,0 +1,855 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bb.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="	#ADD8E6">
+  <meta name="author" content="bxhhf">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一. 简介FastJson 是一种高性能的 Java JSON 解析库。可以将 Java 对象转换为 JSON 格式(序列化)，当然它也可以将 JSON 字符串转换为 Java 对象（反序列化）。 提供两个主要接口 JSON.toJSONString 和 JSON.parseObject&#x2F;JSON.parse 来分别实现序列化和反序列化操作。  二. 代码执行原理首先写一个学生类 Stu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastjson基础">
+<meta property="og:url" content="https://bxhhf.github.io/2025/10/23/yuque-hexo-post/Fastjson%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="bxhhf">
+<meta property="og:description" content="一. 简介FastJson 是一种高性能的 Java JSON 解析库。可以将 Java 对象转换为 JSON 格式(序列化)，当然它也可以将 JSON 字符串转换为 Java 对象（反序列化）。 提供两个主要接口 JSON.toJSONString 和 JSON.parseObject&#x2F;JSON.parse 来分别实现序列化和反序列化操作。  二. 代码执行原理首先写一个学生类 Stu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bxhhf.github.io/img/p.png">
+<meta property="article:published_time" content="2025-10-23T14:13:37.000Z">
+<meta property="article:modified_time" content="2025-10-29T01:43:36.509Z">
+<meta property="article:author" content="bxhhf">
+<meta property="article:tag" content="JNDI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bxhhf.github.io/img/p.png">
+  
+  
+  
+  <title>Fastjson基础 - bxhhf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="/css/glassBg.css">
+<link rel="stylesheet" href="/css/sign.css">
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+<link rel="stylesheet" href="/css/code.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bxhhf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"enable":true,"app_id":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","app_key":"gbgqDB024hr2I7jmwbO6Mz2a","server_url":"https://an6azuya.lc-cn-n1-shared.com","enable_sync":false,"path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start --><link rel="stylesheet" href="https://registry.npmmirror.com/lxgw-wenkai-screen-web/latest/files/style.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">bxhhf&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/17.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Fastjson基础"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-23 22:13" pubdate>
+          2025年10月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Fastjson基础</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一-简介"><a href="#一-简介" class="headerlink" title="一. 简介"></a>一. 简介</h1><p><font style="color:rgb(77, 77, 77);">FastJson 是一种高性能的 Java JSON 解析库。可以将 Java 对象转换为 JSON 格式(序列化)，当然它也可以将 JSON 字符串转换为 Java 对象（</font><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96&spm=1001.2101.3001.7020"><font style="color:rgb(77, 77, 77);">反序列化</font></a><font style="color:rgb(77, 77, 77);">）。</font></p>
+<p><font style="color:rgb(51, 51, 51);">提供两个主要接口 JSON.toJSONString 和 JSON.parseObject&#x2F;JSON.parse 来分别实现序列化和反序列化操作。</font></p>
+<p><font style="color:rgb(51, 51, 51);"></font></p>
+<h1 id="二-代码执行原理"><a href="#二-代码执行原理" class="headerlink" title="二. 代码执行原理"></a><font style="color:rgb(51, 51, 51);">二. 代码执行原理</font></h1><p>首先写一个学生类 Student</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.example;<br><br><span class="hljs-keyword">import</span> java.util.Map;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> &#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> age;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Student</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;构造函数&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;getName&quot;</span>);<br>        <span class="hljs-keyword">return</span> name;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setName</span><span class="hljs-params">(String name)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;setName&quot;</span>);<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getAge</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;getAge&quot;</span>);<br>        <span class="hljs-keyword">return</span> age;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setAge</span><span class="hljs-params">(<span class="hljs-type">int</span> age)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;setAge&quot;</span>);<br>        <span class="hljs-built_in">this</span>.age = age;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(51, 51, 51);"></font></p>
+<h3 id="序列化与反序列化："><a href="#序列化与反序列化：" class="headerlink" title="序列化与反序列化："></a><font style="color:rgb(51, 51, 51);">序列化与反序列化：</font></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.example;<br><br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSON;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.serializer.SerializerFeature;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Json</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Student</span> <span class="hljs-variable">student</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>        student.setName(<span class="hljs-string">&quot;Fastjson&quot;</span>);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">jsonString</span> <span class="hljs-operator">=</span> JSON.toJSONString(student, SerializerFeature.WriteClassName);<br>        System.out.println(jsonString);<br><br>        <span class="hljs-comment">//反序列化</span><br>        Student student2=JSON.parseObject(jsonString, Student.class);<br>        <span class="hljs-comment">//或者：Object student2 =  JSON.parse(jsonString);</span><br>        System.out.println(student2);<br><br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(51, 51, 51);">JSON.toJSONString()序列化设置了一个属性值</font><strong><font style="color:rgb(51, 51, 51);">SerializerFeature.WriteClassName</font></strong><font style="color:rgb(51, 51, 51);">，设置它之后将会增加一个</font><code>&lt;font style=&quot;color:rgb(51, 51, 51);&quot;&gt;@type字段&lt;/font&gt;</code><font style="color:rgb(51, 51, 51);">，会写上被序列化的类名指定被序列化的类。</font>在序列化的时候把原始类型记录下来,这样反序列化的时候就能区分出原始类型了</p>
+<blockquote>
+<p>tips：反序列化函数，parseObject(s)返回 jsonObject,parse(s)也是一个反序列化的静态方法它返回原本的类型。parseObject(s,xxxxx),传入第二个参数为指定的原本类型时，也可返回原本类型</p>
+</blockquote>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1760620146633-037ef459-35f7-40ba-93e8-4ec8552d7fa4.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><p>利用处：反序列化函数 paresObject(s)的参数没有传原本类型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.example;<br><br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSON;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONObject;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JSONUser</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span><span class="hljs-string">&quot;&#123;\&quot;@type\&quot;:\&quot;org.example.Student\&quot;,\&quot;age\&quot;:18,\&quot;name\&quot;:\&quot;Fastjson\&quot;&#125;&quot;</span>;<br>        <span class="hljs-type">JSONObject</span> <span class="hljs-variable">jsonObject</span> <span class="hljs-operator">=</span> JSON.parseObject(s);<br>        System.out.println(jsonObject);<br>    &#125;<br>&#125;<br><br><br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1760617434558-5ee8f4c7-4585-46ae-89d9-729cae24fd3f.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到向上面所说 parseObject 输出反序列化的结果是 json 形式,该过程中 Fastjson 底层会处理将字符串根据@type 字段指定的的的类进行解析为对应的 java 对象，并调用方法。</p>
+<h3 id="调用流程："><a href="#调用流程：" class="headerlink" title="调用流程："></a>调用流程：</h3><p>Student 类加了 getMap,方法，后面调试部分看它的作用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.example;<br><br><span class="hljs-keyword">import</span> java.util.Map;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> &#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> age;<br>    <span class="hljs-keyword">private</span> Map  map;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Student</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;构造函数&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;getName&quot;</span>);<br>        <span class="hljs-keyword">return</span> name;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setName</span><span class="hljs-params">(String name)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;setName&quot;</span>);<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getAge</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;getAge&quot;</span>);<br>        <span class="hljs-keyword">return</span> age;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setAge</span><span class="hljs-params">(<span class="hljs-type">int</span> age)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;setAge&quot;</span>);<br>        <span class="hljs-built_in">this</span>.age = age;<br>    &#125;<br>  <span class="hljs-keyword">public</span> Map  <span class="hljs-title function_">getMap</span> <span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;getMap&quot;</span>);<br>        <span class="hljs-keyword">return</span> map;<br>  &#125;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>#toJSONString 断点跟进</p>
+<p>实例化 SerializeWriter 就已经进行序列化了，并且注意此时静态变量 DEFAULTT_TYPE_KEY 为@type,标记反序列化的指定类</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1760606381780-0c8bb2b5-a097-478e-9647-46d618802543.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后<strong>反序列化方法</strong>处断点调试，调用 parse 之后进行返回，parse 是静态的一个方法。返回后进行判断和转化。JSONObject 实现 Map 接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> JSONObject <span class="hljs-title function_">parseObject</span><span class="hljs-params">(String text)</span> &#123;<br><span class="hljs-type">Object</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> parse(text);<br><span class="hljs-keyword">return</span> obj <span class="hljs-keyword">instanceof</span> JSONObject ? (JSONObject)obj : (JSONObject)toJSON(obj);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>跟着静态的方法走来到这,先实例化一个默认解析器对象，调用 parse()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title function_">parse</span><span class="hljs-params">(String text, <span class="hljs-type">int</span> features)</span> &#123;<br>    <span class="hljs-keyword">if</span> (text == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-type">DefaultJSONParser</span> <span class="hljs-variable">parser</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultJSONParser</span>(text, ParserConfig.getGlobalInstance(), features);<br>        <span class="hljs-type">Object</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> parser.parse();<br>        parser.handleResovleTask(value);<br>        parser.close();<br>        <span class="hljs-keyword">return</span> value;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>进去 parse,由 switch 走到这里，实例化 JSON 对象并传参进接下来的核心逻辑 parseObject()</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1760946184115-021266e6-ade8-401d-b4cd-8e4e5c7af067.png" srcset="/img/loading.gif" lazyload></p>
+<p>DefaultJSONParser.parseObject()</p>
+<p>里面先对 key 进行处理，检测到有@type,进入 if 逻辑，进行类加载，使用 App 类加载器进行加载指定 type 类，把他放到缓存中，然后返回如下图</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1760947547508-0ec6265b-a8f0-4af6-a5ad-fc8c3daefda6.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1760948156477-45cbf7ed-186e-4661-8fe5-46676664f778.png" srcset="/img/loading.gif" lazyload></p>
+<p>接着回到方法 DefaultJSONParser.parseObject()里面，从内存中获取 java 反序列化解析器，后会调用解析器的反序列化方法</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1760952179367-8ed23d49-8a9d-4bad-add8-4b9e9cc064e6.png" srcset="/img/loading.gif" lazyload></p>
+<p>先着获取解析器的方法 getDeserializer()【这个方法也是一个套娃的入口,接下来后面是为了解决调试问题，虽然后面有点乱，但涉及到调用哪一些构造函数 setter,getter 方法的逻辑，跟一遍看一下】后面的都是为了获得这个解析器，走到这里，调用 creatJavaBeanDeserializer 方法。</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761031302591-5a482d84-1e11-4c30-93d3-9d7c5069c790.png" srcset="/img/loading.gif" lazyload></p>
+<p>creatJavaBeanDeserializer 方法，中 asmEnable 是 java 底层记录动态创建类，动态加载的。asmEnable 默认开关是 true,在下面判断代码的一些情况下会被关掉</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761031409574-843c55db-28fa-4755-96c1-9f384129fdc2.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761031568437-302705b0-c972-47ef-976f-54e8af0d35cb.png" srcset="/img/loading.gif" lazyload></p>
+<p>判断完之后会调用一个重要的方法 build</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761031734435-486f9d55-d0ce-44dd-b37b-501f674bc88c.png" srcset="/img/loading.gif" lazyload></p>
+<p>在 build 方法中会获取指定类的构造函数，setter 方法，还有一些特殊情况下的 getter（只有 getter 没有 setter,且满足返回类型为集合，Map 或 Atomic）</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761014717553-9a0d9c3e-2c5f-464c-a64e-f66fae17758a.png" srcset="/img/loading.gif" lazyload></p>
+<p>来到三个遍历这里（它是重要的逻辑），先看遍历 method 他反射遍历了所有的 public 方法，setter，getter，还有 Object 方法，<strong>但第一个 for 循环只将 setter 方法存进 list 中，反序列化是找 setter，序列化是找 getter。</strong>每个遍历最后来到 add 这里，进入它的参数 FieldInfo 构造函数。</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761035447704-0f57dad9-c486-485b-b2da-8591f96b343b.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761032584108-9d842da7-2f98-49e3-b3da-41e63230a6f8.png" srcset="/img/loading.gif" lazyload></p>
+<p>进入构造方法，看影响逻辑的这一段，如果参数的长度不为 1 的话，就会进入到 else 的逻辑改变字段 getOnly 的值，如下图，这里的作用后续用到</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761032777241-2cca6dfb-6635-4c12-8575-5d978992dc80.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后接着 method 的遍历这里,add 的逻辑就是放到 list 中，不跟进去看了。遍历完就获取了所有的 setter。</p>
+<p>注意一下第一个遍历 setter 方法，是需要参数长度为 1,才能将方法 add 进去，<strong>所以如果后需要改变 getOnly 的值时，第一个 for 循环用不了</strong></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761189132535-f0da6b0c-342c-48ef-adf3-8c040d2abf47.png" srcset="/img/loading.gif" lazyload></p>
+<p>接着第二个 for 循环该遍历 filed 来获取所有的 public，非 static&#x2F;final 变量。而我们指定的 Student 是我们自己写的没有 public 字段。</p>
+<p>下一个遍历里面：当有些类没有 setter 但有 getter，并且方法满足返回值方法名长度等一些条件，也就是刚刚添加的 getMap()方法会进入下面的 if，之后将 getter add 进去，保证这种类 getter 方法能反序列化成功。</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761036771174-759fe099-9b26-4811-bd8a-db82d4b8c624.png" srcset="/img/loading.gif" lazyload></p>
+<p>走完三个遍历，调构造器，将遍历后 add 的 List 传进去返回 JavaBeanInfo</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761037816675-a606d815-e8ce-44d4-bbc8-4116e43e3c61.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到 JavaBeanInfo 赋值给 beanInfo 的属性值，同时有对应的 setter 方法</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761038137498-69f297ed-6f20-471b-81d7-103f846ce9c3.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761038404357-898cac85-bd03-4820-a689-1972d3bcd642.png" srcset="/img/loading.gif" lazyload></p>
+<p>build 方法返回结果了，接着继续 creatJavaBeandeserializer 方法的逻辑</p>
+<p>下面还有机会将开关变为 false，注意一下这里的机会，等一下会修改</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761051295503-4e8636b2-7a35-49c1-8dcb-5beb1fed47c1.png" srcset="/img/loading.gif" lazyload></p>
+<p>机会给完了之后，开关还为 true 的话，会进入到这里创建一个临时的 JavaBeanDeserializer</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761052211059-ad541ea0-3f61-4b3b-987d-7902627684f0.png" srcset="/img/loading.gif" lazyload></p>
+<p>返回的就是这个临时的解析器。然后问题出现在了这里,</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761052378134-30c0326b-60f4-42e4-9bd4-dc0bb5ba140f.png" srcset="/img/loading.gif" lazyload></p>
+<p>回到我们套娃的起点，用临时解析器调用 deserialize,是不能调试的</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761052442016-30a2eab3-18cf-41eb-baff-6ae62fe38fad.png" srcset="/img/loading.gif" lazyload></p>
+<p>所以要开关变为 false，进入 if，就可以调了</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761052667790-189eb457-5f0b-4a6c-80ff-bcdb1cbef529.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里就接上了之前说的修改 getOnly 的作用，回看就是 build 返回的对象字段 getOnly 可以将开关设为 false。</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761052756365-be36de4d-225a-409d-90e5-9354abf27009.png" srcset="/img/loading.gif" lazyload></p>
+<p>build 这里改变代码走向的点就是在上面提到的第三个 for 循环遍历时的 getMap(),该方法满足限制的条件。之后调用 add 方法，当执行到它的参数 FieldInfo 构造函数时，就像前文所说的满足条件后 getOnly 就可以设置成 true，这样只要这里发生改变，后续代码走向就不会创建临时的解析器，就能进行调试。</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761052893238-a2a9b15d-501e-411d-9585-10dd2e5c3b83.png" srcset="/img/loading.gif" lazyload></p>
+<p>上面说这么多就是为了解决调试问题，并且过一下重要逻辑，三个 for 循环。</p>
+<p>之后就能进入到对应的反序列化方法 JavaBeanDeserializer.deserialze 中这里面流程也·挺乱的不细看了，就是会反射调用构造函数和 setter 方法，特殊的 getter 方法。之后返回的 parseObject()方法中,调用 toJSON 会调用 getter 方法。</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761140897014-2cdfd768-da16-422a-9c38-3454020a6ebf.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到反序列化加入了 map 之后，getMap 方法就调用了两次,一次是他作为为特殊的 getter，并且满足返回条件那些被调用，另一次是 toJSON 进行调用</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761141539953-c6155bba-7265-4864-bad7-b19260b20754.png" srcset="/img/loading.gif" lazyload></p>
+<p>整个调用流程就是这样</p>
+<h2 id="简单-POC"><a href="#简单-POC" class="headerlink" title="简单 POC"></a>简单 POC</h2><p>setter 方法注意参数长度为 1，并且 json 的 key 匹配的是 set 后面的内容，与属性无关。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setCmd</span><span class="hljs-params">(String cmd)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        Runtime.getRuntime().exec(cmd);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761190593042-e92f34ee-b246-4457-a6b6-0bc3fa7e50c7.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结下来</p>
+<p>Fastjson 反序列化函数首先对字符串进行解析，检测到含有@Type 字段就将它看作 java 对象进行操作，获取解析器，调它所对应的反序列化方法。</p>
+<p>parsonObject &#x3D;&#x3D; parse+toJSON()</p>
+<hr>
+<p>反序列化用方法 parseObject 会调用：</p>
+<p>构造方法</p>
+<ul>
+<li><p>字段映射的 setter(非 static，参数 1 个，返回值为 void 或自身值)</p>
+</li>
+<li><p>字段有 getter 没 setter，调 getter 方法（非 static，无参数，返回类型是 Collection、Map、AtomicBoolean、AtomicInteger、AtomicLong 之一）</p>
+</li>
+<li><p>getter 方法。（非 static，无参数，返回类型是 Collection、Map、AtomicBoolean、AtomicInteger、AtomicLong 之一）</p>
+</li>
+</ul>
+<p>反序列化用方法 parse 会调用：</p>
+<p>构造方法</p>
+<ul>
+<li><p>字段映射的 setter(非 static，参数 1 个，返回值为 void 或自身值)</p>
+</li>
+<li><p>字段有 getter 没 setter，调 getter 方法（非 static，无参数，返回类型是 Collection、Map、AtomicBoolean、AtomicInteger、AtomicLong 之一）</p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JNDI/" class="print-no-link">#JNDI</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Fastjson基础</div>
+      <div>https://bxhhf.github.io/2025/10/23/yuque-hexo-post/Fastjson基础/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>bxhhf</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/13/yuque-hexo-post/JNDI/" title="JNDI">
+                        <span class="hidden-mobile">JNDI</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","appKey":"gbgqDB024hr2I7jmwbO6Mz2a","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="/js/background.js"></script>
+<script src="/js/scrollAnimation.js"></script>
+<script src="/js/sign.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+  <!-- 雪花特效 -->
+  <script type="text/javascript" src="\js\snow.js"></script>
+  
+</body>
+</html>

