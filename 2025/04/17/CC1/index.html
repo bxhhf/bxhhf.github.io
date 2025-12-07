@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bxhhf.github.io/img/1.png">
 <meta property="article:published_time" content="2025-04-17T06:52:47.000Z">
-<meta property="article:modified_time" content="2025-08-29T14:30:58.430Z">
+<meta property="article:modified_time" content="2025-12-01T07:38:23.995Z">
 <meta property="article:author" content="bxhhf">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://bxhhf.github.io/img/1.png">
@@ -247,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          2.4k 字
         
       </span>
     
@@ -258,7 +258,7 @@
         
         
         
-          19 分钟
+          21 分钟
         
       </span>
     
@@ -365,20 +365,28 @@
 <p><img src="/2025/04/17/CC1/image-20250415111534344-17454123559247.png" srcset="/img/loading.gif" lazyload alt="image-20250415111534344"></p>
 <hr>
 <p>然后要调MapEntry的setValue</p>
-<p>遍历hashMap被修饰后的TransformedMap对象,它的键值对Map.Entry对象entry直接调setValue，就会调到MapEntry的setValue再去调checkSetValue</p>
-<p>解释如下：</p>
+<p>遍历hashMap被修饰后的TransformedMap对象,它的键值对Map.Entry对象entry直接调setValue，就会调到静态类MapEntry的setValue然后再去调checkSetValue</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">Map&lt;Object, Object&gt; decorateMap = TransformedMap.decorate(hashMap, <span class="hljs-literal">null</span>, invokerTransformer);  <br> <span class="hljs-keyword">for</span> (Map.Entry entry:decorateMap.entrySet())&#123;  <br>            entry.setValue(runtime);  <br> &#125;  <br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<p><del>解释如下：</del></p>
 <ul>
-<li><p>Map.Entry类的entry 调用MapEntry的setValue方法路径：</p>
+<li><p><del>Map.Entry类的entry 调用MapEntry的setValue方法路径：</del></p>
 <ul>
-<li><p>Map.Entry的实现类AbstractMapEntryDecorator是抽象类且没有实现这个方法（所以它才是抽象类的嘛），那就可以找继承了这个抽象类的类</p>
-<p>在AbstractInputCheckedMapDecorator中有个类<strong>MapEntry继承</strong>AbstractMapEntryDecorator重写了setValue方法</p>
-<p><img src="/2025/04/17/CC1/image-20250415143721033-17454123591428.png" srcset="/img/loading.gif" lazyload alt="image-20250415143721033"></p>
-<p>继承关系：<br>接口Map.Entry—-&gt;抽象类AbstractMapEntryDecorator—&gt;实现类MapEntry</p>
-<p><img src="/2025/04/17/CC1/image-20250415143912674-17454123611999.png" srcset="/img/loading.gif" lazyload alt="image-20250415143912674"></p>
+<li><p><del>Map.Entry的实现类AbstractMapEntryDecorator是抽象类且没有实现这个方法（所以它才是抽象类的嘛），那就可以找继承了这个抽象类的类</del></p>
+<p><del>在AbstractInputCheckedMapDecorator中有个类<strong>MapEntry继承</strong>AbstractMapEntryDecorator重写了setValue方法</del></p>
+<p><del><img src="/2025/04/17/CC1/image-20250415143721033-17454123591428.png" srcset="/img/loading.gif" lazyload alt="image-20250415143721033"></del></p>
+<p><del>继承关系：</del><br><del>接口Map.Entry—-&gt;抽象类AbstractMapEntryDecorator—&gt;实现类MapEntry</del></p>
+<p><del><img src="/2025/04/17/CC1/image-20250415143912674-17454123611999.png" srcset="/img/loading.gif" lazyload alt="image-20250415143912674"></del></p>
 </li>
 </ul>
 </li>
 </ul>
+<p>nonono!后面学完返回来看的时候发现这么解释根本就不能解释对parent的控制，因为我这是从上到下根据实现解释的。</p>
+<p>应该根据JVM运行时的动态绑定解释，其实这也就是多态，声明是接口Map.Entry ,但指向的实际类型是TransformedMapEntry（在 Commons Collections 3.2.1 中，<code>TransformedMapEntry</code> 的<strong>字节码类名</strong>可能就是 <code>AbstractInputCheckedMapDecorator$MapEntry</code>），TransformedMapEntry它继承了MapEntry，所以遍历transformedMap.entrySet(),返回结果调setValue，会调到MapEntry.entrySet()</p>
 <p>setValue传入的r就是checkSetValue中的r,也就是transform中的r</p>
 <p>所以现在的构造为：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-type">Runtime</span> <span class="hljs-variable">r</span> <span class="hljs-operator">=</span> Runtime.getRuntime();<br><span class="hljs-type">InvokerTransformer</span> <span class="hljs-variable">invokerTransformer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;exec&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;String.class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-string">&quot;calc&quot;</span>&#125;);<br><span class="hljs-type">HashMap</span> <span class="hljs-variable">map</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>();<br>map.put(<span class="hljs-string">&quot;key&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>);<br>Map&lt;Object,Object&gt; transformedMap = TransformedMap.decorate(map, <span class="hljs-literal">null</span>, invokerTransformer);<br><span class="hljs-keyword">for</span>(Map.Entry entry:transformedMap.entrySet())&#123;<br>    entry.setValue(r);<br><br>&#125;<br></code></pre></td></tr></table></figure>
